@@ -37,7 +37,7 @@ export default class ModeledContentEditor extends React.Component {
 	render () {
 		const {editorState} = this.state;
 		return (
-			<div className="modeled-content-editor">
+			<div className="modeled-content-editor" onClick={this.focus}>
 				<button onClick={this.onBoldClick}>Bold</button>
 				<Editor ref={this.setEditor}
 					editorState={editorState}
