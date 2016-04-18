@@ -1,0 +1,67 @@
+{
+  "name": "nti-modeled-content",
+  "version": "0.0.0",
+  "author": "nextthought",
+  "description": "ReactJS Editor and Renderer for modeled body content",
+  "license": "UNLICENSED",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">=5.0.0",
+    "npm": ">=3.3.0"
+  },
+  "scripts": {
+    "test": "karma start --single-run --reporters dots,html,junit,coverage",
+    "start": "make check && webpack-dev-server -d --config ./webpack.config.test.js  --host 0.0.0.0 --port 8000 --watch --progress --inline --info false --content-base ./test/app/ || true",
+    "prepublish": "not-in-install && make || in-install",
+    "bump": "npm version",
+    "postbump": "git push --all && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://repos.nextthought.com/nti.web.component.modeled-content"
+  },
+  "keywords": [
+    "react",
+    "editor",
+    "modeled",
+    "modeled body",
+    "content",
+    "component"
+  ],
+  "dependencies": {
+    "classnames": "^2.0.0",
+    "draft-js": "^0.5.0",
+    "invariant": "^2.1.1",
+    "node-uuid": "^1.4.3",
+    "nti-util-logger": "^1.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "babel-core": "^6.1.0",
+    "babel-eslint": "^6.0.0",
+    "babel-loader": "^6.2.0",
+    "babel-polyfill": "^6.1.0",
+    "babel-preset-es2015": "^6.1.0",
+    "babel-preset-react": "^6.1.0",
+    "babel-preset-stage-2": "^6.1.0",
+    "baggage-loader": "^0.2.4",
+    "css-loader": "^0.23.1",
+    "eslint-config-nti-codestyle-js": "^1.1.0",
+    "eslint-config-nti-codestyle-jsx": "^1.0.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "in-publish": "^2.0.0",
+    "node-sass": "^3.4.2",
+    "nti-unittesting-clientside": "^1.0.3",
+    "postcss-loader": "^0.8.2",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "resolve-url-loader": "^1.4.3",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0"
+  }
+}
