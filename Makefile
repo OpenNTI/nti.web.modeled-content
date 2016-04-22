@@ -10,6 +10,7 @@ LIBDIR = lib
 MAKE_PACKAGE=webpack --progress --cache --bail
 
 all: node_modules bundle
+#all: node_modules lib
 
 node_modules: package.json
 #	@rm -rf node_modules
@@ -29,13 +30,14 @@ clean:
 bundle:
 	@$(MAKE_PACKAGE)
 
-lib: $(LIB) $(LIBX)
-lib/%.js: src/%.js
-#	@echo babel	$@...
-	@mkdir -p $(@D)
-	babel $< -o $@
 
-lib/%.js: src/%.jsx
-#	@echo babel	$@...
-	@mkdir -p $(@D)
-	babel $< -o $@
+# lib: $(LIB) $(LIBX)
+# lib/%.js: src/%.js
+# #	@echo babel	$@...
+# 	@mkdir -p $(@D)
+# 	babel $< -o $@
+#
+# lib/%.js: src/%.jsx
+# #	@echo babel	$@...
+# 	@mkdir -p $(@D)
+# 	babel $< -o $@
