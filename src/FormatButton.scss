@@ -1,0 +1,40 @@
+%icon-bold {background-image: url(./assets/bold.png);}
+%icon-bold-active {background-image: url(./assets/bold_active.png);}
+%icon-italic {background-image: url(./assets/italic.png);}
+%icon-italic-active {background-image: url(./assets/italic_active.png);}
+%icon-underline {background-image: url(./assets/underline.png);}
+%icon-underline-active {background-image: url(./assets/underline_active.png);}
+
+%icon-dark-bold {background-image: url(./assets/bold-dark.png);}
+%icon-dark-bold-active {background-image: url(./assets/bold-dark_active.png);}
+%icon-dark-italic {background-image: url(./assets/italic-dark.png);}
+%icon-dark-italic-active {background-image: url(./assets/italic-dark_active.png);}
+%icon-dark-underline {background-image: url(./assets/underline-dark.png);}
+%icon-dark-underline-active {background-image: url(./assets/underline-dark_active.png);}
+
+$formats: bold,italic,underline;
+@each $format in $formats {
+	.modeled-content-editor {
+		.format-button[data-format=#{$format}] {
+			@extend %icon-#{$format};
+			.touch & {display: none;}
+		}
+		.format-button[data-format=#{$format}]:active,
+		.format-button[data-format=#{$format}]:focus,
+		&.format-#{$format} button[data-format=#{$format}] {
+			@extend %icon-#{$format}-active;
+		}
+	}
+
+	.dark .modeled-content-editor {
+		.format-button[data-format=#{$format}] {
+			@extend %icon-#{$format};
+			.touch & {display: none;}
+		}
+		.format-button[data-format=#{$format}]:active,
+		.format-button[data-format=#{$format}]:focus,
+		&.format-#{$format} button[data-format=#{$format}] {
+			@extend %icon-#{$format}-active;
+		}
+	}
+}

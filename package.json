@@ -34,9 +34,16 @@
   "dependencies": {
     "classnames": "^2.0.0",
     "draft-js": "^0.5.0",
+    "html-reactifier": "^1.0.1",
     "invariant": "^2.1.1",
     "node-uuid": "^1.4.3",
-    "nti-util-logger": "^1.0.0"
+    "nti-lib-content-processing": "^1.0.0",
+    "nti-lib-dom": "^1.2.3",
+    "nti-lib-whiteboardjs": "^1.2.1",
+    "nti-util-ios-version": "^1.0.0",
+    "nti-util-logger": "^1.0.0",
+    "nti-web-video": "^1.1.11",
+    "object-hash": "^1.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
@@ -52,8 +59,11 @@
     "eslint-config-nti-codestyle-js": "^1.1.0",
     "eslint-config-nti-codestyle-jsx": "^1.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
     "in-publish": "^2.0.0",
     "node-sass": "^3.4.2",
+    "normalize.css": "^4.1.1",
+    "nti-style-common": "^1.0.0",
     "nti-unittesting-clientside": "^1.0.3",
     "postcss-loader": "^0.8.2",
     "react": "^15.0.1",
@@ -61,6 +71,7 @@
     "resolve-url-loader": "^1.4.3",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.8.4",
     "webpack-dev-server": "^1.8.0"
   }

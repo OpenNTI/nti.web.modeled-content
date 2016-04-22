@@ -1,0 +1,22 @@
+%icon-image {background-image: url(./assets/image.png);}
+%icon-image-active {background-image: url(./assets/image_active.png);}
+
+.modeled-content-editor .button.insert-whiteboard {
+	@extend %icon-image;
+	&:active, &:focus {
+		@extend %icon-image-active;
+	}
+
+	input[type=file] {
+		position: absolute;
+		cursor: pointer;
+		right: 0;
+		bottom: 0;
+		padding: 0;
+		margin: 0;
+		font-size: 2rem;
+		border: 0;
+		background-color: red; //for debugging
+		opacity: 0;
+	}
+}

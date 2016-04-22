@@ -51,7 +51,7 @@ exports = module.exports = {
 			{ test: /\.js(x?)$/, exclude: /node_modules/, loader: 'babel' },
 			{ test: /\.json$/, loader: 'json' },
 
-			{ test: /\.(ico|gif|png|jpg|svg)$/, loader: 'url?limit=1&name=assets/[name].[ext]&mimeType=image/[ext]' },
+			{ test: /\.(ico|gif|png|jpg|svg)$/, loader: 'url?limit=500&name=assets/[name].[ext]&mimeType=image/[ext]' },
 			{ test: /\.(s?)css$/, loader: ExtractTextPlugin.extract(
 				'style-loader',
 				'css?sourceMap&-minimize!postcss!resolve-url!sass'

@@ -1,0 +1,58 @@
+@import "~nti-style-common";
+
+%icon-edit-14 {background-image: url(../assets/image-edit-14.png);}
+
+.body-divider.whiteboard {
+	cursor: pointer;
+
+	.whiteboard-wrapper{
+		max-width: 256px;
+		display: inline-block;
+		position: relative;
+		overflow: hidden;
+		cursor: pointer;
+		padding: 0px;
+		margin: 5px 2px;
+		border: 1px solid $tertiary-grey;
+		box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
+		border-radius: 1px;//iOS fix for box-shadow
+
+
+
+		.fill {
+			display: block;
+			position:absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			box-shadow: inset 0 0 0 3px white;
+			background: rgba(63, 179, 246, 0.05);
+		}
+
+		.centerer{
+			position:absolute;
+			top: 50%;
+			left: 50%;
+
+			.edit{
+				font: normal 600 0.9rem/1 $body-font-family !important;
+				position: relative;
+
+				color: #ffffff;
+				background: rgba(0,0,0,0.6);
+				padding: 5px 15px 5px 30px;
+				border-radius: 90px;
+
+				transform: translate3d(-50%, -50%, 0);
+
+				&::after {
+					@extend %icon-edit-14;
+					content: ' ';
+					position: absolute;
+					top: 5px;
+					left: 12px;
+					width: 14px;
+					height: 14px;
+				}
+			}
+		}
+	}
+}

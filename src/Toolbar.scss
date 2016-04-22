@@ -1,0 +1,44 @@
+@import "~nti-style-common";
+
+.modeled-content-editor .toolbar {
+	background: $panel-background;
+	border: 0 solid $border-grey;
+
+	&::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	&.south {
+		border-top-width: 1px;
+	}
+
+	& > button,
+	& > .button {
+		color: $secondary-grey;
+		font-weight: bold;
+		margin: 0;
+		padding: 0;
+		width: 1.875rem;
+		height: 2.375rem;
+		vertical-align: bottom;
+		min-width: inherit;
+
+		background: {
+			color: $panel-background;
+			repeat: no-repeat;
+			position: center center;
+		}
+
+		position: relative;
+		text-indent: -1000px;
+		overflow: hidden;
+
+		&:active,
+		&:focus {
+			outline: none;
+			background-color: darken($panel-background, 10%);
+		}
+	}
+}
