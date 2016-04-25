@@ -1,3 +1,4 @@
+/*eslint no-console: 0*/
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,12 +11,19 @@ const editor = ReactDOM.render(
 	document.getElementById('content')
 );
 
+const logValue = ()=> console.debug(editor.getValue());
+
 ReactDOM.render(
-	<input
-		onClick={editor.logState}
-		style={{marginTop: 10, textAlign: 'center'}}
-		type="button"
-		value="Log State"
-	/>,
+	<div>
+		<button style={{marginTop: 10, textAlign: 'center'}} onClick={editor.logState}>
+			Log State
+		</button>
+
+		&nbsp;
+
+		<button style={{marginTop: 10, textAlign: 'center'}} onClick={logValue}>
+			Log Value
+		</button>
+	</div>,
 	document.getElementById('tests')
 );
