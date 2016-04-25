@@ -11,7 +11,10 @@ import {
 
 import Toolbar, {REGIONS} from './Toolbar';
 
-import {getEditorStateFromValue} from './utils';
+import {
+	getEditorStateFromValue,
+	getValueFromEditorState
+} from './utils';
 
 
 export default class Core extends React.Component {
@@ -48,6 +51,7 @@ export default class Core extends React.Component {
 
 		this.onChange = (editorState) => this.setState({editorState});
 		this.focus = () => this.editor.focus();
+		this.getValue = () => getValueFromEditorState(this.state.editorState);
 		this.setEditor = (e) => this.editor = e;
 		this.logState = () => {
 			const content = this.state.editorState.getCurrentContent();
