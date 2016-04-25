@@ -4,13 +4,14 @@ import cx from 'classnames';
 import {
 	AtomicBlockUtils,
 	Editor,
-	EditorState,
 	Entity,
 	RichUtils,
 	convertToRaw
 } from 'draft-js';
 
 import Toolbar, {REGIONS} from './Toolbar';
+
+import {getEditorStateFromValue} from './utils';
 
 
 export default class Core extends React.Component {
@@ -42,7 +43,7 @@ export default class Core extends React.Component {
 		super(props);
 
 		this.state = {
-			editorState: EditorState.createEmpty()
+			editorState: getEditorStateFromValue(props.value)
 		};
 
 		this.onChange = (editorState) => this.setState({editorState});
@@ -56,6 +57,14 @@ export default class Core extends React.Component {
 		const bindList = ['handleKeyCommand', 'renderBlock', 'setFormat'];
 		for (let fn of bindList) {
 			this[fn] = this[fn].bind(this);
+		}
+	}
+
+
+	componentWillReceiveProps (nextProps) {
+		const {value} = nextProps;
+		if (value !== this.props.value) {
+			this.onChange(getEditorStateFromValue(value));
 		}
 	}
 
