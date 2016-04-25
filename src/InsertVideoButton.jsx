@@ -123,6 +123,7 @@ export default React.createClass({
 		}
 
 
+		this.closePrompt();
 		this.getEditor().insertBlock(data);
 	}
 });

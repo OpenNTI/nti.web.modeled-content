@@ -2,7 +2,7 @@ import React from 'react';
 import Logger from 'nti-util-logger';
 import {createFromImage, URL} from 'nti-lib-whiteboardjs/lib/utils';
 
-import {ToolMixin} from './ToolMixin';
+import ToolMixin from './ToolMixin';
 
 import iOSversion from 'nti-util-ios-version';
 
