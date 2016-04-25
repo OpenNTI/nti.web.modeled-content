@@ -192,10 +192,16 @@ Block.propTypes = {
 function Block (props) {
 	const {blockProps, block} = props;
 	const {getCustomBlockType} = blockProps;
-	const entity = Entity.get(block.getEntityAt(0));
-	const data = entity.getData();
+	try {
+		const entity = Entity.get(block.getEntityAt(0));
+		const data = entity.getData();
 
-	let CustomBlock = getCustomBlockType(data);
+		let CustomBlock = getCustomBlockType(data);
 
-	return <CustomBlock data={data}/>;
+		return <CustomBlock data={data}/>;
+	} catch (e) {
+		// Entity.get() throws if the entity is not there. Assume no Block for bad entities.
+		console.error('%s %o', e.message, block);
+	}
+	return null;
 }
