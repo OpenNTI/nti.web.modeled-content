@@ -35,7 +35,8 @@ export default class Core extends React.Component {
 
 	static childContextTypes = {
 		editor: React.PropTypes.any,
-		setFormat: React.PropTypes.func
+		setFormat: React.PropTypes.func,
+		currentFormat: React.PropTypes.object
 	}
 
 	static defaultProps = {
@@ -76,7 +77,8 @@ export default class Core extends React.Component {
 	getChildContext () {
 		return {
 			editor: this,
-			setFormat: this.setFormat
+			setFormat: this.setFormat,
+			currentFormat: this.state.editorState.getCurrentInlineStyle()
 		};
 	}
 

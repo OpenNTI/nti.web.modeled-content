@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 const clone = x =>
 	typeof x === 'string' ? x : React.cloneElement(x);
@@ -12,7 +13,8 @@ export const Formats = {
 export default class FormatButton extends React.Component {
 
 	static contextTypes = {
-		setFormat: React.PropTypes.func.isRequired
+		setFormat: React.PropTypes.func.isRequired,
+		currentFormat: React.PropTypes.object.isRequired
 	}
 
 
@@ -38,11 +40,13 @@ export default class FormatButton extends React.Component {
 
 
 	render () {
-		const {format = '_'} = this.props;
+		const {context: {currentFormat}, props: {format = '_'}} = this;
 		const code = format.charAt(0).toUpperCase();
+		const active = currentFormat.has(format);
+
 
 		const props = {
-			className: 'format-button',
+			className: cx('format-button', {active}),
 			onClick: this.onClick,
 			'data-format': (format || '').toLowerCase()
 		};

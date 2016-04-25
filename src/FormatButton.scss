@@ -21,7 +21,7 @@ $formats: bold,italic,underline;
 		}
 		.format-button[data-format=#{$format}]:active,
 		.format-button[data-format=#{$format}]:focus,
-		&.format-#{$format} button[data-format=#{$format}] {
+		.format-button[data-format=#{$format}].active {
 			@extend %icon-#{$format}-active;
 		}
 	}
@@ -33,7 +33,7 @@ $formats: bold,italic,underline;
 		}
 		.format-button[data-format=#{$format}]:active,
 		.format-button[data-format=#{$format}]:focus,
-		&.format-#{$format} button[data-format=#{$format}] {
+		.format-button[data-format=#{$format}].active {
 			@extend %icon-#{$format}-active;
 		}
 	}
