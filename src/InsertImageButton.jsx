@@ -4,8 +4,6 @@ import {createFromImage, URL} from 'nti-lib-whiteboardjs/lib/utils';
 
 import {ToolMixin} from './ToolMixin';
 
-import WhiteboardIcon from './editor-parts/WhiteboardIcon';
-
 import iOSversion from 'nti-util-ios-version';
 
 const logger = Logger.get('modeled-content:components:InsertImageButton');
@@ -44,31 +42,14 @@ export default React.createClass({
 	},
 
 
-	insertWhiteboard (scene, last) {
-		let editor = this.getEditor();
+	insertWhiteboard (scene/*, last*/) {
+		this.getEditor().insertBlock(scene);
 
-		WhiteboardIcon.renderIcon(scene)
-			.then(markup => {
-
-				let node = editor.insertAtSelection(markup);
-				if (node) {
-					let s = document.getSelection();
-					s.selectAllChildren(node);
-					s.collapseToEnd();
-
-					if (last) {
-						setTimeout(()=> node.scrollIntoView(), 500);
-					} else {
-						node.scrollIntoView();
-					}
-				}
-
-			})
-			.catch(e=> {
-				e = JSON.stringify(e);
-				logger.error(e);
-				alert(e);//eslint-disable-line
-			});
+		// if (last) {
+		// 	setTimeout(()=> node.scrollIntoView(), 500);
+		// } else {
+		// 	node.scrollIntoView();
+		// }
 	},
 
 

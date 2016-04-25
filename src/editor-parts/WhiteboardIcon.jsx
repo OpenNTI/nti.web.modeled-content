@@ -1,53 +1,56 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-
 import WhiteboardRenderer from 'nti-lib-whiteboardjs/lib/Canvas';
 
-import {rawContent} from '../utils';
+export default class WhiteboardThumbnail extends React.Component {
 
-const WhiteboardThumbnail = React.createClass({
-	displayName: 'WhiteboardThumbnail',
+	static propTypes = {
+		data: React.PropTypes.object.isRequired
+	}
 
-	statics: {
 
-		handles (data) {
-			return data && data.MimeType === 'application/vnd.nextthought.canvas';
-		},
+	static handles (data) {
+		return data && data.MimeType === 'application/vnd.nextthought.canvas';
+	}
 
-		renderIcon (scene) {
-			return WhiteboardRenderer
-						.getThumbnail(scene, false)
-							.then(thumbnail=> ReactDOMServer.renderToStaticMarkup(
-									React.createElement(WhiteboardThumbnail, { thumbnail, scene })));
+
+	componentDidMount () {
+		this.renderIcon(this.props.data);
+	}
+
+
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.data !== this.props.data) {
+			this.renderIcon(nextProps.data);
 		}
+	}
 
-	},
 
-	propTypes: {
-		thumbnail: React.PropTypes.string.isRequired,
-		scene: React.PropTypes.object.isRequired
-	},
+	renderIcon (scene) {
+		return WhiteboardRenderer.getThumbnail(scene, false)
+				.then(thumbnail=> this.setState({ thumbnail }));
+	}
+
+
+	getValue () {
+		return this.props.data;
+	}
+
 
 	render () {
-		let {thumbnail, scene} = this.props;
-
-		scene = JSON.stringify(scene) || '';
+		let {thumbnail} = this.state;
 
 		return (
 			<object contentEditable={false} className="body-divider whiteboard" unselectable="on">
 				<div className="whiteboard-wrapper" unselectable="on">
-					<img src={thumbnail} className="thumbnail" alt="Whiteboard Thumbnail" border="0" unselectable="on"/>
+					{thumbnail && ( <img src={thumbnail} className="thumbnail" alt="Whiteboard Thumbnail" border="0" unselectable="on"/> )}
 					<div className="fill" unselectable="on"/>
 					{/*}
 					<div className="centerer" unselectable="on">
 						<div className="edit" unselectable="on">Edit</div>
 					</div>
 					{*/}
-					<script type="application/json" {...rawContent(scene)}/>
 				</div>
 			</object>
 		);
 	}
-});
-
-export default WhiteboardThumbnail;
+}

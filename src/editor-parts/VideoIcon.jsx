@@ -1,34 +1,20 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 
-import {rawContent} from '../utils';
+export default class VideoThumbnail extends React.Component {
 
-const VideoThumbnail = React.createClass({
-	displayName: 'VideoThumbnail',
-
-	statics: {
-
-		handles (data) {
-			return data && data.MimeType === 'application/vnd.nextthought.embeddedvideo';
-		},
-
-		renderIcon (data) {
-			return Promise.resolve(
-				ReactDOMServer.renderToStaticMarkup(
-					React.createElement(VideoThumbnail, { data })));
-		}
-
-	},
-
-	propTypes: {
+	static propTypes = {
 		data: React.PropTypes.object.isRequired
-	},
+	}
+
+	static handles (data) {
+		return data && data.MimeType === 'application/vnd.nextthought.embeddedvideo';
+	}
+
+	getValue () {
+		return this.props.data;
+	}
 
 	render () {
-		let {data} = this.props;
-
-		data = JSON.stringify(data) || '';
-
 		return (
 			<object contentEditable={false} className="body-divider video" unselectable="on">
 				<div className="video-icon" unselectable="on">
@@ -38,11 +24,8 @@ const VideoThumbnail = React.createClass({
 						<div className="edit" unselectable="no">Edit</div>
 					</div>
 					{*/}
-					<script type="application/json" {...rawContent(data)}/>
 				</div>
 			</object>
 		);
 	}
-});
-
-export default VideoThumbnail;
+}

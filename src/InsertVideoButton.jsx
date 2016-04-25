@@ -1,19 +1,17 @@
 import React from 'react';
 import cx from 'classnames';
 
-// import {ToolMixin, Constants} from 'react-editor-component';
+import ToolMixin from './ToolMixin';
 
 import {getEventTarget} from 'nti-lib-dom';
 import Logger from 'nti-util-logger';
 import {getHandler} from 'nti-web-video';
 
-import VideoIcon from './editor-parts/VideoIcon';
-
 const logger = Logger.get('modeled-content:components:InsertVideoButton');
 
 export default React.createClass({
 	displayName: 'InsertVideoButton',
-	// mixins: [ToolMixin],
+	mixins: [ToolMixin],
 
 	statics: {
 		service: 'kaltura'
@@ -84,7 +82,7 @@ export default React.createClass({
 			e.preventDefault();
 			e.stopPropagation();
 		}
-		// this.getEditor().clearBusy();
+
 		this.replaceState({prompt: false});
 	},
 
@@ -97,11 +95,7 @@ export default React.createClass({
 			e.preventDefault();
 		}
 
-		// const editor = this.getEditor();
-		const selection = null;//editor[Constants.SAVED_SELECTION];
-		// editor.markBusy();
-
-		this.setState({selection, prompt: true});
+		this.setState({prompt: true});
 	},
 
 
@@ -112,14 +106,8 @@ export default React.createClass({
 		}
 
 
-		const {state: {selection}, input} = this;
+		const {input} = this;
 		const {value} = input || {};
-		const editor = this.getEditor();
-
-		if (selection) {
-			editor.restoreSelection(selection);
-		}
-
 		const handler = getHandler(value);
 
 		const data = handler && {
@@ -135,18 +123,6 @@ export default React.createClass({
 		}
 
 
-		VideoIcon.renderIcon(data)
-			.then(markup => {
-				const node = editor.insertAtSelection(markup);
-
-				this.closePrompt();
-				if (node) {
-					let s = document.getSelection();
-					s.selectAllChildren(node);
-					s.collapseToEnd();
-
-					setTimeout(()=> node.scrollIntoView(), 500);
-				}
-			});
+		this.getEditor().insertBlock(data);
 	}
 });

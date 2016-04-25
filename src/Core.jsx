@@ -69,6 +69,11 @@ export default class Core extends React.Component {
 	}
 
 
+	insertBlock (/*data*/) {
+
+	}
+
+
 	setFormat (format) {
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, format));
 	}
