@@ -2,22 +2,31 @@
 import React from 'react';
 import cx from 'classnames';
 import {
-	// AtomicBlockUtils,
+	AtomicBlockUtils,
 	Editor,
 	EditorState,
-	// Entity,
+	Entity,
 	RichUtils,
 	convertToRaw
 } from 'draft-js';
 
 import Toolbar, {REGIONS} from './Toolbar';
 
+
 export default class Core extends React.Component {
 
 	static propTypes = {
 		children: React.PropTypes.any,
 		className: React.PropTypes.string,
-		placeholder: React.PropTypes.string
+		getCustomBlockType: React.PropTypes.func,
+		placeholder: React.PropTypes.string,
+		value: React.PropTypes.arrayOf(
+			React.PropTypes.oneOfType([
+				React.PropTypes.string,
+				React.PropTypes.shape({
+					MimeType: React.PropTypes.string
+				})
+			]))
 	}
 
 	static childContextTypes = {
@@ -44,7 +53,7 @@ export default class Core extends React.Component {
 			console.log(convertToRaw(content));
 		};
 
-		const bindList = ['handleKeyCommand', 'setFormat'];
+		const bindList = ['handleKeyCommand', 'renderBlock', 'setFormat'];
 		for (let fn of bindList) {
 			this[fn] = this[fn].bind(this);
 		}
@@ -69,8 +78,20 @@ export default class Core extends React.Component {
 	}
 
 
-	insertBlock (/*data*/) {
+	insertBlock (data) {
+		if (!data || !data.MimeType) {
+			throw new Error('Data must be an object and have a MimeType property');
+		}
 
+		const entityKey = Entity.create(data.MimeType, 'IMMUTABLE', data);
+
+		return this.onChange(
+			AtomicBlockUtils.insertAtomicBlock(
+				this.state.editorState,
+				entityKey,
+				' '
+			)
+		);
 	}
 
 
@@ -89,6 +110,22 @@ export default class Core extends React.Component {
 
 	clearBusy () {
 		this.setState({busy: false});
+	}
+
+
+	renderBlock (block) {
+		const {getCustomBlockType} = this.props;
+		if (getCustomBlockType && block.getType() === 'atomic') {
+			return {
+				component: Block,
+				editable: false,
+				props: {
+					getCustomBlockType
+				}
+			};
+		}
+
+		return null;
 	}
 
 
@@ -124,4 +161,23 @@ export default class Core extends React.Component {
 			</div>
 		);
 	}
+}
+
+
+Block.propTypes = {
+	block: React.PropTypes.object.isRequired,
+	blockProps: React.PropTypes.shape({
+		getCustomBlockType: React.PropTypes.func
+	}).isRequired
+};
+
+function Block (props) {
+	const {blockProps, block} = props;
+	const {getCustomBlockType} = blockProps;
+	const entity = Entity.get(block.getEntityAt(0));
+	const data = entity.getData();
+
+	let CustomBlock = getCustomBlockType(data);
+
+	return <CustomBlock data={data}/>;
 }
