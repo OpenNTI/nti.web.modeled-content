@@ -50,9 +50,9 @@ export default class Core extends React.Component {
 			editorState: getEditorStateFromValue(props.value)
 		};
 
-		this.onChange = (editorState) => this.setState({editorState});
 		this.focus = () => this.editor.focus();
 		this.getValue = () => getValueFromEditorState(this.state.editorState);
+		this.onChange = (editorState, cb) => this.setState({editorState}, cb);
 		this.setEditor = (e) => this.editor = e;
 		this.logState = () => {
 			const content = this.state.editorState.getCurrentContent();
@@ -111,9 +111,10 @@ export default class Core extends React.Component {
 
 
 	setFormat (format, reclaimFocus) {
-		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, format));
-		if (reclaimFocus) {
-			this.focus();
+		const newState = RichUtils.toggleInlineStyle(this.state.editorState, format);
+		if (newState) {
+			const afterApply = reclaimFocus ? ()=> this.focus() : void 0;
+			this.onChange(newState, afterApply);
 		}
 	}
 

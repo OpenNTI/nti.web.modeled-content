@@ -32,8 +32,10 @@ export default class FormatButton extends React.Component {
 
 	onClick (e) {
 		const {props: {format = '_'}} = this;
-		e.preventDefault();
-		e.stopPropagation();
+		if (e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 
 		this.context.setFormat(format, true);
 	}
