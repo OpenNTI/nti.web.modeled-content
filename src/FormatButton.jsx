@@ -35,7 +35,7 @@ export default class FormatButton extends React.Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		this.context.setFormat(format);
+		this.context.setFormat(format, true);
 	}
 
 

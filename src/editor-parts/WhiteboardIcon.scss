@@ -17,7 +17,10 @@
 		box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
 		border-radius: 1px;//iOS fix for box-shadow
 
-
+		img {
+			max-width: 100%;
+			height: auto;
+		}
 
 		.fill {
 			display: block;

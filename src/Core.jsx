@@ -110,8 +110,11 @@ export default class Core extends React.Component {
 	}
 
 
-	setFormat (format) {
+	setFormat (format, reclaimFocus) {
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, format));
+		if (reclaimFocus) {
+			this.focus();
+		}
 	}
 
 
