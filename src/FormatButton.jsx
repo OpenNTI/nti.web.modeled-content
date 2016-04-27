@@ -49,7 +49,7 @@ export default class FormatButton extends React.Component {
 
 		const props = {
 			className: cx('format-button', {active}),
-			onClick: this.onClick,
+			onMouseDown: this.onClick,//onClick is too late.
 			'data-format': (format || '').toLowerCase()
 		};
 
