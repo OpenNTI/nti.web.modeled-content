@@ -70,7 +70,13 @@ function renderContentBlockContent (tree, block) {
 
 			const [start, end, tags] = getOffsetsAndTags(leaf);
 
-			return openTags(tags) + text.slice(start, end) + closeTags(tags);
+			function escapeHtml (t) {
+				const div = document.createElement('div');
+				div.appendChild(document.createTextNode(t));
+				return div.innerHTML;
+			}
+
+			return openTags(tags) + escapeHtml(text.slice(start, end)) + closeTags(tags);
 
 		}).join('')
 	).join('');
