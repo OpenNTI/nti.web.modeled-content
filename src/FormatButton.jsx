@@ -5,6 +5,7 @@ const clone = x =>
 	typeof x === 'string' ? x : React.cloneElement(x);
 
 export const Formats = {
+	CODE: 'CODE',
 	BOLD: 'BOLD',
 	ITALIC: 'ITALIC',
 	UNDERLINE: 'UNDERLINE'
@@ -13,14 +14,14 @@ export const Formats = {
 export default class FormatButton extends React.Component {
 
 	static contextTypes = {
-		setFormat: React.PropTypes.func.isRequired,
+		toggleFormat: React.PropTypes.func.isRequired,
 		currentFormat: React.PropTypes.object.isRequired
 	}
 
 
 	static propTypes = {
 		children: React.PropTypes.any,
-		format: React.PropTypes.oneOf(['BOLD', 'ITALIC', 'UNDERLINE']).isRequired
+		format: React.PropTypes.oneOf(Object.values(Formats)).isRequired
 	}
 
 
@@ -34,10 +35,9 @@ export default class FormatButton extends React.Component {
 		const {props: {format = '_'}} = this;
 		if (e) {
 			e.preventDefault();
-			e.stopPropagation();
 		}
 
-		this.context.setFormat(format, true);
+		this.context.toggleFormat(format);
 	}
 
 

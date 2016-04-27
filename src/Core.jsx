@@ -17,6 +17,17 @@ import {
 } from './utils';
 
 
+// Custom overrides for "code" style.
+const styleMap = {
+	CODE: {
+		backgroundColor: 'rgba(0, 0, 0, 0.05)',
+		fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+		fontSize: 16,
+		padding: 2
+	}
+};
+
+
 export default class Core extends React.Component {
 
 	static propTypes = {
@@ -35,7 +46,7 @@ export default class Core extends React.Component {
 
 	static childContextTypes = {
 		editor: React.PropTypes.any,
-		setFormat: React.PropTypes.func,
+		toggleFormat: React.PropTypes.func,
 		currentFormat: React.PropTypes.object
 	}
 
@@ -59,7 +70,12 @@ export default class Core extends React.Component {
 			console.log(convertToRaw(content));
 		};
 
-		const bindList = ['handleKeyCommand', 'renderBlock', 'setFormat'];
+		const bindList = [
+			'handleKeyCommand',
+			'renderBlock',
+			'toggleBlockType',
+			'toggleInlineStyle'
+		];
 		for (let fn of bindList) {
 			this[fn] = this[fn].bind(this);
 		}
@@ -77,7 +93,7 @@ export default class Core extends React.Component {
 	getChildContext () {
 		return {
 			editor: this,
-			setFormat: this.setFormat,
+			toggleFormat: (x) => this.toggleInlineStyle(x, true),
 			currentFormat: this.state.editorState.getCurrentInlineStyle()
 		};
 	}
@@ -110,12 +126,34 @@ export default class Core extends React.Component {
 	}
 
 
-	setFormat (format, reclaimFocus) {
-		const newState = RichUtils.toggleInlineStyle(this.state.editorState, format);
-		if (newState) {
-			const afterApply = reclaimFocus ? ()=> this.focus() : void 0;
-			this.onChange(newState, afterApply);
-		}
+	toggleBlockType (blockType) {
+		this.onChange(
+			RichUtils.toggleBlockType(
+				this.state.editorState,
+				blockType
+			)
+		);
+	}
+
+
+	toggleInlineStyle (format, reclaimFocus) {
+		console.log(format);
+		const afterApply = reclaimFocus ? ()=> this.focus() : void 0;
+		this.onChange(
+			RichUtils.toggleInlineStyle(
+				this.state.editorState,
+				format
+			),
+			afterApply
+		);
+	}
+
+
+	getBlockStyle (block) {
+		const blocks = {
+			blockquote: 'DraftEditor-blockquote'
+		};
+		return blocks[block.getType()] || null;
 	}
 
 
@@ -169,12 +207,15 @@ export default class Core extends React.Component {
 				<Toolbar region={REGIONS.EAST} children={children}/>
 				<Toolbar region={REGIONS.WEST} children={children}/>
 				<Editor
+					blockStyleFn={this.getBlockStyle}
 					blockRendererFn={this.renderBlock}
+					customStyleMap={styleMap}
 					editorState={editorState}
 					handleKeyCommand={this.handleKeyCommand}
 					onChange={this.onChange}
 					placeholder={placeholder}
 					ref={this.setEditor}
+					spellCheck
 				/>
 				<Toolbar region={REGIONS.SOUTH} children={children} defaultSet={basicView}/>
 			</div>

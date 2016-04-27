@@ -91,6 +91,9 @@ function getBlockTags (block, prevBlock, nextBlock) {
 	const typeMap = {
 		'unstyled': 'p',
 		'header-one': 'h1',
+		'header-two': 'h2',
+		'code-block': 'pre',
+		'blockquote': 'blockquote',
 		'ordered-list-item': 'li',
 		'unordered-list-item': 'li'
 	};
