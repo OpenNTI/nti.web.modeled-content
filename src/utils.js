@@ -1,4 +1,4 @@
-/*eslint no-console: 0*/
+import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
 	ContentState,
@@ -10,6 +10,7 @@ import {
 const OPEN_TAG = x => `<${x}>`;
 const CLOSE_TAG = x => `</${x}>`;
 
+const logger = Logger.get('modeled-content:utils');
 
 export function getEditorStateFromValue (value) {
 	if (!value) {
@@ -165,7 +166,7 @@ export function getValueFromEditorState (editorState) {
 			const entityKey = block.getEntityAt(0);
 			const entity = entityKey && Entity.get(entityKey);
 			if (!entity) {
-				console.error('Atomic Block has no entity?', block);
+				logger.error('Atomic Block has no entity?', block);
 			}
 			return entity ? entity.data : null;
 		}

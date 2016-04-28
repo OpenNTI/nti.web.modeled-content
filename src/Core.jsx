@@ -1,6 +1,6 @@
-/*eslint no-console: 0*/
 import React from 'react';
 import cx from 'classnames';
+import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
 	Editor,
@@ -16,6 +16,7 @@ import {
 	getValueFromEditorState
 } from './utils';
 
+const logger = Logger.get('modeled-content:editor:core');
 
 // Custom overrides for "code" style.
 const styleMap = {
@@ -71,7 +72,8 @@ export default class Core extends React.Component {
 		this.setEditor = (e) => this.editor = e;
 		this.logState = () => {
 			const content = this.state.editorState.getCurrentContent();
-			console.log(convertToRaw(content));
+			logger.enable();
+			logger.log(convertToRaw(content));
 		};
 
 		const bindList = [
@@ -177,7 +179,7 @@ export default class Core extends React.Component {
 
 
 	toggleInlineStyle (format, reclaimFocus) {
-		console.log(format);
+		logger.log(format);
 		const afterApply = reclaimFocus ? ()=> this.focus() : void 0;
 		this.onChange(
 			RichUtils.toggleInlineStyle(
@@ -296,7 +298,7 @@ function Block (props) {
 		return <CustomBlock data={data}/>;
 	} catch (e) {
 		// Entity.get() throws if the entity is not there. Assume no Block for bad entities.
-		console.error('%s %o', e.message, block);
+		logger.error('%s %o', e.message, block);
 	}
 	return null;
 }
