@@ -38,7 +38,9 @@ export default class Editor extends React.Component {
 						MimeType: React.PropTypes.string
 					})
 				]))
-		])
+		]),
+
+		value: function deprecated (o, k) { if (o[k]) { return new Error('Deprecated/Ignored, use "initialValue"'); } }
 	}
 
 
