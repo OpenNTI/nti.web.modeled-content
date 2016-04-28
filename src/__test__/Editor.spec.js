@@ -33,8 +33,8 @@ describe('Modeled Body Content Editor', () => {
 		const A = ReactDOM.render(React.createElement(Editor), newNode);
 		const B = ReactDOM.render(React.createElement(Editor), container);
 
-		expect(A.isMounted()).toBeTruthy();
-		expect(B.isMounted()).toBeTruthy();
+		expect(A).toBeTruthy();
+		expect(B).toBeTruthy();
 
 		const a = getNode(A);
 		const b = getNode(B);
@@ -45,20 +45,20 @@ describe('Modeled Body Content Editor', () => {
 		expect(aa.length).toBe(1);
 		expect(bb.length).toBe(1);
 
-		expect(JSON.stringify(aa[0].innerHTML)).toMatch(/<div>(\u200B|\u2060)<\/div>/i);
-		expect(JSON.stringify(bb[0].innerHTML)).toMatch(/<div>(\u200B|\u2060)<\/div>/i);
+		expect(A.getValue()).toEqual(['<p></p>']);
+		expect(B.getValue()).toEqual(['<p></p>']);
 	});
 
 	it('Base Cases: Pass a string, get a BODY string out.', done => {
 		const value = 'test';
 
 		const A = ReactDOM.render(
-			React.createElement(Editor, {value}),
+			React.createElement(Editor, {initialValue: value}),
 			newNode
 		);
 
 		const B = ReactDOM.render(
-			React.createElement(Editor, {value}),
+			React.createElement(Editor, {initialValue: value}),
 			container
 		);
 
@@ -68,8 +68,8 @@ describe('Modeled Body Content Editor', () => {
 				expect(getText(A)).toEqual('test');
 				expect(getText(B)).toEqual('test');
 
-				expect(A.getValue()).toEqual(['test']);
-				expect(B.getValue()).toEqual(['test']);
+				expect(A.getValue()).toEqual(['<p>test</p>']);
+				expect(B.getValue()).toEqual(['<p>test</p>']);
 				done();
 			});
 	});
@@ -77,29 +77,26 @@ describe('Modeled Body Content Editor', () => {
 	it('Base Cases: Body Parts Render. Unknown is preserved.', done => {
 		const value = ['test', {junk: true}, 'abc'];
 
+		const toExpected = x => typeof x === 'string' ? `<p>${x}</p>` : x;
+
 		const A = ReactDOM.render(
-			React.createElement(Editor, {value}),
+			React.createElement(Editor, {initialValue: value}),
 			newNode
 		);
 
 		const B = ReactDOM.render(
-			React.createElement(Editor, {value}),
+			React.createElement(Editor, {initialValue: value}),
 			container
 		);
 
 		Promise.all([A.pendingSetup, B.pendingSetup])
 			.catch(e => console.error(e))
 			.then(() => {
-				//While the editor is active, it uses Zero-Width Spaces around body-divider
-				//nodes so that the cursor won't get blocked from being placed before or
-				//after them.
-				//Objects in the body are serialized to JSON and hidden in a <script> tag
-				//with type "json"...so the come back when we dump the text.
-				expect(getText(A)).toEqual('test\u200B{"junk":true}\u200Babc');
-				expect(getText(B)).toEqual('test\u200B{"junk":true}\u200Babc');
+				expect(getText(A)).toMatch(/test.*?abc/);
+				expect(getText(B)).toMatch(/test.*?abc/);
 
-				expect(A.getValue()).toEqual(value);
-				expect(B.getValue()).toEqual(value);
+				expect(A.getValue()).toEqual(value.map(toExpected));
+				expect(B.getValue()).toEqual(value.map(toExpected));
 				done();
 			});
 	});

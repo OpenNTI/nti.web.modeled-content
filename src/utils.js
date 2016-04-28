@@ -16,22 +16,40 @@ export function getEditorStateFromValue (value) {
 		return EditorState.createEmpty();
 	}
 
-	let intermediateState = EditorState.createEmpty();
+	let intermediateState;
+	let lastBlockAtomic = false;
 
 	for (let part of value) {
 		if (typeof part === 'string') {
 			const blocks = convertFromHTML(part);
+
+			const existingBlocks = !intermediateState ? [] : intermediateState.getCurrentContent().getBlocksAsArray();
+
+			// Inserting atomic blocks also inserts a blank text block after it...
+			// if we encounter that block, drop it because we have text here (and we
+			// don't want to add additional lines when we don't have to)
+			const lastBlock = existingBlocks[existingBlocks.length - 1];
+			if (lastBlockAtomic && lastBlock && lastBlock.getText() === '' && lastBlock.type === 'unstyled') {
+				existingBlocks.pop();
+			}
+
 			const newContent = ContentState.createFromBlockArray([
-				...intermediateState.getCurrentContent().getBlocksAsArray(),
+				...existingBlocks,
 				...blocks]);
 
+			lastBlockAtomic = false;
 			intermediateState = EditorState.createWithContent(newContent);
 		}
+
+		//Custom Object body parts are converted to DraftJS Custom Block Atomic Entities.
 		else {
-			const entityKey = Entity.create(part.MimeType, 'IMMUTABLE', part);
+			lastBlockAtomic = true;
 			intermediateState = AtomicBlockUtils.insertAtomicBlock(
-				intermediateState,
-				entityKey,
+
+				EditorState.moveSelectionToEnd(intermediateState || EditorState.createEmpty()),
+
+				Entity.create(part.MimeType || 'unknown', 'IMMUTABLE', part),
+
 				' '
 			);
 		}

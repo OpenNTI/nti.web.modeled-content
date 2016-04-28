@@ -87,6 +87,13 @@ export default class Editor extends React.Component {
 	}
 
 
+	componentDidMount () {
+		if (this.markFirstRender) {
+			this.markFirstRender();
+		}
+	}
+
+
 	componentWillReceiveProps (nextProps) {
 		if (this.props.initialValue !== nextProps.initialValue) {
 			this.setupValue(nextProps);
@@ -96,19 +103,28 @@ export default class Editor extends React.Component {
 
 	setupValue (props = this.props, direct) {
 		const {initialValue: value} = props;
-		const setState = o => direct ? Object.assign(this.state, o) : this.setState(o);
-		if (!value) {
-			return setState({value: void 0});
-		}
 
-		let out = value;
-		if (!Array.isArray(out)) {
-			out = [out];
-		}
+		this.pendingSetup = new Promise(done => {
+			const setState = o => direct
+								? Object.assign(this.state, o)
+								: this.setState(o, done);
 
+			if (direct) {
+				this.markFirstRender = () => {delete this.markFirstRender; done(); };
+			}
 
-		setState({
-			value: out//.map(x => (typeof x === 'string') ? x.replace(/<(\/?)(body|html)>/ig, '') : x)
+			if (!value) {
+				return setState({value: void 0});
+			}
+
+			let out = value;
+			if (!Array.isArray(out)) {
+				out = [out];
+			}
+
+			setState({
+				value: out//.map(x => (typeof x === 'string') ? x.replace(/<(\/?)(body|html)>/ig, '') : x)
+			});
 		});
 	}
 
