@@ -34,6 +34,8 @@ export default class Core extends React.Component {
 		children: React.PropTypes.any,
 		className: React.PropTypes.string,
 		getCustomBlockType: React.PropTypes.func,
+		onBlur: React.PropTypes.func,
+		onChange: React.PropTypes.func,
 		placeholder: React.PropTypes.string,
 		value: React.PropTypes.arrayOf(
 			React.PropTypes.oneOfType([
@@ -51,7 +53,9 @@ export default class Core extends React.Component {
 	}
 
 	static defaultProps = {
-		placeholder: 'Type a message...'
+		placeholder: 'Type a message...',
+		onBlur: () => {},
+		onChange: () => {}
 	}
 
 	constructor (props) {
@@ -63,7 +67,7 @@ export default class Core extends React.Component {
 
 		this.focus = () => this.editor.focus();
 		this.getValue = () => getValueFromEditorState(this.state.editorState);
-		this.onChange = (editorState, cb) => this.setState({editorState}, cb);
+
 		this.setEditor = (e) => this.editor = e;
 		this.logState = () => {
 			const content = this.state.editorState.getCurrentContent();
@@ -72,12 +76,37 @@ export default class Core extends React.Component {
 
 		const bindList = [
 			'handleKeyCommand',
+			'onChange',
+			'onBlur',
+			'onTab',
 			'renderBlock',
 			'toggleBlockType',
 			'toggleInlineStyle'
 		];
 		for (let fn of bindList) {
 			this[fn] = this[fn].bind(this);
+		}
+	}
+
+
+	onBlur () {
+		const {onBlur} = this.props;
+		onBlur();
+	}
+
+
+	onChange (editorState, cb) {
+		const hasFocus = editorState.getSelection().getHasFocus();
+		const {
+			state: {editorState: old},
+			props: {onChange}
+		} = this;
+
+		this.setState({editorState}, cb);
+		onChange();
+
+		if(!hasFocus && old.getSelection().getHasFocus() !== hasFocus) {
+			setTimeout(this.onBlur, 1);
 		}
 	}
 
