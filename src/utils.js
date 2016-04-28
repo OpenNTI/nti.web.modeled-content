@@ -145,7 +145,7 @@ function getBlockTags (block, prevBlock, nextBlock) {
 	const specialSnowFlake = specialSnowFlakes[type];
 	if (specialSnowFlake) {
 		prefix = specialSnowFlake.open(prefix);
-		postfix = specialSnowFlake.close(prefix);
+		postfix = specialSnowFlake.close(postfix);
 	}
 
 	const tagger = [OPEN_TAG, CLOSE_TAG];

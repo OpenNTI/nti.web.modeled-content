@@ -1,8 +1,14 @@
 import {
-	convertToRaw
+	convertToRaw,
+	convertFromRaw,
+	ContentState,
+	EditorState
 } from 'draft-js';
 
-import {getEditorStateFromValue} from '../utils';
+import {
+	getEditorStateFromValue,
+	getValueFromEditorState
+} from '../utils';
 
 describe('Value Convertion', () => {
 
@@ -63,6 +69,72 @@ describe('Value Convertion', () => {
 		isEmptyState(getEditorStateFromValue(true));
 		isEmptyState(getEditorStateFromValue(1));
 		isEmptyState(getEditorStateFromValue(new Date()));
+	});
+
+
+	it ('Should convert EditorState to NTI-body-content', ()=> {
+
+		const rawContent = {
+			blocks: [
+				{ text: 'title', type: 'header-one', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'sub-title', type: 'header-two', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'paragraph', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'list-item', type: 'unordered-list-item', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'list-item', type: 'unordered-list-item', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'list-item', type: 'ordered-list-item', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'list-item', type: 'ordered-list-item', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'code', type: 'code-block', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: 'quote', type: 'blockquote', depth: 0, inlineStyleRanges: [], entityRanges: [] },
+				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 0 } ] },
+				{ text: 'closing text', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] }
+			],
+			entityMap: {
+				0: { type: 'some-cool-embed', mutability: 'IMMUTABLE', data: { MimeType: 'some-cool-embed', test: true } }
+			}
+		};
+
+		const content = ContentState.createFromBlockArray(convertFromRaw(rawContent));
+		const editorState = EditorState.createWithContent(content);
+
+		const value = getValueFromEditorState(editorState);
+
+		expect(value).toEqual([
+			[
+				'<h1>title</h1>',
+				'<h2>sub-title</h2>',
+				'<p>paragraph</p>',
+				'<ul><li>list-item</li>',
+				'<li>list-item</li></ul>',
+				'<ol><li>list-item</li>',
+				'<li>list-item</li></ol>',
+				'<pre>code</pre>',
+				'<blockquote>quote</blockquote>'
+			].join('\n'),
+			{
+				MimeType: 'some-cool-embed',
+				test: true
+			},
+			'<p>closing text</p>'
+		]);
+	});
+
+
+	it ('Conversion to/from EditorState sould be consistent', ()=> {
+		const value = getValueFromEditorState(getEditorStateFromValue([
+			'<html><body><div>Body Content</div><div>Line 2</div></body></html>',
+			{MimeType: 'foobar', baz: 'foo'},
+			'<html><body><div>Last Line</div></body></html>'
+		]));
+
+		expect(value).toEqual([
+			'<p>Body Content</p>\n<p>Line 2</p>',
+			{MimeType: 'foobar', baz: 'foo'},
+			'<p>Last Line</p>'
+		]);
+
+		const reparsedValue = getValueFromEditorState(getEditorStateFromValue(value));
+
+		expect(value).toEqual(reparsedValue);
 	});
 
 });
