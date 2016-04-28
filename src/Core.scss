@@ -51,6 +51,12 @@
 		@extend %inline-loader;
 	}
 
+	&.hide-placeholder {
+		.public-DraftEditorPlaceholder-root {
+			display: none;
+		}
+	}
+
 	.DraftEditor-root {
 		color: $primary-grey;
 		min-height: 3rem;

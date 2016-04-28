@@ -201,8 +201,20 @@ export default class Core extends React.Component {
 
 		const basicView = React.Children.count(children) === 0; // if no custom children, show default toolbars
 
+		// Hide the placeholder if the user changes block type before entering any text
+		const contentState = editorState.getCurrentContent();
+		const hidePlaceholder = !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
+
 		return (
-			<div className={cx('modeled-content-editor', 'editor', className, {busy})} onClick={this.focus}>
+			<div onClick={this.focus} className={cx(
+				'modeled-content-editor',
+				'editor',
+				className,
+				{
+					busy,
+					'hide-placeholder': hidePlaceholder
+				}
+			)}>
 				<Toolbar region={REGIONS.NORTH} children={children}/>
 				<Toolbar region={REGIONS.EAST} children={children}/>
 				<Toolbar region={REGIONS.WEST} children={children}/>
