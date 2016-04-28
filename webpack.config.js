@@ -63,6 +63,6 @@ exports = module.exports = {
 	plugins: [
 		new webpack.optimize.DedupePlugin(),
 		new webpack.optimize.OccurenceOrderPlugin(),
-		new ExtractTextPlugin('styles.css', {allChunks: true})
+		new ExtractTextPlugin('index.css', {allChunks: true})
 	].filter(x => x)
 };

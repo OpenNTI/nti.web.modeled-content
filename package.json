@@ -5,6 +5,7 @@
   "description": "ReactJS Editor and Renderer for modeled body content",
   "license": "UNLICENSED",
   "main": "./lib/index.js",
+  "style": "./lib/index.css",
   "files": [
     "lib"
   ],
