@@ -45,4 +45,24 @@ describe('Value Convertion', () => {
 		});
 	});
 
+	it ('Should handle: no argument, and null, undefined, [], {}, "" and any truthy value it does not expect. ', () => {
+		function isEmptyState (state) {
+			const content = state.getCurrentContent();
+			const blocks = content.getBlocksAsArray();
+			expect(content.hasText()).toBe(false);
+			expect(blocks.length).toBe(1);
+			expect(blocks[0].type).toBe('unstyled');
+		}
+
+		isEmptyState(getEditorStateFromValue());
+		isEmptyState(getEditorStateFromValue(null));
+		isEmptyState(getEditorStateFromValue(void 0)); //true undefined
+		isEmptyState(getEditorStateFromValue([]));
+		isEmptyState(getEditorStateFromValue({}));
+		isEmptyState(getEditorStateFromValue(''));
+		isEmptyState(getEditorStateFromValue(true));
+		isEmptyState(getEditorStateFromValue(1));
+		isEmptyState(getEditorStateFromValue(new Date()));
+	});
+
 });

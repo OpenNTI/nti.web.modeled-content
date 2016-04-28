@@ -13,7 +13,10 @@ const CLOSE_TAG = x => `</${x}>`;
 const logger = Logger.get('modeled-content:utils');
 
 export function getEditorStateFromValue (value) {
-	if (!value) {
+	if (!value || !value.length) {
+		if (value && !Array.isArray(value)) {
+			logger.warn('Unexpected value: %o', value);
+		}
 		return EditorState.createEmpty();
 	}
 
@@ -56,9 +59,17 @@ export function getEditorStateFromValue (value) {
 		}
 	}
 
-	const content = intermediateState.getCurrentContent();
 
-	return EditorState.createWithContent(content);
+	let result = null;
+
+	if (intermediateState) {
+		const content = intermediateState.getCurrentContent();
+		result = EditorState.createWithContent(content);
+	} else {
+		result = EditorState.createEmpty();
+	}
+
+	return result;
 }
 
 
