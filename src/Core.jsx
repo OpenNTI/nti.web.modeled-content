@@ -109,6 +109,17 @@ export default class Core extends React.Component {
 	}
 
 
+	onTab (e) {
+		const newState = RichUtils.onTab(e, this.state.editorState);
+		if (newState) {
+			this.onChange(newState);
+			return true;
+		}
+
+		return false;
+	}
+
+
 	insertBlock (data) {
 		if (!data || !data.MimeType) {
 			throw new Error('Data must be an object and have a MimeType property');
@@ -225,6 +236,7 @@ export default class Core extends React.Component {
 					editorState={editorState}
 					handleKeyCommand={this.handleKeyCommand}
 					onChange={this.onChange}
+					onTab={this.onTab}
 					placeholder={placeholder}
 					ref={this.setEditor}
 					spellCheck
