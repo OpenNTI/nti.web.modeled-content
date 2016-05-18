@@ -7,6 +7,7 @@ import {REGIONS} from './Toolbar';
 import FormatButton, {Formats} from './FormatButton';
 import InsertImageButton from './InsertImageButton';
 import InsertVideoButton from './InsertVideoButton';
+import InsertFileAttachment from './InsertFileAttachment';
 
 const {SOUTH} = REGIONS;
 
@@ -19,6 +20,7 @@ export default class Editor extends React.Component {
 		className: React.PropTypes.string,
 		allowInsertImage: React.PropTypes.bool,
 		allowInsertVideo: React.PropTypes.bool,
+		allowInsertFile: React.PropTypes.bool,
 		onBlur: React.PropTypes.func,
 		onChange: React.PropTypes.func,
 
@@ -45,6 +47,7 @@ export default class Editor extends React.Component {
 
 
 	static defaultProps = {
+		allowInsertFile: true,
 		allowInsertImage: true,
 		allowInsertVideo: false
 	}
@@ -132,7 +135,7 @@ export default class Editor extends React.Component {
 
 
 	render () {
-		const {props: {allowInsertImage, allowInsertVideo, className, children}, state: {value}} = this;
+		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children}, state: {value}} = this;
 		return (
 			<Core className={className} value={value}
 				getCustomBlockType={getPartType}
@@ -149,6 +152,10 @@ export default class Editor extends React.Component {
 
 				{!allowInsertVideo ? null : (
 					<InsertVideoButton region={SOUTH}/>
+				)}
+
+				{!allowInsertFile ? null : (
+					<InsertFileAttachment region={SOUTH}/>
 				)}
 
 				<div className="right-south" region={SOUTH}>
