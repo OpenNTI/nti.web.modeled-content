@@ -31,9 +31,34 @@ export default class FileAttachment extends React.Component {
 	}
 
 	render () {
+		const {
+			props: {
+				data: {
+					FileMimeType: mimeType,
+					filename,
+					size,
+					download_url: download,
+					url
+					}
+				}
+			} = this;
+
+		const backgroundImage = (/image/.test(mimeType)) ? `url(${url})` : void 0;
+
 		return (
 			<object contentEditable={false} className="body-divider file" unselectable="on">
 				<div className="file-icon" unselectable="on">
+					<div className="icon" style={{backgroundImage}}/>
+					<div className="meta">
+						<div className="text">
+							<h4 className="filename">{filename}</h4>
+							<span right="" className="size">{size}</span>
+						</div>
+						<div className="controls">
+							<a href={download} className="download" target="_self">Download</a>
+							<a href="#">Remove</a>
+						</div>
+					</div>
 				</div>
 			</object>
 		);

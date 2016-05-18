@@ -1,19 +1,66 @@
 @import "~nti-style-common";
 
 .body-divider.file {
+	display: block;
 
 	.file-icon {
-		width: 35px;
-		height: 42px;
-
-		display: inline-block;
-		position: relative;
-		overflow: hidden;
 		cursor: pointer;
 		padding: 0px;
-		margin: 5px 2px;
+		margin: 7px 0;
+		width: 300px;
+		max-width: 90%;
+
+		position: relative;
+		overflow: hidden;
+
+		background-color: #ececec;
 		border: 1px solid $tertiary-grey;
-		box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
+		// box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
 		border-radius: 1px;//iOS fix for box-shadow
+
+		.icon {
+			display: block;
+			padding-top: 53.3333333%;
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		.meta {
+			// position: relative;
+			display: block;
+			background-color: white;
+			padding: .625rem .75rem;
+			margin: 0;
+
+			.filename {
+				color: $primary-grey;
+				border-bottom: none;
+				font-size: .875rem;
+				font-weight: 600;
+				line-height: 1.5;
+				margin: 0;
+				padding: 0;
+
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.size {
+				display: block;
+				color: $tertiary-grey;
+				font-size: .625rem;
+				font-weight: 600;
+				line-height: 2.4;
+				padding: 0;
+				margin: 0;
+			}
+		}
+
+		.controls {
+			position: absolute;
+			display: none;
+		}
 	}
 }
