@@ -1,6 +1,8 @@
 import EditorCore from './Core';
 import Editor from './Editor';
 
+import {FileAttachmentIcon, VideoIcon, WhiteboardIcon} from './editor-parts';
+
 import FormatButton from './FormatButton';
 import ToolMixin from './ToolMixin';
 import {REGIONS as ToolbarRegions} from './Toolbar';
@@ -13,5 +15,9 @@ export {
 	EditorCore,
 	FormatButton,
 	ToolMixin,
-	ToolbarRegions
+	ToolbarRegions,
+
+	FileAttachmentIcon,
+	VideoIcon,
+	WhiteboardIcon
 };

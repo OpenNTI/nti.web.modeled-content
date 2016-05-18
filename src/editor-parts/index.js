@@ -1,11 +1,19 @@
 import Unknown from './Unknown';
+import FileAttachmentIcon from './FileAttachmentIcon';
 import VideoIcon from './VideoIcon';
 import WhiteboardIcon from './WhiteboardIcon';
 
 const Icons = [
+	FileAttachmentIcon,
 	VideoIcon,
 	WhiteboardIcon
 ];
+
+export {
+	FileAttachmentIcon,
+	VideoIcon,
+	WhiteboardIcon
+};
 
 export default function selectIcon (data) {
 	let result = Unknown;
