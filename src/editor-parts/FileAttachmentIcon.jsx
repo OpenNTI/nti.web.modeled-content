@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {URL} from 'nti-lib-dom';
+const AssetIcon = 'div';
 /*
  *          Class : "ContentBlobFile"
  *    CreatedTime : 1463589919.99757
@@ -83,8 +84,14 @@ export default class FileAttachment extends React.Component {
 
 
 	getBackgroundImage () {
-		const {backgroundImage: url} = this.state;
-		return url ? {backgroundImage: `url(${url})`} : void 0;
+		const {
+			props: {data: {url} = {}},
+			state: {backgroundImage}
+		} = this;
+
+		const value = backgroundImage || url;
+
+		return (this.isImage() && value) ? {backgroundImage: `url(${value})`} : void 0;
 	}
 
 
@@ -94,15 +101,21 @@ export default class FileAttachment extends React.Component {
 				data: {
 					filename,
 					size,
-					download_url: download
-				}
+					download_url: download,
+					url
+				} = {}
 			}
 		} = this;
+		const image = this.isImage();
 
 		return (
 			<object contentEditable={false} className="body-divider file" unselectable="on">
 				<div className="file-icon" unselectable="on">
-					<div className={cx('icon', {image: this.isImage()})} style={this.getBackgroundImage()}/>
+					<div className={cx('icon', {image})} style={this.getBackgroundImage()}>
+						{!image && (
+							<AssetIcon mimeType={this.getType()} href={url}/>
+						)}
+					</div>
 					<div className="meta">
 						<div className="text">
 							<h4 className="filename">{filename}</h4>
