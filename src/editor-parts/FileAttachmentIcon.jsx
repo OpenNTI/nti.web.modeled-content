@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
+import filesize from 'filesize';
 import {URL} from 'nti-lib-dom';
 import {AssetIcon} from 'nti-web-commons';
 
@@ -168,7 +169,7 @@ export default class FileAttachment extends React.Component {
 					<div className="meta">
 						<h4 className="filename">{filename}</h4>
 						<div className="details">
-							<span right="" className="size">{size}</span>
+							<span right="" className="size">{filesize(size || 0)}</span>
 							{!inEditor && download && ( <a href={download} onClick={consume} download target="_self">Download</a> )}
 							{inEditor && ( <a href="#" onClick={this.onRemove}>Remove</a> )}
 						</div>
