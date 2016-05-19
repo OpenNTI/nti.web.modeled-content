@@ -8,6 +8,7 @@
 		padding: 0px;
 		margin: 7px 0;
 		width: 300px;
+		min-width: 115px;
 		max-width: 90%;
 
 		position: relative;
@@ -18,16 +19,23 @@
 		// box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
 		border-radius: 1px;//iOS fix for box-shadow
 
-		.icon {
+		.icon-container {
 			display: block;
-			padding-top: 53.3333333%;
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
 			&.image {
+				padding-top: 53.3333333%;
 				background-color: white;
 			}
+
+			.file-type.icon {
+				margin: 0.625rem auto;
+				width: 100px;
+				height: 125px;
+			}
 		}
+
 
 		.meta {
 			// position: relative;
@@ -35,6 +43,12 @@
 			background-color: white;
 			padding: .625rem .75rem;
 			margin: 0;
+
+			.filename, .size {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
 
 			.filename {
 				color: $primary-grey;
@@ -44,14 +58,27 @@
 				line-height: 1.5;
 				margin: 0;
 				padding: 0;
+			}
 
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
+			.details {
+				display: flex;
+				align-items: center;
+				a {
+					display: inline-block;
+					flex: 0 0 auto;
+					white-space: nowrap;
+					cursor: pointer;
+					font-size: 0.625rem;
+
+					&, &:active, &:visited, &:hover {
+						color: $primary-blue;
+					}
+				}
 			}
 
 			.size {
-				display: block;
+				flex: 1 1 100%;
+				display: inline-block;
 				color: $tertiary-grey;
 				font-size: .625rem;
 				font-weight: 600;
@@ -59,11 +86,6 @@
 				padding: 0;
 				margin: 0;
 			}
-		}
-
-		.controls {
-			position: absolute;
-			display: none;
 		}
 	}
 }

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import {URL} from 'nti-lib-dom';
-const AssetIcon = 'div';
+import {AssetIcon} from 'nti-web-commons';
+
 /*
+ * File Ref from Server:
+ *
  *          Class : "ContentBlobFile"
  *    CreatedTime : 1463589919.99757
  *   FileMimeType : "image/png"
@@ -12,17 +15,31 @@ const AssetIcon = 'div';
  *            OID : "tag:nextthought.com,2011-10:system-OID-0x49c8c7:5573657273"
  *    contentType : "image/png"
  *   download_url : "/dataserver2/.../@@download"
- *       filename : "Logo.png"
+ *       filename : "Filename.png"
  *             id : "2e7f8971-fdc5-49fb-a72f-0a1c15c9d5cb"
  *           name : "96fc0fa7-cfbd-fcde-f8f7-0cd119fe880a"
  *           size : 13697
- *            url : "/dataserver2/.../@@view/Logo.png"
- *          value : "/dataserver2/.../@@view/Logo.png"
+ *            url : "/dataserver2/.../@@view/Filename.png"
+ *          value : "/dataserver2/.../@@view/Filename.png"
+ *
+ * If a NEW file (not posted):
+ *
+ *       MimeType : "application/vnd.nextthought.contentfile"
+ *   FileMimeType : "image/png"
+ *    contentType : "image/png"
+ *       filename : "Filename.png"
+ *           size : 13697
+ *           file : {File instance}
  */
+
 export default class FileAttachment extends React.Component {
 
 	static propTypes = {
-		data: React.PropTypes.object.isRequired
+		data: PropTypes.object.isRequired
+	}
+
+	static contextTypes = {
+		editor: PropTypes.object
 	}
 
 	static handles (data) {
@@ -31,13 +48,15 @@ export default class FileAttachment extends React.Component {
 
 	constructor (props) {
 		super(props);
-		this.resolveIcon(props);
+		this.setupIconImage(props);
+		this.onPreview = this.onPreview.bind(this);
+		this.onRemove = this.onRemove.bind(this);
 	}
 
 
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.data !== this.props.data) {
-			this.resolveIcon(nextProps);
+			this.setupIconImage(nextProps);
 		}
 	}
 
@@ -48,16 +67,20 @@ export default class FileAttachment extends React.Component {
 
 
 	freeIcon () {
-		const {backgroundImage: url} = this.state || {};
-		if (url) {
-			URL.revokeObjectURL(url);
+		const {
+			props: {data: {url} = {}},
+			state: {backgroundImage: allocated} = {}
+		} = this;
+
+		if (allocated && allocated !== url) {
+			URL.revokeObjectURL(allocated);
 		}
 	}
 
 
-	resolveIcon (props) {
-		let backgroundImage = void 0;
-		const {file} = props.data;
+	setupIconImage (props) {
+		const {file, url} = props.data;
+		let backgroundImage = url;
 
 		this.freeIcon();
 
@@ -95,10 +118,27 @@ export default class FileAttachment extends React.Component {
 	}
 
 
+
+	onPreview () {}
+
+
+	onRemove (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		const {context: {editor}, props: {data}} = this;
+
+		editor.removeBlock(data);
+	}
+
+
 	render () {
 		const {
+			context: {
+				editor
+			},
 			props: {
 				data: {
+					FileMimeType,
 					filename,
 					size,
 					download_url: download,
@@ -106,24 +146,24 @@ export default class FileAttachment extends React.Component {
 				} = {}
 			}
 		} = this;
+
+		const inEditor = !!editor;
 		const image = this.isImage();
 
 		return (
 			<object contentEditable={false} className="body-divider file" unselectable="on">
-				<div className="file-icon" unselectable="on">
-					<div className={cx('icon', {image})} style={this.getBackgroundImage()}>
+				<div className="file-icon" unselectable="on" onClick={this.onPreview}>
+					<div className={cx('icon-container', {image})} style={this.getBackgroundImage()}>
 						{!image && (
-							<AssetIcon mimeType={this.getType()} href={url}/>
+							<AssetIcon mimeType={FileMimeType} href={url || filename}/>
 						)}
 					</div>
 					<div className="meta">
-						<div className="text">
-							<h4 className="filename">{filename}</h4>
+						<h4 className="filename">{filename}</h4>
+						<div className="details">
 							<span right="" className="size">{size}</span>
-						</div>
-						<div className="controls">
-							<a href={download} className="download" target="_self">Download</a>
-							<a href="#">Remove</a>
+							{download && ( <a href={download} target="_self">Download</a> )}
+							{inEditor && ( <a href="#" onClick={this.onRemove}>Remove</a> )}
 						</div>
 					</div>
 				</div>

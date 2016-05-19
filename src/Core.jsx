@@ -168,6 +168,10 @@ export default class Core extends React.Component {
 	}
 
 
+	removeBlock (data) {
+	}
+
+
 	toggleBlockType (blockType) {
 		this.onChange(
 			RichUtils.toggleBlockType(

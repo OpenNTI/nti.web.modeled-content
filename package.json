@@ -43,6 +43,7 @@
     "nti-lib-whiteboardjs": "^1.2.1",
     "nti-util-ios-version": "^1.0.0",
     "nti-util-logger": "^1.0.0",
+    "nti-web-commons": "^1.0.0-alpha",
     "nti-web-video": "^1.1.11",
     "object-hash": "^1.1.2"
   },

@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import {Editor} from '../../src/index';
 
 import 'normalize.css';
+import 'nti-web-commons/lib/index.css';
 
 const editor = ReactDOM.render(
 	<Editor allowInsertVideo allowInsertImage/>,
