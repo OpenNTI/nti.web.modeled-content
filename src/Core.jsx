@@ -4,8 +4,11 @@ import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
 	Editor,
+	EditorState,
 	Entity,
+	Modifier,
 	RichUtils,
+	SelectionState,
 	convertToRaw
 } from 'draft-js';
 
@@ -58,6 +61,7 @@ export default class Core extends React.Component {
 		onBlur: () => {},
 		onChange: () => {}
 	}
+
 
 	constructor (props) {
 		super(props);
@@ -168,7 +172,56 @@ export default class Core extends React.Component {
 	}
 
 
-	removeBlock (data) {
+	removeBlock (dataOrKey) {
+		const {editorState} = this.state;
+
+		function isBlockWithData (contentBlock) {
+			const key = contentBlock.getEntityAt(0);
+			const entity = key && Entity.get(key);
+			return entity && dataOrKey === entity.getData();
+		}
+
+		function remove (content, range) {
+			let result = Modifier.removeRange(content, range, 'backward');
+			result = Modifier.setBlockType(result, result.getSelectionAfter(), 'unstyled');
+			return result;
+		}
+
+		const getBlock = (content) =>
+			typeof dataOrKey === 'string'
+				? content.getBlockForKey(dataOrKey)
+				: content.getBlocksAsArray().find(isBlockWithData);
+
+		const content = editorState.getCurrentContent();
+		const block = getBlock(content);
+
+		if (!block) {
+			logger.warn('No block found for %o', dataOrKey);
+			return;
+		}
+
+		const blockKey = block.getKey();
+		//There should always be a regular text block after a custom atomic block... just in case there isn't... fallback.
+		const focusKey = content.getKeyAfter(blockKey) || block.getKey();
+		const focusOffset = focusKey !== blockKey ? 0 : block.getLength();
+
+		const range = new SelectionState({
+			anchorKey: blockKey,
+			anchorOffset: 0,
+			focusKey,
+			focusOffset
+		});
+
+		const newContent = remove(content, range);
+		logger.debug(newContent.getBlocksAsArray().map(x => (x.getKey() + ' ' + x.getType())));
+
+		const newState = EditorState.push(editorState, newContent, 'remove-range');
+		this.onChange(
+			EditorState.forceSelection(
+				newState,
+				newContent.getSelectionAfter()
+			)
+		);
 	}
 
 
@@ -299,7 +352,7 @@ function Block (props) {
 
 		let CustomBlock = getCustomBlockType(data);
 
-		return <CustomBlock data={data}/>;
+		return <CustomBlock data={data} blockKey={block.getKey()}/>;
 	} catch (e) {
 		// Entity.get() throws if the entity is not there. Assume no Block for bad entities.
 		logger.error('%s %o', e.message, block);
