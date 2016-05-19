@@ -1,4 +1,6 @@
 import React from 'react';
+import cx from 'classnames';
+import {URL} from 'nti-lib-dom';
 /*
  *          Class : "ContentBlobFile"
  *    CreatedTime : 1463589919.99757
@@ -26,29 +28,81 @@ export default class FileAttachment extends React.Component {
 		return data && data.MimeType === 'application/vnd.nextthought.contentfile';
 	}
 
+	constructor (props) {
+		super(props);
+		this.resolveIcon(props);
+	}
+
+
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.data !== this.props.data) {
+			this.resolveIcon(nextProps);
+		}
+	}
+
+
+	componentWillUnmount () {
+		this.freeIcon();
+	}
+
+
+	freeIcon () {
+		const {backgroundImage: url} = this.state || {};
+		if (url) {
+			URL.revokeObjectURL(url);
+		}
+	}
+
+
+	resolveIcon (props) {
+		let backgroundImage = void 0;
+		const {file} = props.data;
+
+		this.freeIcon();
+
+		if (this.isImage(props) && file) {
+			backgroundImage = URL.createObjectURL(file);
+		}
+
+		if (!this.state) {
+			this.state = {backgroundImage};
+		} else {
+			this.setState({backgroundImage});
+		}
+	}
+
+
 	getValue () {
 		return this.props.data;
 	}
+
+
+	isImage (props = this.props) {
+		return (/image/.test(props.data.FileMimeType));
+	}
+
+
+	getBackgroundImage () {
+		const {backgroundImage: url} = this.state;
+		return url ? {backgroundImage: `url(${url})`} : void 0;
+	}
+
 
 	render () {
 		const {
 			props: {
 				data: {
-					FileMimeType: mimeType,
 					filename,
 					size,
-					download_url: download,
-					url
-					}
+					download_url: download
 				}
-			} = this;
-
-		const backgroundImage = (/image/.test(mimeType)) ? `url(${url})` : void 0;
+			}
+		} = this;
 
 		return (
 			<object contentEditable={false} className="body-divider file" unselectable="on">
 				<div className="file-icon" unselectable="on">
-					<div className="icon" style={{backgroundImage}}/>
+					<div className={cx('icon', {image: this.isImage()})} style={this.getBackgroundImage()}/>
 					<div className="meta">
 						<div className="text">
 							<h4 className="filename">{filename}</h4>
