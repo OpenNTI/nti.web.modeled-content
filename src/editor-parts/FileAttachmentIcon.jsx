@@ -3,6 +3,9 @@ import cx from 'classnames';
 import {URL} from 'nti-lib-dom';
 import {AssetIcon} from 'nti-web-commons';
 
+const consume = e => e.stopPropagation();
+
+
 /*
  * File Ref from Server:
  *
@@ -35,7 +38,8 @@ import {AssetIcon} from 'nti-web-commons';
 export default class FileAttachment extends React.Component {
 
 	static propTypes = {
-		data: PropTypes.object.isRequired
+		data: PropTypes.object.isRequired,
+		blockKey: PropTypes.string
 	}
 
 	static contextTypes = {
@@ -119,15 +123,18 @@ export default class FileAttachment extends React.Component {
 
 
 
-	onPreview () {}
+	onPreview (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		//logger.debug('Open Preview, if you can');
+	}
 
 
 	onRemove (e) {
 		e.preventDefault();
 		e.stopPropagation();
-		const {context: {editor}, props: {data}} = this;
-
-		editor.removeBlock(data);
+		const {context: {editor}, props: {blockKey, data}} = this;
+		editor.removeBlock(blockKey || data);
 	}
 
 
@@ -162,7 +169,7 @@ export default class FileAttachment extends React.Component {
 						<h4 className="filename">{filename}</h4>
 						<div className="details">
 							<span right="" className="size">{size}</span>
-							{download && ( <a href={download} target="_self">Download</a> )}
+							{!inEditor && download && ( <a href={download} onClick={consume} target="_self">Download</a> )}
 							{inEditor && ( <a href="#" onClick={this.onRemove}>Remove</a> )}
 						</div>
 					</div>
