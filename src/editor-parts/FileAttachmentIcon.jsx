@@ -169,7 +169,7 @@ export default class FileAttachment extends React.Component {
 						<h4 className="filename">{filename}</h4>
 						<div className="details">
 							<span right="" className="size">{size}</span>
-							{!inEditor && download && ( <a href={download} onClick={consume} target="_self">Download</a> )}
+							{!inEditor && download && ( <a href={download} onClick={consume} download target="_self">Download</a> )}
 							{inEditor && ( <a href="#" onClick={this.onRemove}>Remove</a> )}
 						</div>
 					</div>
