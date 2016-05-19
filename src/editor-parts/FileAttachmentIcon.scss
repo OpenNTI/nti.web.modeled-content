@@ -26,7 +26,6 @@
 			background-repeat: no-repeat;
 			&.image {
 				padding-top: 53.3333333%;
-				background-color: white;
 			}
 
 			.file-type.icon {
@@ -85,6 +84,16 @@
 				line-height: 2.4;
 				padding: 0;
 				margin: 0;
+			}
+		}
+
+		.no-touch & {
+			.meta .details a {
+				visibility: hidden;
+			}
+
+			&:hover .meta .details a {
+				visibility: visible;
 			}
 		}
 	}
