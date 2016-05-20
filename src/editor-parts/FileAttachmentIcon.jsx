@@ -44,7 +44,8 @@ export default class FileAttachment extends React.Component {
 	}
 
 	static contextTypes = {
-		editor: PropTypes.object
+		editor: PropTypes.object,
+		viewFileAttachment: PropTypes.func
 	}
 
 	static handles (data) {
@@ -54,7 +55,7 @@ export default class FileAttachment extends React.Component {
 	constructor (props) {
 		super(props);
 		this.setupIconImage(props);
-		this.onPreview = this.onPreview.bind(this);
+		this.onView = this.onView.bind(this);
 		this.onRemove = this.onRemove.bind(this);
 	}
 
@@ -124,10 +125,13 @@ export default class FileAttachment extends React.Component {
 
 
 
-	onPreview (e) {
+	onView (e) {
 		e.preventDefault();
 		e.stopPropagation();
-		//logger.debug('Open Preview, if you can');
+		const {viewFileAttachment} = this.context;
+		if (viewFileAttachment) {
+			viewFileAttachment(this.getValue());
+		}
 	}
 
 
@@ -160,7 +164,7 @@ export default class FileAttachment extends React.Component {
 
 		return (
 			<object contentEditable={false} className="body-divider file" unselectable="on">
-				<div className="file-icon" unselectable="on" onClick={this.onPreview}>
+				<div className="file-icon" unselectable="on" onClick={this.onView}>
 					<div className={cx('icon-container', {image})} style={this.getBackgroundImage()}>
 						{!image && (
 							<AssetIcon mimeType={FileMimeType} href={url || filename}/>
