@@ -47,7 +47,7 @@ export default class Editor extends React.Component {
 
 
 	static defaultProps = {
-		allowInsertFile: true,
+		allowInsertFile: false,
 		allowInsertImage: true,
 		allowInsertVideo: false
 	}
