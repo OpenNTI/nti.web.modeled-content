@@ -1,7 +1,5 @@
 @import "~nti-style-common";
 
-%icon-edit-14 {background-image: url(../assets/image-edit-14.png);}
-
 .body-divider.whiteboard {
 	cursor: pointer;
 
@@ -47,7 +45,7 @@
 				transform: translate3d(-50%, -50%, 0);
 
 				&::after {
-					@extend %icon-edit-14;
+					background-image: url(../assets/image-edit-14.png);
 					content: ' ';
 					position: absolute;
 					top: 5px;

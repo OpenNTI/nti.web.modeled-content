@@ -43,24 +43,24 @@ exports = module.exports = {
 		preLoaders: [
 			{
 				test: /src.+jsx?$/,
-				loader: 'baggage?[file].scss'
+				loader: 'baggage-loader?[file].scss'
 			}
 		],
 		loaders: [
 			{
 				test: /\.js(x?)$/,
 				exclude: /node_modules/,
-				loader: 'babel',
+				loader: 'babel-loader',
 				query: {
 					sourceMaps: true
 				}
 			},
 
-			{ test: /\.json$/, loader: 'json' },
+			{ test: /\.json$/, loader: 'json-loader' },
 
 			{
 				test: /\.(ico|gif|png|jpg|svg)$/,
-				loader: 'url',
+				loader: 'url-loader',
 				query: {
 					limit: 500,
 					name: 'assets/[name]-[hash].[ext]',
@@ -70,7 +70,7 @@ exports = module.exports = {
 
 			{ test: /\.(s?)css$/, loader: ExtractTextPlugin.extract(
 				'style-loader',
-				'css?sourceMap&-minimize!postcss!resolve-url!sass'
+				'css-loader?sourceMap&-minimize!postcss-loader!resolve-url-loader!sass-loader'
 				)
 			}
 		]

@@ -1,11 +1,9 @@
 @import "~nti-style-common";
 
-%icon-editor-content-object {background-image: url(../assets/filetype-unknown.png);}
-
 .body-divider.unknown {
 
 	.unknown-icon {
-		@extend %icon-editor-content-object;
+		background-image: url(../assets/filetype-unknown.png);
 		width: 35px;
 		height: 42px;
 		background-repeat: no-repeat;

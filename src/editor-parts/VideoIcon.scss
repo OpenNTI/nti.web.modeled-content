@@ -1,12 +1,10 @@
 @import "~nti-style-common";
 
-%icon-editor-content-video {background-image: url(../assets/filetype-video.png);}
-
 .body-divider.video {
 	cursor: pointer;
 
 	.video-icon {
-		@extend %icon-editor-content-video;
+		background-image: url(../assets/filetype-video.png);
 		width: 35px;
 		height: 42px;
 		background-repeat: no-repeat;
