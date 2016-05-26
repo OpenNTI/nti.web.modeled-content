@@ -30,7 +30,7 @@ exports = module.exports = {
 
 
 	postcss: [
-		autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })
+		autoprefixer({ browsers: ['> 1%', 'last 2 versions', 'iOS > 8'] })
 	],
 
 
