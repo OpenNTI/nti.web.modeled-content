@@ -80,7 +80,8 @@ export default class Editor extends React.Component {
 	 * this will do its best to handle them.
 	 */
 	getValue () {
-		return this.editor.getValue();
+		const {editor} = this;
+		return editor && editor.getValue();
 	}
 
 
@@ -89,6 +90,7 @@ export default class Editor extends React.Component {
 		this.state = {};
 		this.setupValue(props, true);
 		this.logState = () => this.editor.logState();
+		this.attachEditorRef = ref => this.editor = ref;
 	}
 
 
@@ -141,7 +143,7 @@ export default class Editor extends React.Component {
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
 				onBlur={this.props.onBlur}
-				ref={c => this.editor = c}>
+				ref={this.attachEditorRef}>
 				<FormatButton format={Formats.BOLD} region={SOUTH}/>
 				<FormatButton format={Formats.ITALIC} region={SOUTH}/>
 				<FormatButton format={Formats.UNDERLINE} region={SOUTH}/>
