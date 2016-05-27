@@ -108,12 +108,17 @@ export default class Core extends React.Component {
 			props: {onChange}
 		} = this;
 
-		this.setState({editorState}, cb);
-		onChange();
+		this.setState({editorState}, () => {
+			if (typeof cb === 'function') {
+				cb.call();
+			}
 
-		if(!hasFocus && old.getSelection().getHasFocus() !== hasFocus) {
-			setTimeout(this.onBlur, 1);
-		}
+			onChange();
+
+			if(!hasFocus && old.getSelection().getHasFocus() !== hasFocus) {
+				setTimeout(this.onBlur, 1);
+			}
+		});
 	}
 
 
