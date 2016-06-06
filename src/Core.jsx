@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import Logger from 'nti-util-logger';
 import {
@@ -35,25 +35,25 @@ const styleMap = {
 export default class Core extends React.Component {
 
 	static propTypes = {
-		children: React.PropTypes.any,
-		className: React.PropTypes.string,
-		getCustomBlockType: React.PropTypes.func,
-		onBlur: React.PropTypes.func,
-		onChange: React.PropTypes.func,
-		placeholder: React.PropTypes.string,
-		value: React.PropTypes.arrayOf(
-			React.PropTypes.oneOfType([
-				React.PropTypes.string,
-				React.PropTypes.shape({
-					MimeType: React.PropTypes.string
+		children: PropTypes.any,
+		className: PropTypes.string,
+		getCustomBlockType: PropTypes.func,
+		onBlur: PropTypes.func,
+		onChange: PropTypes.func,
+		placeholder: PropTypes.string,
+		value: PropTypes.arrayOf(
+			PropTypes.oneOfType([
+				PropTypes.string,
+				PropTypes.shape({
+					MimeType: PropTypes.string
 				})
 			]))
 	}
 
 	static childContextTypes = {
-		editor: React.PropTypes.any,
-		toggleFormat: React.PropTypes.func,
-		currentFormat: React.PropTypes.object
+		editor: PropTypes.any,
+		toggleFormat: PropTypes.func,
+		currentFormat: PropTypes.object
 	}
 
 	static defaultProps = {
@@ -342,9 +342,9 @@ export default class Core extends React.Component {
 
 
 Block.propTypes = {
-	block: React.PropTypes.object.isRequired,
-	blockProps: React.PropTypes.shape({
-		getCustomBlockType: React.PropTypes.func
+	block: PropTypes.object.isRequired,
+	blockProps: PropTypes.shape({
+		getCustomBlockType: PropTypes.func
 	}).isRequired
 };
 

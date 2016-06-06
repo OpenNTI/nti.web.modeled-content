@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import getPartType from './editor-parts';
 
@@ -16,28 +16,28 @@ const WHITESPACE_ENTITIES_AND_TAGS = /((<[^>]+>)|&nbsp;|[\s\r\n])+/ig;
 export default class Editor extends React.Component {
 
 	static propTypes = {
-		children: React.PropTypes.any,
-		className: React.PropTypes.string,
-		allowInsertImage: React.PropTypes.bool,
-		allowInsertVideo: React.PropTypes.bool,
-		allowInsertFile: React.PropTypes.bool,
-		onBlur: React.PropTypes.func,
-		onChange: React.PropTypes.func,
+		children: PropTypes.any,
+		className: PropTypes.string,
+		allowInsertImage: PropTypes.bool,
+		allowInsertVideo: PropTypes.bool,
+		allowInsertFile: PropTypes.bool,
+		onBlur: PropTypes.func,
+		onChange: PropTypes.func,
 
 		/**
 		 * The raw or parsed modeled content body.
 		 *
 		 * @type {String|Array[String|Object]}
 		 */
-		initialValue: React.PropTypes.oneOfType([
+		initialValue: PropTypes.oneOfType([
 
-			React.PropTypes.string,
+			PropTypes.string,
 
-			React.PropTypes.arrayOf(
-				React.PropTypes.oneOfType([
-					React.PropTypes.string,
-					React.PropTypes.shape({
-						MimeType: React.PropTypes.string
+			PropTypes.arrayOf(
+				PropTypes.oneOfType([
+					PropTypes.string,
+					PropTypes.shape({
+						MimeType: PropTypes.string
 					})
 				]))
 		]),
