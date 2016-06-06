@@ -13,11 +13,17 @@ const CLOSE_TAG = x => `</${x}>`;
 const logger = Logger.get('modeled-content:utils');
 
 export function getEditorStateFromValue (value) {
+	//falsy values and empty arrays. (empty strings are falsy)
 	if (!value || !value.length) {
 		if (value && !Array.isArray(value)) {
 			logger.warn('Unexpected value: %o', value);
 		}
 		return EditorState.createEmpty();
+	}
+
+	if (typeof value === 'string') {
+		logger.debug('Auto-wrapping string with array. Passed a string instead of an array: %s', value);
+		value = [value];
 	}
 
 	let intermediateState;

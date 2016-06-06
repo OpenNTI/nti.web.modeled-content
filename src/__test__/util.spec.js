@@ -60,6 +60,10 @@ describe('Value Convertion', () => {
 			expect(blocks[0].type).toBe('unstyled');
 		}
 
+		function isNotEmptyState (state) {
+			expect(state.getCurrentContent().hasText()).toBe(true);
+		}
+
 		isEmptyState(getEditorStateFromValue());
 		isEmptyState(getEditorStateFromValue(null));
 		isEmptyState(getEditorStateFromValue(void 0)); //true undefined
@@ -69,6 +73,8 @@ describe('Value Convertion', () => {
 		isEmptyState(getEditorStateFromValue(true));
 		isEmptyState(getEditorStateFromValue(1));
 		isEmptyState(getEditorStateFromValue(new Date()));
+
+		isNotEmptyState(getEditorStateFromValue('Some Text'));
 	});
 
 
