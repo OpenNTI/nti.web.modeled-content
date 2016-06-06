@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
+import invariant from 'invariant';
+
 import autobind from 'nti-commons/lib/autobind';
 import Logger from 'nti-util-logger';
 import {
@@ -47,6 +49,7 @@ export default class Core extends React.Component {
 			PropTypes.node,
 			PropTypes.arrayOf(PropTypes.node)
 		]),
+		plugins: PropTypes.arrayOf(PropTypes.object),
 		value: PropTypes.arrayOf(
 			PropTypes.oneOfType([
 				PropTypes.string,
@@ -65,6 +68,7 @@ export default class Core extends React.Component {
 	static defaultProps = {
 		placeholder: 'Type a message...',
 		toolbars: true,
+		plugins: [],
 		onBlur: () => {},
 		onChange: () => {}
 	}
@@ -78,7 +82,6 @@ export default class Core extends React.Component {
 		};
 
 		this.focus = () => this.editor.focus();
-		this.getValue = () => getValueFromEditorState(this.state.editorState);
 
 		this.setEditor = (e) => this.editor = e;
 		this.logState = () => {
@@ -88,6 +91,7 @@ export default class Core extends React.Component {
 		};
 
 		autobind(this,
+			'getValue',
 			'handleKeyCommand',
 			'onChange',
 			'onBlur',
@@ -96,6 +100,11 @@ export default class Core extends React.Component {
 			'toggleBlockType',
 			'toggleInlineStyle'
 		);
+	}
+
+
+	plugins (props = this.props) {
+		return props.plugins || Core.defaultProps.plugins;
 	}
 
 
@@ -140,6 +149,18 @@ export default class Core extends React.Component {
 			toggleFormat: (x) => this.toggleInlineStyle(x, true),
 			currentFormat: this.state.editorState.getCurrentInlineStyle()
 		};
+	}
+
+
+	getValue () {
+		const value = getValueFromEditorState(this.state.editorState);
+		const valuePlugins = this.plugins().filter(x => x.getValue);
+
+		invariant(valuePlugins.length > 1, 'More than one plugin defines getValue! '
+			+ 'If this is intended, make a high-order plugin that composes these to ensure value filter order.');
+
+		const [plugin] = valuePlugins;
+		return plugin ? plugin.getValue(value) : value;
 	}
 
 
