@@ -1,4 +1,5 @@
 import EditorCore from './Core';
+import EditorContextProvider from './CoreContextProvider';
 import Editor from './Editor';
 
 import {FileAttachmentIcon, VideoIcon, WhiteboardIcon} from './editor-parts';
@@ -12,6 +13,7 @@ const Panel = function () {}; //placeholder for Panel Component
 export {
 	Editor,
 	Panel,
+	EditorContextProvider,
 	EditorCore,
 	FormatButton,
 	Toolbar,

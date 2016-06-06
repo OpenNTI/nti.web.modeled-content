@@ -15,6 +15,7 @@ import {
 	convertToRaw
 } from 'draft-js';
 
+import CoreContextProvider from './CoreContextProvider';
 import Toolbar, {REGIONS} from './Toolbar';
 
 import {
@@ -59,11 +60,6 @@ export default class Core extends React.Component {
 			]))
 	}
 
-	static childContextTypes = {
-		editor: PropTypes.any,
-		toggleFormat: PropTypes.func,
-		currentFormat: PropTypes.object
-	}
 
 	static defaultProps = {
 		placeholder: 'Type a message...',
@@ -140,15 +136,6 @@ export default class Core extends React.Component {
 		if (value !== this.props.value) {
 			this.onChange(getEditorStateFromValue(value));
 		}
-	}
-
-
-	getChildContext () {
-		return {
-			editor: this,
-			toggleFormat: (x) => this.toggleInlineStyle(x, true),
-			currentFormat: this.state.editorState.getCurrentInlineStyle()
-		};
 	}
 
 
@@ -339,6 +326,7 @@ export default class Core extends React.Component {
 		const customToolbars = toolbars !== true && toolbars !== false && toolbars;
 
 		return (
+			<CoreContextProvider editor={this}>
 			<div onClick={this.focus} className={cx(
 				'nti-rich-text',
 				'editor',
@@ -366,6 +354,7 @@ export default class Core extends React.Component {
 				/>
 				{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} children={children} defaultSet={basicView}/> )}
 			</div>
+			</CoreContextProvider>
 		);
 	}
 }
