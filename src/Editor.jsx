@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import cx from 'classnames';
 
 import getPartType from './editor-parts';
 
@@ -139,7 +140,7 @@ export default class Editor extends React.Component {
 	render () {
 		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children}, state: {value}} = this;
 		return (
-			<Core className={className} value={value}
+			<Core className={cx('modeled-content-editor', className)} value={value}
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
 				onBlur={this.props.onBlur}

@@ -311,7 +311,7 @@ export default class Core extends React.Component {
 
 		return (
 			<div onClick={this.focus} className={cx(
-				'modeled-content-editor',
+				'nti-rich-text',
 				'editor',
 				className,
 				{
