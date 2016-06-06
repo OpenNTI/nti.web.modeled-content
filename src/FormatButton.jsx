@@ -4,12 +4,13 @@ import cx from 'classnames';
 const clone = x =>
 	typeof x === 'string' ? x : React.cloneElement(x);
 
-export const Formats = {
+export const Formats = Object.freeze({
+	//Treat as an enum. Keys and values must equal each other.
 	CODE: 'CODE',
 	BOLD: 'BOLD',
 	ITALIC: 'ITALIC',
 	UNDERLINE: 'UNDERLINE'
-};
+});
 
 export default class FormatButton extends React.Component {
 
@@ -21,7 +22,7 @@ export default class FormatButton extends React.Component {
 
 	static propTypes = {
 		children: React.PropTypes.any,
-		format: React.PropTypes.oneOf(Object.values(Formats)).isRequired
+		format: React.PropTypes.oneOf(Object.keys(Formats)).isRequired
 	}
 
 
