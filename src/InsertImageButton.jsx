@@ -2,30 +2,27 @@ import React from 'react';
 import Logger from 'nti-util-logger';
 import {createFromImage, URL} from 'nti-lib-whiteboardjs/lib/utils';
 
-import ToolMixin from './ToolMixin';
+import Tool from './Tool';
 
 import iOSversion from 'nti-util-ios-version';
 
 const logger = Logger.get('modeled-content:components:InsertImageButton');
 
-export default React.createClass({
-	displayName: 'InsertImageButton',
-	mixins: [ToolMixin],
+export default class InsertImageButton extends Tool {
 
 
-	getInitialState () {
-		return {
-			disabled: true
-		};
-	},
+	constructor (props) {
+		super(props);
 
+		this.state = { disabled: true };
+		const iOSV = iOSversion();
 
-	componentWillMount () {
-		let iOSV = iOSversion();
 		if (iOSV == null || iOSV[0] > 7) {
-			this.setState({disabled: false});
+			this.state.disabled = false;
 		}
-	},
+
+		this.onSelect = this.onSelect.bind(this);
+	}
 
 
 	render () {
@@ -39,7 +36,7 @@ export default React.createClass({
 				<input type="file" accept="image/*" multiple onChange={this.onSelect}/>
 			</div>
 		);
-	},
+	}
 
 
 	insertWhiteboard (scene/*, last*/) {
@@ -50,12 +47,12 @@ export default React.createClass({
 		// } else {
 		// 	node.scrollIntoView();
 		// }
-	},
+	}
 
 
 	onError () {
 		logger.debug('Oops...');
-	},
+	}
 
 
 	readFile (file, last) {
@@ -74,7 +71,7 @@ export default React.createClass({
 
 			img.src = src = URL.createObjectURL(file);
 		});
-	},
+	}
 
 
 	onSelect (e) {
@@ -105,4 +102,4 @@ export default React.createClass({
 		e.preventDefault();
 		e.stopPropagation();
 	}
-});
+}

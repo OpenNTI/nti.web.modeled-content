@@ -1,30 +1,26 @@
 import React from 'react';
 import Logger from 'nti-util-logger';
 
-import ToolMixin from './ToolMixin';
+import Tool from './Tool';
 
 import iOSversion from 'nti-util-ios-version';
 
 const logger = Logger.get('modeled-content:components:InsertFileAttachmentButton');
 
-export default React.createClass({
-	displayName: 'InsertFileAttachmentButton',
-	mixins: [ToolMixin],
+export default class InsertFileAttachmentButton extends Tool {
 
+	constructor (props) {
+		super(props);
+		const iOSV = iOSversion();
 
-	getInitialState () {
-		return {
-			disabled: true
-		};
-	},
+		this.state = { disabled: true };
 
-
-	componentWillMount () {
-		let iOSV = iOSversion();
 		if (iOSV == null || iOSV[0] > 7) {
-			this.setState({disabled: false});
+			this.state.disabled = false;
 		}
-	},
+
+		this.onSelect = this.onSelect.bind(this);
+	}
 
 
 	render () {
@@ -38,12 +34,12 @@ export default React.createClass({
 				<input type="file" accept="*/*" multiple onChange={this.onSelect}/>
 			</div>
 		);
-	},
+	}
 
 
 	insertFile (filePart) {
 		this.getEditor().insertBlock(filePart);
-	},
+	}
 
 
 	readFile (file, last) {
@@ -64,7 +60,7 @@ export default React.createClass({
 				error(e);
 			}
 		});
-	},
+	}
 
 
 	onSelect (e) {
@@ -95,4 +91,4 @@ export default React.createClass({
 		e.preventDefault();
 		e.stopPropagation();
 	}
-});
+}

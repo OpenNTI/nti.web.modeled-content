@@ -1,12 +1,12 @@
 import React from 'react';
 
-export default {
+export default class Tool extends React.Component {
 
-	contextTypes: {
+	static contextTypes = {
 		editor: React.PropTypes.any.isRequired
-	},
+	}
 
 	getEditor () {
 		return this.context.editor;
 	}
-};
+}

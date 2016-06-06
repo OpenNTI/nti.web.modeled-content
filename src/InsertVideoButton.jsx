@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
+import autobind from 'nti-commons/lib/autobind';
 
-import ToolMixin from './ToolMixin';
+import Tool from './Tool';
 
 import {getEventTarget} from 'nti-lib-dom';
 import Logger from 'nti-util-logger';
@@ -9,29 +10,35 @@ import {getHandler} from 'nti-web-video';
 
 const logger = Logger.get('modeled-content:components:InsertVideoButton');
 
-export default React.createClass({
-	displayName: 'InsertVideoButton',
-	mixins: [ToolMixin],
+export default class InsertVideoButton extends Tool {
 
-	statics: {
-		service: 'kaltura'
-	},
+	static service = 'kaltura';
 
 
-	getInitialState () {
-		return {
-			prompt: false
-		};
-	},
+	constructor (props) {
+		super(props);
+		this.state = { prompt: false, canSubmit: false };
+		this.attachRef = x => this.input = x;
+
+		autobind(this,
+			'closePrompt',
+			'focusInput',
+			'insert',
+			'onDialogFocus',
+			'prompt',
+			'testURL'
+		);
+	}
+
 
 	componentDidUpdate () {
 		this.focusInput();
-	},
+	}
 
 
 	onDialogFocus (e) {
 		e.stopPropagation();
-	},
+	}
 
 
 	focusInput (e) {
@@ -44,7 +51,7 @@ export default React.createClass({
 		if (input) {
 			input.focus();
 		}
-	},
+	}
 
 
 	testURL () {
@@ -53,7 +60,7 @@ export default React.createClass({
 
 		const handler = getHandler(value);
 		this.setState({canSubmit: !!handler});
-	},
+	}
 
 
 	render () {
@@ -64,7 +71,7 @@ export default React.createClass({
 				Insert Video
 				{!prompt ? null : (
 					<div className="dialog" onClick={this.focusInput} onFocus={this.onDialogFocus}>
-						<input type="url" placeholder="Video URL" ref={el => this.input = el} onChange={this.testURL}/>
+						<input type="url" placeholder="Video URL" ref={this.attachRef} onChange={this.testURL}/>
 						<div className="buttons">
 							<a className="button link" onClick={this.closePrompt}>Cancel</a>
 							<a className={cx('button commit', {disabled: !canSubmit})} onClick={this.insert}>Insert</a>
@@ -73,7 +80,7 @@ export default React.createClass({
 				)}
 			</div>
 		);
-	},
+	}
 
 
 
@@ -83,8 +90,9 @@ export default React.createClass({
 			e.stopPropagation();
 		}
 
-		this.replaceState({prompt: false});
-	},
+		this.state = {prompt: false, canSubmit: false};
+		this.forceUpdate();
+	}
 
 
 	prompt (e) {
@@ -96,7 +104,7 @@ export default React.createClass({
 		}
 
 		this.setState({prompt: true});
-	},
+	}
 
 
 	insert (e) {
@@ -126,4 +134,4 @@ export default React.createClass({
 		this.closePrompt();
 		this.getEditor().insertBlock(data);
 	}
-});
+}

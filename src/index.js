@@ -4,8 +4,8 @@ import Editor from './Editor';
 import {FileAttachmentIcon, VideoIcon, WhiteboardIcon} from './editor-parts';
 
 import FormatButton from './FormatButton';
-import ToolMixin from './ToolMixin';
-import {REGIONS as ToolbarRegions} from './Toolbar';
+import Tool from './Tool';
+import Toolbar, {REGIONS as ToolbarRegions} from './Toolbar';
 
 const Panel = function () {}; //placeholder for Panel Component
 
@@ -14,8 +14,9 @@ export {
 	Panel,
 	EditorCore,
 	FormatButton,
-	ToolMixin,
+	Toolbar,
 	ToolbarRegions,
+	Tool,
 
 	FileAttachmentIcon,
 	VideoIcon,
