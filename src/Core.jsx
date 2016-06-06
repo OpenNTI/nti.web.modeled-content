@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
+import autobind from 'nti-commons/lib/autobind';
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
@@ -80,7 +81,7 @@ export default class Core extends React.Component {
 			logger.log(convertToRaw(content));
 		};
 
-		const bindList = [
+		autobind(this,
 			'handleKeyCommand',
 			'onChange',
 			'onBlur',
@@ -88,10 +89,7 @@ export default class Core extends React.Component {
 			'renderBlock',
 			'toggleBlockType',
 			'toggleInlineStyle'
-		];
-		for (let fn of bindList) {
-			this[fn] = this[fn].bind(this);
-		}
+		);
 	}
 
 
