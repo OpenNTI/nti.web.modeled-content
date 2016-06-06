@@ -42,6 +42,11 @@ export default class Core extends React.Component {
 		onBlur: PropTypes.func,
 		onChange: PropTypes.func,
 		placeholder: PropTypes.string,
+		toolbars: PropTypes.oneOfType([
+			PropTypes.bool,
+			PropTypes.node,
+			PropTypes.arrayOf(PropTypes.node)
+		]),
 		value: PropTypes.arrayOf(
 			PropTypes.oneOfType([
 				PropTypes.string,
@@ -59,6 +64,7 @@ export default class Core extends React.Component {
 
 	static defaultProps = {
 		placeholder: 'Type a message...',
+		toolbars: true,
 		onBlur: () => {},
 		onChange: () => {}
 	}
@@ -293,7 +299,8 @@ export default class Core extends React.Component {
 			props: {
 				children,
 				className,
-				placeholder
+				placeholder,
+				toolbars
 			},
 			state: {
 				editorState,
@@ -307,6 +314,9 @@ export default class Core extends React.Component {
 		const contentState = editorState.getCurrentContent();
 		const hidePlaceholder = !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
 
+		const builtInToolbars = toolbars === true;
+		const customToolbars = toolbars !== true && toolbars !== false && toolbars;
+
 		return (
 			<div onClick={this.focus} className={cx(
 				'nti-rich-text',
@@ -317,9 +327,10 @@ export default class Core extends React.Component {
 					'hide-placeholder': hidePlaceholder
 				}
 			)}>
-				<Toolbar region={REGIONS.NORTH} children={children}/>
-				<Toolbar region={REGIONS.EAST} children={children}/>
-				<Toolbar region={REGIONS.WEST} children={children}/>
+				{builtInToolbars && ( <Toolbar region={REGIONS.NORTH} children={children}/> )}
+				{builtInToolbars && ( <Toolbar region={REGIONS.EAST} children={children}/> )}
+				{builtInToolbars && ( <Toolbar region={REGIONS.WEST} children={children}/> )}
+				{customToolbars}
 				<Editor
 					blockStyleFn={this.getBlockStyle}
 					blockRendererFn={this.renderBlock}
@@ -332,7 +343,7 @@ export default class Core extends React.Component {
 					ref={this.setEditor}
 					spellCheck
 				/>
-				<Toolbar region={REGIONS.SOUTH} children={children} defaultSet={basicView}/>
+				{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} children={children} defaultSet={basicView}/> )}
 			</div>
 		);
 	}
