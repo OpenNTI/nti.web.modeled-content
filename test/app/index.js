@@ -3,12 +3,19 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Editor} from '../../src/index';
+import CharCounter from '../../src/plugins/CharacterCounter';
 
 import 'normalize.css';
 import 'nti-web-commons/lib/index.css';
 
+const counter = new CharCounter(20);
+const CharCount = counter.getComponent();
+
 const editor = ReactDOM.render(
-	<Editor allowInsertVideo allowInsertImage/>,
+	<div>
+		<Editor allowInsertVideo allowInsertImage plugins={[counter]}/>
+		<CharCount/>
+	</div>,
 	document.getElementById('content')
 );
 

@@ -47,7 +47,8 @@
     "nti-util-logger": "^1.0.0",
     "nti-web-commons": ">=0.0.1",
     "nti-web-video": "^1.1.11",
-    "object-hash": "^1.1.2"
+    "object-hash": "^1.1.2",
+    "punycode": "^1.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
