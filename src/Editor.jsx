@@ -25,6 +25,8 @@ export default class Editor extends React.Component {
 		onBlur: PropTypes.func,
 		onChange: PropTypes.func,
 
+		plugins: PropTypes.arrayOf(PropTypes.object),
+
 		/**
 		 * The raw or parsed modeled content body.
 		 *
@@ -138,13 +140,15 @@ export default class Editor extends React.Component {
 
 
 	render () {
-		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children}, state: {value}} = this;
+		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children, plugins}, state: {value}} = this;
 		return (
 			<Core className={cx('modeled-content-editor', className)} value={value}
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
 				onBlur={this.props.onBlur}
-				ref={this.attachEditorRef}>
+				ref={this.attachEditorRef}
+				plugins={plugins}
+				>
 				<FormatButton format={Formats.BOLD} region={SOUTH}/>
 				<FormatButton format={Formats.ITALIC} region={SOUTH}/>
 				<FormatButton format={Formats.UNDERLINE} region={SOUTH}/>
