@@ -6,6 +6,7 @@ import autobind from 'nti-commons/lib/autobind';
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
+	CompositeDecorator,
 	Editor,
 	EditorState,
 	Entity,
@@ -74,9 +75,7 @@ export default class Core extends React.Component {
 	constructor (props) {
 		super(props);
 
-		this.state = {
-			editorState: getEditorStateFromValue(props.value)
-		};
+		this.setupValue(props);
 
 		this.focus = () => this.editor.focus();
 
@@ -105,6 +104,29 @@ export default class Core extends React.Component {
 	}
 
 
+	initializePlugins (props = this.props) {
+		const plugins = this.plugins(props);
+		const api = {
+			getEditorState: () => this.state.editorState,
+			setEditorState: (e) => this.onChange(e)
+		};
+
+		for (let plugin of plugins) {
+			if (plugin.initialize) {
+				plugin.initialize(api);
+			}
+		}
+
+		const withDecorators = plugins
+			.filter(x => x.getDecorator)
+			.map(x => x.getDecorator())
+			.filter(x => x);
+
+		return !withDecorators.length
+			? void 0 : {decorator: new CompositeDecorator(withDecorators)};
+	}
+
+
 	onBlur () {
 		const {onBlur} = this.props;
 		onBlur();
@@ -112,16 +134,27 @@ export default class Core extends React.Component {
 
 
 	onChange (editorState, cb) {
+		const finish = () => typeof cb === 'function' && cb();
 		const hasFocus = editorState.getSelection().getHasFocus();
 		const {
 			state: {editorState: old},
 			props: {onChange}
 		} = this;
 
-		this.setState({editorState}, () => {
-			if (typeof cb === 'function') {
-				cb.call();
+		for (let plugin of this.plugins()) {
+			if (plugin.onChange) {
+				const gate = plugin.onChange(editorState);
+				if (gate === false) {
+					return finish(); //stop and finish.
+				} else if (gate) {
+					//new EditorState?
+					editorState = gate;
+				}
 			}
+		}
+
+		this.setState({editorState}, () => {
+			finish();
 
 			onChange();
 
@@ -133,10 +166,28 @@ export default class Core extends React.Component {
 
 
 	componentWillReceiveProps (nextProps) {
-		const {value} = nextProps;
-		if (value !== this.props.value) {
-			this.onChange(getEditorStateFromValue(value));
+		const {plugins, value} = nextProps;
+		const {props} = this;
+		if (value !== props.value) {
+			this.setupValue(nextProps);
+		} else if (plugins !== props.plugins) {
+			this.onChange(EditorState.set(
+				this.state.editorState,
+				this.initializePlugins(nextProps)
+			));
 		}
+	}
+
+
+	setupValue (props = this.props) {
+		const setState = s => this.state ? this.setState(s) : (this.state = s);
+
+		setState({
+			editorState: EditorState.set(
+				getEditorStateFromValue(props.value),
+				this.initializePlugins(props)
+			)
+		});
 	}
 
 
