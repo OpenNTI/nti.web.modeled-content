@@ -7,3 +7,5 @@ exports = module.exports = Object.assign(require('./webpack.config'), {
 		publicPath: '/'
 	}
 });
+
+delete exports.node;
