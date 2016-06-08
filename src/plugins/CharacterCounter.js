@@ -120,7 +120,7 @@ export default class Counter {
 	}
 
 
-	onChange (newState) {
+	onChange (/*newState*/) {
 		clearTimeout(this.scheduledUpdate);
 		this.scheduledUpdate = setTimeout(() => this.updateComponents(), 100);
 	}
