@@ -90,8 +90,7 @@ export default class Editor extends React.Component {
 
 	constructor (props) {
 		super(props);
-		this.state = {};
-		this.setupValue(props, true);
+		this.setupValue(props);
 		this.logState = () => this.editor.logState();
 		this.attachEditorRef = ref => this.editor = ref;
 	}
@@ -111,15 +110,15 @@ export default class Editor extends React.Component {
 	}
 
 
-	setupValue (props = this.props, direct) {
+	setupValue (props = this.props) {
 		const {initialValue: value} = props;
 
 		this.pendingSetup = new Promise(done => {
-			const setState = o => direct
-								? Object.assign(this.state, o)
-								: this.setState(o, done);
+			const setState = o => this.state
+								? this.setState(o, done)
+								: (this.state = o);
 
-			if (direct) {
+			if (!this.state) {
 				this.markFirstRender = () => {delete this.markFirstRender; done(); };
 			}
 
@@ -133,7 +132,7 @@ export default class Editor extends React.Component {
 			}
 
 			setState({
-				value: out//.map(x => (typeof x === 'string') ? x.replace(/<(\/?)(body|html)>/ig, '') : x)
+				value: out
 			});
 		});
 	}
