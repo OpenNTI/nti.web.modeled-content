@@ -2,6 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import punycode from 'punycode';
 
+import Plugin from './Plugin';
+
 const decodeUnicode = str => punycode.ucs2.decode(str);
 
 function getBlockLength (block) {
@@ -31,9 +33,10 @@ function getSumOfAllBlocksBefore (blockKey, editorState) {
 	return sum;
 }
 
-export default class Counter {
+export default class Counter extends Plugin {
 
 	constructor (limit) {
+		super();
 		Object.defineProperty(this, 'limit', {
 			configurable: false,
 			enumerable: false,
@@ -42,15 +45,6 @@ export default class Counter {
 		});
 
 		this.components = [];
-	}
-
-
-	initialize (api) {
-		Object.defineProperty(this, 'api', {
-			enumerable: false,
-			writable: false,
-			value: Object.freeze(api)
-		});
 	}
 
 
