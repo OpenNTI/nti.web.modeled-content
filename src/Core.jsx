@@ -88,7 +88,9 @@ export default class Core extends React.Component {
 
 		autobind(this,
 			'getValue',
+			'handleReturn',
 			'handleKeyCommand',
+			'handlePastedText',
 			'onChange',
 			'onBlur',
 			'onTab',
@@ -203,6 +205,17 @@ export default class Core extends React.Component {
 	}
 
 
+	handleReturn (...args) {
+		for(let plugin of this.plugins()) {
+			if (plugin.handleReturn) {
+				if (plugin.handleReturn(...args)) {
+					return true;
+				}
+			}
+		}
+	}
+
+
 	handleKeyCommand (command) {
 		const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
 		if (newState) {
@@ -210,6 +223,17 @@ export default class Core extends React.Component {
 			return true;
 		}
 		return false;
+	}
+
+
+	handlePastedText (...args) {
+		for(let plugin of this.plugins()) {
+			if (plugin.handlePastedText) {
+				if (plugin.handlePastedText(...args)) {
+					return true;
+				}
+			}
+		}
 	}
 
 
@@ -397,6 +421,8 @@ export default class Core extends React.Component {
 					blockRendererFn={this.renderBlock}
 					customStyleMap={styleMap}
 					editorState={editorState}
+					handleReturn={this.handleReturn}
+					handlePastedText={this.handlePastedText}
 					handleKeyCommand={this.handleKeyCommand}
 					onChange={this.onChange}
 					onTab={this.onTab}
