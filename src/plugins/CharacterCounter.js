@@ -116,7 +116,7 @@ export default class Counter extends Plugin {
 
 	onChange (/*newState*/) {
 		clearTimeout(this.scheduledUpdate);
-		this.scheduledUpdate = setTimeout(() => this.updateComponents(), 100);
+		this.scheduledUpdate = setTimeout(() => this.updateComponents(), 17);
 	}
 
 
