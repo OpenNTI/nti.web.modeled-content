@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Editor} from '../../src/index';
+import {Editor, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
 
 import 'normalize.css';
@@ -11,10 +11,13 @@ import 'nti-web-commons/lib/index.css';
 const counter = new CharCounter(20);
 const CharCount = counter.getComponent();
 
-const editor = ReactDOM.render(
+let editor;
+ReactDOM.render(
 	<div>
-		<Editor allowInsertVideo allowInsertImage plugins={[counter]}/>
+		<Editor allowInsertVideo allowInsertImage plugins={[counter]} ref={x => editor = x}/>
 		<CharCount/>
+
+		<TextEditor charLimit={150} singleLine/>
 	</div>,
 	document.getElementById('content')
 );
