@@ -84,13 +84,6 @@ export default class Core extends React.Component {
 
 		this.setupValue(props);
 
-		this.setEditor = (e) => this.editor = e;
-		this.logState = () => {
-			const content = this.state.editorState.getCurrentContent();
-			logger.enable();
-			logger.log(convertToRaw(content));
-		};
-
 		autobind(this,
 			'getValue',
 			'handleReturn',
@@ -106,15 +99,21 @@ export default class Core extends React.Component {
 		);
 	}
 
+	attachEditorRef = (r) => this.draftEditor = r
+
 	focus = () => {
 		const {editorState} = this.state;
 		const hasFocus = editorState && editorState.getSelection().getHasFocus();
 		if (!hasFocus) {
-			this.editor.focus();
+			this.draftEditor.focus();
 		}
 	}
 
-
+	logState = () => {
+		const content = this.state.editorState.getCurrentContent();
+		logger.enable();
+		logger.log(convertToRaw(content));
+	}
 
 	plugins (props = this.props) {
 		return props.plugins || Core.defaultProps.plugins;
@@ -448,7 +447,7 @@ export default class Core extends React.Component {
 					onChange={this.onChange}
 					onTab={this.onTab}
 					placeholder={placeholder}
-					ref={this.setEditor}
+					ref={this.attachEditorRef}
 					spellCheck
 				/>
 				{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} children={children} defaultSet={basicView}/> )}
