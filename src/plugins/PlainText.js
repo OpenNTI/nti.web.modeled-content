@@ -40,10 +40,10 @@ export default class PlainText extends Plugin {
 		}
 
 		return EditorState.create({
-			selection: newState.getSelection(),
 			currentContent: content,
-			decorator: newState.decorator,
-			allowUndo: newState.allowUndo
+			allowUndo: newState.getAllowUndo(),
+			decorator: newState.getDecorator(),
+			selection: newState.getSelection()
 		});
 	}
 
