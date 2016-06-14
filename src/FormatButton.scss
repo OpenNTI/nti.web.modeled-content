@@ -12,9 +12,36 @@
 %icon-dark-underline {background-image: url(./assets/underline-dark.png);}
 %icon-dark-underline-active {background-image: url(./assets/underline-dark_active.png);}
 
+
+.format-button {
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 2rem;
+	height: 2rem;
+	vertical-align: bottom;
+	min-width: inherit;
+	position: relative;
+	text-indent: -1000px;
+	overflow: hidden;
+	cursor: pointer;
+	background: {
+		color: inherit;
+		repeat: no-repeat;
+		position: center center;
+	}
+
+	&.disabled {
+		opacity: 0.6;
+		cursor: none;
+		pointer-events: none;
+	}
+}
+
 $formats: bold,italic,underline;
 @each $format in $formats {
-	.modeled-content-editor {
+
 		.format-button[data-format=#{$format}] {
 			@extend %icon-#{$format};
 			.touch & {display: none;}
@@ -24,9 +51,8 @@ $formats: bold,italic,underline;
 		.format-button[data-format=#{$format}].active {
 			@extend %icon-#{$format}-active;
 		}
-	}
 
-	.dark .modeled-content-editor {
+	.dark {
 		.format-button[data-format=#{$format}] {
 			@extend %icon-#{$format};
 			.touch & {display: none;}
