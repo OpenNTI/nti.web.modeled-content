@@ -4,6 +4,7 @@ export default class Plugin {
 
 
 	initialize (api) {
+		delete this.api;
 		Object.defineProperty(this, 'api', {
 			enumerable: false,
 			writable: false,
