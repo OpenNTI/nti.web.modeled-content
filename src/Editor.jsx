@@ -22,6 +22,7 @@ export default class Editor extends React.Component {
 		allowInsertImage: PropTypes.bool,
 		allowInsertVideo: PropTypes.bool,
 		allowInsertFile: PropTypes.bool,
+		onFocus: PropTypes.func,
 		onBlur: PropTypes.func,
 		onChange: PropTypes.func,
 
@@ -144,6 +145,7 @@ export default class Editor extends React.Component {
 			<Core className={cx('modeled-content-editor', className)} value={value}
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
+				onFocus={this.props.onFocus}
 				onBlur={this.props.onBlur}
 				ref={this.attachEditorRef}
 				plugins={plugins}

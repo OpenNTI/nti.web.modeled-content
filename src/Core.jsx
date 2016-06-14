@@ -27,6 +27,11 @@ import {
 
 const logger = Logger.get('modeled-content:editor:core');
 
+function schedual (fn) {
+	clearTimeout(fn.callBuffer);
+	fn.callBuffer = setTimeout(fn, 1);
+}
+
 // Custom overrides for "code" style.
 const styleMap = {
 	CODE: {
@@ -45,6 +50,7 @@ export default class Core extends React.Component {
 		className: PropTypes.string,
 		getCustomBlockType: PropTypes.func,
 		onBlur: PropTypes.func,
+		onFocus: PropTypes.func,
 		onChange: PropTypes.func,
 		placeholder: PropTypes.string,
 		toolbars: PropTypes.oneOfType([
@@ -68,6 +74,7 @@ export default class Core extends React.Component {
 		toolbars: true,
 		plugins: [],
 		onBlur: () => {},
+		onFocus: () => {},
 		onChange: () => {}
 	}
 
@@ -76,8 +83,6 @@ export default class Core extends React.Component {
 		super(props);
 
 		this.setupValue(props);
-
-		this.focus = () => this.editor.focus();
 
 		this.setEditor = (e) => this.editor = e;
 		this.logState = () => {
@@ -93,12 +98,22 @@ export default class Core extends React.Component {
 			'handlePastedText',
 			'onChange',
 			'onBlur',
+			'onFocus',
 			'onTab',
 			'renderBlock',
 			'toggleBlockType',
 			'toggleInlineStyle'
 		);
 	}
+
+	focus = () => {
+		const {editorState} = this.state;
+		const hasFocus = editorState && editorState.getSelection().getHasFocus();
+		if (!hasFocus) {
+			this.editor.focus();
+		}
+	}
+
 
 
 	plugins (props = this.props) {
@@ -131,7 +146,13 @@ export default class Core extends React.Component {
 
 	onBlur () {
 		const {onBlur} = this.props;
-		onBlur();
+		onBlur(this);
+	}
+
+
+	onFocus () {
+		const {onFocus} = this.props;
+		onFocus(this);
 	}
 
 
@@ -160,8 +181,8 @@ export default class Core extends React.Component {
 
 			onChange();
 
-			if(!hasFocus && old.getSelection().getHasFocus() !== hasFocus) {
-				setTimeout(this.onBlur, 1);
+			if(old.getSelection().getHasFocus() !== hasFocus) {
+				schedual(hasFocus ? this.onFocus : this.onBlur);
 			}
 		});
 	}

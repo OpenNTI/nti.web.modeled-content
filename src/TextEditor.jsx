@@ -13,6 +13,7 @@ export default class TextEditor extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 
+		onFocus: PropTypes.func,
 		onBlur: PropTypes.func,
 		onChange: PropTypes.func,
 
@@ -90,6 +91,7 @@ export default class TextEditor extends React.Component {
 			<div>
 				<Core className={cx('text-editor', className)} value={value}
 					onChange={this.props.onChange}
+					onFocus={this.props.onFocus}
 					onBlur={this.props.onBlur}
 					ref={this.attachEditorRef}
 					plugins={this.plugins}
