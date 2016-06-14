@@ -17,7 +17,7 @@ ReactDOM.render(
 		<Editor allowInsertVideo allowInsertImage plugins={[counter]} ref={x => editor = x}/>
 		<CharCount/>
 
-		<TextEditor charLimit={150} singleLine/>
+		<TextEditor charLimit={150} singleLine plainText/>
 	</div>,
 	document.getElementById('content')
 );
