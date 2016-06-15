@@ -35,9 +35,26 @@ export default class TextEditor extends React.Component {
 
 	constructor (props) {
 		super(props);
-		this.attachEditorRef = ref => this.editor = ref;
 		this.setupValue(props);
 		this.setupPlugins(props);
+	}
+
+
+	attachEditorRef = ref => this.editor = ref
+
+
+	logState = () => this.editor.logState()
+
+
+	onBlur = () => {
+		const {onBlur = () =>{}} = this.props;
+		onBlur(this);
+	}
+
+
+	onFocus = () => {
+		const {onFocus = () =>{}} = this.props;
+		onFocus(this);
 	}
 
 
@@ -91,8 +108,8 @@ export default class TextEditor extends React.Component {
 			<div className="text-editor">
 				<Core className={cx('text-editor', className)} value={value}
 					onChange={this.props.onChange}
-					onFocus={this.props.onFocus}
-					onBlur={this.props.onBlur}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
 					ref={this.attachEditorRef}
 					plugins={this.plugins}
 					toolbars={false}

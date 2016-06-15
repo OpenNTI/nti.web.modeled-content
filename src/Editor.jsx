@@ -92,9 +92,26 @@ export default class Editor extends React.Component {
 	constructor (props) {
 		super(props);
 		this.setupValue(props);
-		this.logState = () => this.editor.logState();
-		this.attachEditorRef = ref => this.editor = ref;
 	}
+
+
+	attachEditorRef = ref => this.editor = ref
+
+
+	logState = () => this.editor.logState()
+
+
+	onBlur = () => {
+		const {onBlur = () =>{}} = this.props;
+		onBlur(this);
+	}
+
+
+	onFocus = () => {
+		const {onFocus = () =>{}} = this.props;
+		onFocus(this);
+	}
+
 
 
 	componentDidMount () {
@@ -145,8 +162,8 @@ export default class Editor extends React.Component {
 			<Core className={cx('modeled-content-editor', className)} value={value}
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
-				onFocus={this.props.onFocus}
-				onBlur={this.props.onBlur}
+				onFocus={this.onFocus}
+				onBlur={this.onBlur}
 				ref={this.attachEditorRef}
 				plugins={plugins}
 				>
