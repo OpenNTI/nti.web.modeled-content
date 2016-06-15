@@ -60,13 +60,17 @@ export default class Core extends React.Component {
 			PropTypes.arrayOf(PropTypes.node)
 		]),
 		plugins: PropTypes.arrayOf(PropTypes.object),
-		value: PropTypes.arrayOf(
-			PropTypes.oneOfType([
-				PropTypes.string,
-				PropTypes.shape({
-					MimeType: PropTypes.string
-				})
-			]))
+		value: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.arrayOf(
+				PropTypes.oneOfType([
+					PropTypes.string,
+					PropTypes.shape({
+						MimeType: PropTypes.string
+					})
+				])
+			)
+		])
 	}
 
 
