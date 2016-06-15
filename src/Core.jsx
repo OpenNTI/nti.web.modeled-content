@@ -28,6 +28,8 @@ import {
 
 const logger = Logger.get('modeled-content:editor:core');
 
+const getEditorState = x => x ? x.editorState : EditorState.createEmpty();
+
 function schedual (fn) {
 	clearTimeout(fn.callBuffer);
 	fn.callBuffer = setTimeout(fn, 1);
@@ -132,7 +134,7 @@ export default class Core extends React.Component {
 		const plugins = this.plugins(props);
 		const api = {
 			getAllowedFormats: () => this.getAllowedFormats(),
-			getEditorState: () => this.state.editorState,
+			getEditorState: () => getEditorState(this.state),
 			setEditorState: (e) => this.onChange(e)
 		};
 
