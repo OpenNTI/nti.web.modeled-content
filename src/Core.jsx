@@ -120,7 +120,6 @@ export default class Core extends React.Component {
 
 	logState = () => {
 		const content = this.state.editorState.getCurrentContent();
-		logger.enable();
 		logger.log(convertToRaw(content));
 	}
 
