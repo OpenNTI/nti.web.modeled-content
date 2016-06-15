@@ -18,7 +18,8 @@ export default class FormatButton extends React.Component {
 
 	static contextTypes = {
 		toggleFormat: React.PropTypes.func.isRequired,
-		currentFormat: React.PropTypes.object
+		currentFormat: React.PropTypes.object,
+		allowedFormats: React.PropTypes.object
 	}
 
 
@@ -45,13 +46,14 @@ export default class FormatButton extends React.Component {
 
 
 	render () {
-		const {context: {currentFormat}, props: {format = '_'}} = this;
+		const {context: {currentFormat, allowedFormats}, props: {format = '_'}} = this;
 		const code = format.charAt(0).toUpperCase();
 		const active = currentFormat && currentFormat.has(format);
+		const disabled = !currentFormat || !allowedFormats || !allowedFormats.has(format);
 
 
 		const props = {
-			className: cx('format-button', {active, disabled: !currentFormat}),
+			className: cx('format-button', {active, disabled}),
 			onMouseDown: this.onClick,//onClick is too late.
 			'data-format': (format || '').toLowerCase()
 		};

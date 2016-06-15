@@ -18,6 +18,18 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.min.js"></script>
 	<style>
 		body {margin: 1rem;}
+		.format-button.active::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			border-radius: 2rem;
+			background: rgba(127,127,127,0.2);
+			width: 1.5rem;
+			height: 1.5rem;
+			transform: translate3d(-50%, -50%, 0);
+			box-shadow: 0 0 0.2rem 0 rgba(127,127,127, 1);
+		}
 	</style>
 </head>
 <body>

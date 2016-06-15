@@ -1,5 +1,6 @@
 import React, {Children, PropTypes} from 'react';
 
+const getAllowedFormats = x => x ? x.getAllowedFormats() : null;
 const getCurrentStyle = x => x ? x.getCurrentInlineStyle() : null;
 
 export default class CoreContextProvider extends React.Component {
@@ -21,6 +22,7 @@ export default class CoreContextProvider extends React.Component {
 	static childContextTypes = {
 		editor: PropTypes.any,
 		toggleFormat: PropTypes.func,
+		allowedFormats: PropTypes.object,
 		currentFormat: PropTypes.object
 	}
 
@@ -34,9 +36,11 @@ export default class CoreContextProvider extends React.Component {
 	getChildContext () {
 		const editor = this.getEditor();
 		const {state} = editor || {};
+		const allowedFormats = getAllowedFormats(editor);
 		const currentFormat = getCurrentStyle(state && state.editorState);
 
 		return {
+			allowedFormats,
 			currentFormat,
 			editor,
 			toggleFormat (x) { editor.toggleInlineStyle(x, true); }

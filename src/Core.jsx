@@ -19,6 +19,7 @@ import {
 import Block from './Block';
 import CoreContextProvider from './CoreContextProvider';
 import Toolbar, {REGIONS} from './Toolbar';
+import {Formats} from './FormatButton';
 
 import {
 	getEditorStateFromValue,
@@ -82,6 +83,7 @@ export default class Core extends React.Component {
 	constructor (props) {
 		super(props);
 
+		this.allowedFormats = new Set(Object.keys(Formats));
 		this.setupValue(props);
 
 		autobind(this,
@@ -101,6 +103,8 @@ export default class Core extends React.Component {
 
 	attachContextRef = (r) => this.editorContext = r
 	attachEditorRef = (r) => this.draftEditor = r
+
+	getAllowedFormats = () => this.allowedFormats
 
 	focus = () => {
 		const {editorState} = this.state;
@@ -124,6 +128,7 @@ export default class Core extends React.Component {
 	initializePlugins (props = this.props) {
 		const plugins = this.plugins(props);
 		const api = {
+			getAllowedFormats: () => this.getAllowedFormats(),
 			getEditorState: () => this.state.editorState,
 			setEditorState: (e) => this.onChange(e)
 		};

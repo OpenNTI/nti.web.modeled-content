@@ -4,6 +4,11 @@ import {EditorState, Modifier, SelectionState} from 'draft-js';
 
 export default class PlainText extends Plugin {
 
+	initialize (...args) {
+		super.initialize(...args);
+		this.getAllowedFormats().clear();
+	}
+
 	/**
 	 * filter the new state object and strip all styles from each block.
 	 *

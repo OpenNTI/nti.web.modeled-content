@@ -12,9 +12,9 @@ export default class Plugin {
 			value: Object.freeze(api)
 		});
 
-		const {getEditorState, setEditorState} = api;
+		const {getEditorState, setEditorState, getAllowedFormats} = api;
 
-		Object.assign(this, {getEditorState, setEditorState});
+		Object.assign(this, {getEditorState, setEditorState, getAllowedFormats});
 	}
 
 	// onChange (/*newState*/) {}
