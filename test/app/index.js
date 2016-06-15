@@ -19,10 +19,11 @@ class Test extends React.Component {
 	attachEditor1Ref = e => this.editor1 = e;
 	attachEditor2Ref = e => this.editor2 = e;
 	logValue = ()=> console.debug(this.focused.getValue())
-	logState = ()=> console.debug(this.focused.logState())
+	logState = ()=> this.focused.logState()
 
 	onFocus = (editor) => {
 		this.setState({editor});
+		this.focused = editor;
 	}
 
 	render () {
