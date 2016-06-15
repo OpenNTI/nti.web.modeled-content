@@ -8,8 +8,14 @@ export default class CoreContextProvider extends React.Component {
 		editor: PropTypes.shape({
 			toggleInlineStyle: PropTypes.func,
 			state: PropTypes.object
-		}).isRequired,
-		children: PropTypes.element.isRequired
+		}),
+		children: PropTypes.element.isRequired,
+
+		/**
+		 * Flag this instance as internal to Core. External ContextProviders add references to this one.
+		 * @type {boolean}
+		 */
+		internal: PropTypes.bool
 	}
 
 	static childContextTypes = {
@@ -18,11 +24,16 @@ export default class CoreContextProvider extends React.Component {
 		currentFormat: PropTypes.object
 	}
 
+	constructor (props) {
+		super(props);
+		this.externalLinks = [];
+		this.register(props);
+	}
+
 
 	getChildContext () {
-		const {editor} = this.props;
-		const {state} = editor;
-
+		const editor = this.getEditor();
+		const {state} = editor || {};
 		const currentFormat = getCurrentStyle(state && state.editorState);
 
 		return {
@@ -31,6 +42,58 @@ export default class CoreContextProvider extends React.Component {
 			toggleFormat (x) { editor.toggleInlineStyle(x, true); }
 		};
 	}
+
+
+	getEditor (props = this.props) {
+		let {editor} = props;
+		while (editor && editor.editor) {
+			editor = editor.editor;
+		}
+		return editor;
+	}
+
+
+	componentWillUnmount () {
+		this.externalLinks = [];
+		this.unregister();
+	}
+
+
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.editor !== this.props.editor) {
+			this.unregister();
+			this.register(nextProps);
+		}
+
+		for (let cmp of this.externalLinks) {
+			cmp && cmp.forceUpdate();
+		}
+	}
+
+
+	//link other instances of CoreContextProvider together.
+	register (props = this.props) {
+		const editor = this.getEditor(props);
+		if (editor && editor.editorContext && !props.internal) {
+			editor.editorContext.addLink(this);
+		}
+	}
+
+	addLink (otherCoreContextProvider) {
+		this.externalLinks = [...this.externalLinks, otherCoreContextProvider];
+	}
+
+	unregister (props = this.props) {
+		const editor = this.getEditor(props);
+		if (editor && editor.editorContext && !props.internal) {
+			editor.editorContext.removeLink(this);
+		}
+	}
+
+	removeLink (otherCoreContextProvider) {
+		this.externalLinks = this.externalLinks.filter(x => x !== otherCoreContextProvider);
+	}
+
 
 	render () {
 		return Children.only(this.props.children);

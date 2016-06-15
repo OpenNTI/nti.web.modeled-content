@@ -99,6 +99,7 @@ export default class Core extends React.Component {
 		);
 	}
 
+	attachContextRef = (r) => this.editorContext = r
 	attachEditorRef = (r) => this.draftEditor = r
 
 	focus = () => {
@@ -422,7 +423,7 @@ export default class Core extends React.Component {
 		const customToolbars = toolbars !== true && toolbars !== false && toolbars;
 
 		return (
-			<CoreContextProvider editor={this}>
+			<CoreContextProvider editor={this} ref={this.attachContextRef} internal>
 			<div onClick={this.focus} className={cx(
 				'nti-rich-text',
 				'editor',
