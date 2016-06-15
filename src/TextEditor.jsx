@@ -88,7 +88,7 @@ export default class TextEditor extends React.Component {
 	render () {
 		const {props: {className}, state: {value}, counterComponent: Counter} = this;
 		return (
-			<div>
+			<div className="text-editor">
 				<Core className={cx('text-editor', className)} value={value}
 					onChange={this.props.onChange}
 					onFocus={this.props.onFocus}
