@@ -223,7 +223,9 @@ export default class Core extends React.Component {
 		const value = getValueFromEditorState(this.state.editorState);
 		const valuePlugins = this.plugins().filter(x => x.getValue);
 
-		invariant(valuePlugins.length > 1, 'More than one plugin defines getValue! '
+		const shouldHaveSensibleAmountOfValueFilters = valuePlugins.length <= 1;
+
+		invariant(shouldHaveSensibleAmountOfValueFilters, 'More than one plugin defines getValue! '
 			+ 'If this is intended, make a high-order plugin that composes these to ensure value filter order.');
 
 		const [plugin] = valuePlugins;
