@@ -46,6 +46,8 @@ export default class Editor extends React.Component {
 				]))
 		]),
 
+		placeholder: PropTypes.string,
+
 		value: function deprecated (o, k) { if (o[k]) { return new Error('Deprecated/Ignored, use "initialValue"'); } }
 	}
 
@@ -157,7 +159,7 @@ export default class Editor extends React.Component {
 
 
 	render () {
-		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children, plugins}, state: {value}} = this;
+		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children, plugins, placeholder}, state: {value}} = this;
 		return (
 			<Core className={cx('modeled-content-editor', className)} value={value}
 				getCustomBlockType={getPartType}
@@ -165,6 +167,7 @@ export default class Editor extends React.Component {
 				onFocus={this.onFocus}
 				onBlur={this.onBlur}
 				ref={this.attachEditorRef}
+				placeholder={placeholder}
 				plugins={plugins}
 				>
 				<FormatButton format={Formats.BOLD} region={SOUTH}/>
