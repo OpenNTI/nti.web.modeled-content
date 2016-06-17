@@ -29,6 +29,7 @@ import {
 const logger = Logger.get('modeled-content:editor:core');
 
 const getEditorState = x => x ? x.editorState : EditorState.createEmpty();
+const applyDecorators = (state, config) => config ? EditorState.set(state, config) : state;
 
 function schedual (fn) {
 	clearTimeout(fn.callBuffer);
@@ -204,7 +205,7 @@ export default class Core extends React.Component {
 		if (value !== props.value) {
 			this.setupValue(nextProps);
 		} else if (plugins !== props.plugins) {
-			this.onChange(EditorState.set(
+			this.onChange(applyDecorators(
 				this.state.editorState,
 				this.initializePlugins(nextProps)
 			));
@@ -216,7 +217,7 @@ export default class Core extends React.Component {
 		const setState = s => this.state ? this.setState(s) : (this.state = s);
 
 		setState({
-			editorState: EditorState.set(
+			editorState: applyDecorators(
 				getEditorStateFromValue(props.value),
 				this.initializePlugins(props)
 			)
