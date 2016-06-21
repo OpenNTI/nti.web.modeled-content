@@ -10,6 +10,8 @@ import {getHandler} from 'nti-web-video';
 
 const logger = Logger.get('modeled-content:components:InsertVideoButton');
 
+const isActionable = (e) => !e || e.type === 'click' || (e.type === 'keydown' && (e.key === 'Enter' || e.key === ' '));
+
 export default class InsertVideoButton extends Tool {
 
 	static service = 'kaltura';
@@ -25,6 +27,7 @@ export default class InsertVideoButton extends Tool {
 			'focusInput',
 			'insert',
 			'onDialogFocus',
+			'onKeyDownHandler',
 			'prompt',
 			'testURL'
 		);
@@ -32,7 +35,7 @@ export default class InsertVideoButton extends Tool {
 
 
 	componentDidUpdate () {
-		this.focusInput();
+		// this.focusInput();
 	}
 
 
@@ -67,14 +70,14 @@ export default class InsertVideoButton extends Tool {
 		const {state: {prompt, canSubmit}} = this;
 
 		return (
-			<div className="button insert-video" onClick={this.prompt}>
+			<div className="button insert-video" role="button" tabIndex="0" onClick={this.prompt} onKeyDown={this.prompt}>
 				Insert Video
 				{!prompt ? null : (
-					<div className="dialog" onClick={this.focusInput} onFocus={this.onDialogFocus}>
+					<div className="dialog" onKeyDown={this.onKeyDownHandler} onClick={this.focusInput} onFocus={this.onDialogFocus} role="dialog" aria-label="Enter URL to video">
 						<input type="url" placeholder="Video URL" ref={this.attachRef} onChange={this.testURL}/>
 						<div className="buttons">
-							<a className="button link" onClick={this.closePrompt}>Cancel</a>
-							<a className={cx('button commit', {disabled: !canSubmit})} onClick={this.insert}>Insert</a>
+							<a className="button link" onKeyDown={this.closePrompt} onClick={this.closePrompt} tabIndex="0">Cancel</a>
+							<a className={cx('button commit', {disabled: !canSubmit})} onKeyDown={this.insert} onClick={this.insert} tabIndex="0">Insert</a>
 						</div>
 					</div>
 				)}
@@ -83,8 +86,17 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
+	onKeyDownHandler (e) {
+		if (e && e.key === 'Escape') {
+			this.closePrompt();
+		}
+	}
+
+
 
 	closePrompt (e) {
+		if (!isActionable(e)) { return; }
+
 		if (e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -96,6 +108,8 @@ export default class InsertVideoButton extends Tool {
 
 
 	prompt (e) {
+		if (!isActionable(e)) { return; }
+
 		e.stopPropagation();
 		if (getEventTarget(e, '.dialog')) {
 			return;
@@ -103,11 +117,12 @@ export default class InsertVideoButton extends Tool {
 			e.preventDefault();
 		}
 
-		this.setState({prompt: true});
+		this.setState({prompt: true}, ()=> this.focusInput());
 	}
 
 
 	insert (e) {
+		if (!isActionable(e)) { return; }
 		if (e) {
 			e.preventDefault();
 			e.stopPropagation();
