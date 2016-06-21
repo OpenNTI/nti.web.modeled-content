@@ -49,12 +49,13 @@ export default class FormatButton extends React.Component {
 		const {context: {currentFormat, allowedFormats}, props: {format = '_'}} = this;
 		const active = currentFormat && currentFormat.has(format);
 		const disabled = !currentFormat || !allowedFormats || !allowedFormats.has(format);
-
+		const label = (format || '').toLowerCase();
 
 		const props = {
 			className: cx('format-button', {active, disabled}),
 			onMouseDown: this.onClick,//onClick is too late.
-			'data-format': (format || '').toLowerCase()
+			'data-format': label,
+			'aria-label': label
 		};
 
 		return React.createElement('button', props, this.renderLabel(format));
