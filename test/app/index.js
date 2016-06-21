@@ -31,6 +31,7 @@ class Test extends React.Component {
 		return (
 			<div>
 				<div>
+					<div className="text-editor">
 					<Editor plugins={[counter]}
 						onFocus={this.onFocus}
 						ref={this.attachEditor1Ref}
@@ -38,6 +39,7 @@ class Test extends React.Component {
 						allowInsertImage
 						/>
 					<CharCount/>
+					</div>
 
 					<TextEditor charLimit={150}
 						onFocus={this.onFocus}
