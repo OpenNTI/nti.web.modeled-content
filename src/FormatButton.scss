@@ -1,19 +1,7 @@
-%icon-bold {background-image: url(./assets/bold.png);}
-%icon-bold-active {background-image: url(./assets/bold_active.png);}
-%icon-italic {background-image: url(./assets/italic.png);}
-%icon-italic-active {background-image: url(./assets/italic_active.png);}
-%icon-underline {background-image: url(./assets/underline.png);}
-%icon-underline-active {background-image: url(./assets/underline_active.png);}
-
-%icon-dark-bold {background-image: url(./assets/bold-dark.png);}
-%icon-dark-bold-active {background-image: url(./assets/bold-dark_active.png);}
-%icon-dark-italic {background-image: url(./assets/italic-dark.png);}
-%icon-dark-italic-active {background-image: url(./assets/italic-dark_active.png);}
-%icon-dark-underline {background-image: url(./assets/underline-dark.png);}
-%icon-dark-underline-active {background-image: url(./assets/underline-dark_active.png);}
-
+@import "~nti-style-common";
 
 .format-button {
+	color: $tertiary-grey;
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
@@ -23,7 +11,6 @@
 	vertical-align: bottom;
 	min-width: inherit;
 	position: relative;
-	text-indent: -1000px;
 	overflow: hidden;
 	cursor: pointer;
 	background: {
@@ -32,35 +19,17 @@
 		position: center center;
 	}
 
+	&.active {
+		color: $primary-grey;
+	}
+
 	&.disabled {
 		opacity: 0.6;
 		cursor: none;
 		pointer-events: none;
 	}
-}
 
-$formats: bold,italic,underline;
-@each $format in $formats {
-
-		.format-button[data-format=#{$format}] {
-			@extend %icon-#{$format};
-			.touch & {display: none;}
-		}
-		.format-button[data-format=#{$format}]:active,
-		.format-button[data-format=#{$format}]:focus,
-		.format-button[data-format=#{$format}].active {
-			@extend %icon-#{$format}-active;
-		}
-
-	.dark {
-		.format-button[data-format=#{$format}] {
-			@extend %icon-#{$format};
-			.touch & {display: none;}
-		}
-		.format-button[data-format=#{$format}]:active,
-		.format-button[data-format=#{$format}]:focus,
-		.format-button[data-format=#{$format}].active {
-			@extend %icon-#{$format}-active;
-		}
+	i[class^="icon-"], i[class*=" icon-"] {
+		font-size: 1rem;
 	}
 }

@@ -3,6 +3,7 @@
 
 .modeled-content-editor .button.insert-file-attachment {
 	@extend %icon-file;
+	text-indent: -1000px;
 	&:active, &:focus {
 		@extend %icon-file-active;
 	}

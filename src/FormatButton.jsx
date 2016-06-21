@@ -47,7 +47,6 @@ export default class FormatButton extends React.Component {
 
 	render () {
 		const {context: {currentFormat, allowedFormats}, props: {format = '_'}} = this;
-		const code = format.charAt(0).toUpperCase();
 		const active = currentFormat && currentFormat.has(format);
 		const disabled = !currentFormat || !allowedFormats || !allowedFormats.has(format);
 
@@ -58,7 +57,7 @@ export default class FormatButton extends React.Component {
 			'data-format': (format || '').toLowerCase()
 		};
 
-		return React.createElement('button', props, this.renderLabel(code));
+		return React.createElement('button', props, this.renderLabel(format));
 	}
 
 
@@ -69,6 +68,6 @@ export default class FormatButton extends React.Component {
 			return React.Children.map(children, x=>clone(x));
 		}
 
-		return code;
+		return <i className={`icon-${code.toLowerCase()}`}/>;
 	}
 }

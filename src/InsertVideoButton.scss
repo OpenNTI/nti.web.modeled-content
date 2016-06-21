@@ -5,6 +5,7 @@
 
 .modeled-content-editor .button.insert-video {
 	@extend %icon-video;
+	text-indent: -1000px;
 	position: static !important;
 	overflow: visible !important;
 

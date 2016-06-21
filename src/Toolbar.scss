@@ -16,7 +16,6 @@
 
 	& > button,
 	& > .button {
-		color: $secondary-grey;
 		font-weight: bold;
 		border: 0;
 		margin: 0;
@@ -26,7 +25,6 @@
 		vertical-align: bottom;
 		min-width: inherit;
 		position: relative;
-		text-indent: -1000px;
 		overflow: hidden;
 		background: {
 			color: $panel-background;

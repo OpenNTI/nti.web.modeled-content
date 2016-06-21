@@ -3,6 +3,7 @@
 
 .modeled-content-editor .button.insert-whiteboard {
 	@extend %icon-image;
+	text-indent: -1000px;
 	&:active, &:focus {
 		@extend %icon-image-active;
 	}
