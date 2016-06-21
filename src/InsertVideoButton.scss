@@ -1,13 +1,14 @@
 @import "~nti-style-common";
 
-%icon-video {background-image: url(./assets/video.png);}
-%icon-video-active {background-image: url(./assets/video_active.png);}
-
 .modeled-content-editor .button.insert-video {
-	@extend %icon-video;
+	background-image: url(./assets/video.png);
 	text-indent: -1000px;
 	position: static !important;
 	overflow: visible !important;
+
+	&:focus, &:active {
+		background-image: url(./assets/video_active.png);
+	}
 
 	.dialog {
 		text-indent: initial;

@@ -13,6 +13,15 @@
 		y: auto;
 	}
 
+	.button, button {
+		display: inline-block;
+		border: 0;
+		margin: 0;
+		padding: 0 1.25rem;
+		line-height: 2.5rem;
+		vertical-align: middle;
+	}
+
 	&.busy {
 		* {
 			opacity: 0;
@@ -93,27 +102,6 @@
 
 		figure[data-block="true"] {
 			margin: 0;
-		}
-	}
-
-
-	.button, button {
-		display: inline-block;
-		border: 0;
-		text-transform: none;
-		font-weight: 600;
-		font-size: 0.875rem;
-		line-height: 2.5rem;
-		padding: 0 1.25rem;
-		margin: 0;
-		vertical-align: middle;
-		text-align: center;
-		min-width: 90px;
-
-		&.link {
-			background: none;
-			color: $primary-grey;
-			text-decoration: underline;
 		}
 	}
 }

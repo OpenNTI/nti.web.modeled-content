@@ -30,8 +30,8 @@ export default class InsertFileAttachmentButton extends Tool {
 
 		return (
 			<div className="button insert-file-attachment">
-				Insert File Attachment
 				<input type="file" accept="*/*" multiple onChange={this.onSelect}/>
+				<div className="button">Insert File Attachment</div>
 			</div>
 		);
 	}

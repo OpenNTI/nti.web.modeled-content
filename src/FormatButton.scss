@@ -19,8 +19,10 @@
 		position: center center;
 	}
 
+	&:focus,
+	&:active,
 	&.active {
-		color: $primary-grey;
+		color: $secondary-grey;
 	}
 
 	&.disabled {

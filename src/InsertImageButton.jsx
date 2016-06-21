@@ -32,8 +32,8 @@ export default class InsertImageButton extends Tool {
 
 		return (
 			<div className="button insert-whiteboard">
-				Insert Whiteboard
 				<input type="file" accept="image/*" multiple onChange={this.onSelect}/>
+				<div className="button">Insert Whiteboard</div>
 			</div>
 		);
 	}

@@ -1,12 +1,6 @@
-%icon-image {background-image: url(./assets/image.png);}
-%icon-image-active {background-image: url(./assets/image_active.png);}
+@import "~nti-style-common";
 
 .modeled-content-editor .button.insert-whiteboard {
-	@extend %icon-image;
-	text-indent: -1000px;
-	&:active, &:focus {
-		@extend %icon-image-active;
-	}
 
 	input[type=file] {
 		position: absolute;
@@ -19,5 +13,19 @@
 		border: 0;
 		background-color: red; //for debugging
 		opacity: 0;
+
+		& + .button {
+			background: url(./assets/image.png) no-repeat center center;
+			text-indent: -1000px;
+			padding: 0;
+			width: 100%;
+			display: block;
+		}
+		&:active, &:focus {
+			& + .button {
+				background-color: darken($panel-background, 10%);
+				background-image: url(./assets/image_active.png);
+			}
+		}
 	}
 }

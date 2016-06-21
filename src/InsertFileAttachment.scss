@@ -1,12 +1,6 @@
-%icon-file {background-image: url(./assets/file.png);}
-%icon-file-active {background-image: url(./assets/file_active.png);}
+@import "~nti-style-common";
 
 .modeled-content-editor .button.insert-file-attachment {
-	@extend %icon-file;
-	text-indent: -1000px;
-	&:active, &:focus {
-		@extend %icon-file-active;
-	}
 
 	input[type=file] {
 		position: absolute;
@@ -19,5 +13,19 @@
 		border: 0;
 		background-color: red; //for debugging
 		opacity: 0;
+
+		& + .button {
+			background: url(./assets/file.png) no-repeat center center;
+			text-indent: -1000px;
+			padding: 0;
+			width: 100%;
+			display: block;
+		}
+		&:active, &:focus {
+			& + .button {
+				background-color: darken($panel-background, 10%);
+				background-image: url(./assets/file_active.png);
+			}
+		}
 	}
 }
