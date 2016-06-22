@@ -45,6 +45,11 @@ export default class TextEditor extends React.Component {
 	attachEditorRef = ref => this.editor = ref
 
 
+	focus () {
+		this.editor.focus();
+	}
+
+
 	logState = () => this.editor.logState()
 
 
