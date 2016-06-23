@@ -6,6 +6,7 @@
 	border: 1px solid $border-grey;
 	background: #fff;
 	position: relative;
+	z-index: 0;//counteract draft's styles having a z-index on them
 
 	-webkit-overflow-scrolling: touch;
 	overflow: {
