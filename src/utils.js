@@ -202,3 +202,7 @@ export function getValueFromEditorState (editorState) {
 		.toArray()
 		.reduce(joinTextBlocks, []);
 }
+
+export function normalize (value) {
+	return getValueFromEditorState(getEditorStateFromValue(value));
+}

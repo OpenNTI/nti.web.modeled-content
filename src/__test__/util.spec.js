@@ -7,7 +7,8 @@ import {
 
 import {
 	getEditorStateFromValue,
-	getValueFromEditorState
+	getValueFromEditorState,
+	normalize
 } from '../utils';
 
 describe('Value Convertion', () => {
@@ -143,4 +144,11 @@ describe('Value Convertion', () => {
 		expect(value).toEqual(reparsedValue);
 	});
 
+
+	it ('Normalize unwraps html and body tags', () => {
+		const body = '<p>Choice</p>';
+		const value = normalize(`<html><body>${body}</body></html>`);
+
+		expect(value[0]).toEqual(body);
+	});
 });
