@@ -8,7 +8,8 @@ import {
 import {
 	getEditorStateFromValue,
 	getValueFromEditorState,
-	normalize
+	normalize,
+	valuesEqual
 } from '../utils';
 
 describe('Value Convertion', () => {
@@ -150,5 +151,22 @@ describe('Value Convertion', () => {
 		const value = normalize(`<html><body>${body}</body></html>`);
 
 		expect(value[0]).toEqual(body);
+	});
+
+
+	describe('valuesEqual checks', () => {
+		it ('Same values are equal', () => {
+			const a = '<p>Choice</p>';
+			const b = `<html><body>${a}</body></html>`;
+
+			expect(valuesEqual(a, b)).toBeTruthy();
+		});
+
+		it ('Different values are not equal', () => {
+			const a = '<p>Choice A</p>';
+			const b = '<html><body><p>Choice B</p></body></html>';
+
+			expect(valuesEqual(a, b)).toBeFalsy();
+		});
 	});
 });

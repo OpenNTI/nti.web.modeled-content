@@ -203,6 +203,44 @@ export function getValueFromEditorState (editorState) {
 		.reduce(joinTextBlocks, []);
 }
 
+
 export function normalize (value) {
 	return getValueFromEditorState(getEditorStateFromValue(value));
+}
+
+
+function blocksEqual (a, b) {
+	let equal = false;
+
+	if (a === b) {
+		equal = true;
+	}
+
+	//TODO: add checks for the different block types (e.g. whiteboards, files, images)
+
+	return equal;
+}
+
+
+function blockArrayEqual (a, b) {
+	if (a.length !== b.length) { return false; }
+
+	for (let i = 0; i < a.length; i++) {
+		let aVal = a[i];
+		let bVal = b[i];
+
+		if (!blocksEqual(aVal, bVal)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+export function valuesEqual (a, b) {
+	const valueA = normalize(a);
+	const valueB = normalize(b);
+
+	return blockArrayEqual(valueA, valueB);
 }

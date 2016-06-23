@@ -2,7 +2,7 @@ import EditorCore from './Core';
 import EditorContextProvider from './CoreContextProvider';
 import Editor from './Editor';
 import TextEditor from './TextEditor';
-import {normalize as normalizeValue} from './utils';
+import {normalize as normalizeValue, valuesEqual} from './utils';
 
 import CharacterCounter from './plugins/CharacterCounter';
 
@@ -35,5 +35,6 @@ export {
 
 	plugins,
 
-	normalizeValue
+	normalizeValue,
+	valuesEqual
 };
