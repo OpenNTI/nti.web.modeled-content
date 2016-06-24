@@ -439,7 +439,6 @@ export default class Core extends React.Component {
 			<CoreContextProvider editor={this} ref={this.attachContextRef} internal>
 			<div onClick={this.focus} className={cx(
 				'nti-rich-text',
-				'editor',
 				className,
 				{
 					busy,
