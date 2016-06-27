@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import autobind from 'nti-commons/lib/autobind';
+import isActionable from 'nti-commons/lib/is-event-actionable';
 
 import Tool from './Tool';
 
@@ -10,7 +11,6 @@ import {getHandler} from 'nti-web-video';
 
 const logger = Logger.get('modeled-content:components:InsertVideoButton');
 
-const isActionable = (e) => !e || e.type === 'click' || (e.type === 'keydown' && (e.key === 'Enter' || e.key === ' '));
 
 export default class InsertVideoButton extends Tool {
 
