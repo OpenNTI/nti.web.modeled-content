@@ -12,6 +12,8 @@ const CLOSE_TAG = x => `</${x}>`;
 
 const logger = Logger.get('modeled-content:utils');
 
+const WHITESPACE_ENTITIES_AND_TAGS = /((<[^>]+>)|&nbsp;|[\s\r\n])+/ig;
+
 export function getEditorStateFromValue (value) {
 	//falsy values and empty arrays. (empty strings are falsy)
 	if (!value || !value.length) {
@@ -243,4 +245,42 @@ export function valuesEqual (a, b) {
 	const valueB = normalize(b);
 
 	return blockArrayEqual(valueA, valueB);
+}
+
+
+function isHTMLEmpty (html) {
+	if (!Array.isArray(html)) {
+		html = [html];
+	}
+
+	// This filter fn will return true if:
+	// 1) x is not 'null' AND:
+	// 2a) x is not a string OR
+	// 2b) is a string that does not reduce to lenth 0
+	let empties = x=>
+		x && (typeof x !== 'string' || x.replace(WHITESPACE_ENTITIES_AND_TAGS, '').length);
+
+	return html.filter(empties).length === 0;
+}
+
+
+function isBlockEmpty (block) {
+	let empty = false;
+
+	if (typeof block === 'string') {
+		empty = isHTMLEmpty(block);
+	}
+
+	//TODO: add checks for the different block types (e.g. whiteboards, files, images)
+
+	return empty;
+}
+
+
+export function isEmpty (value) {
+	if (!value) { return true; }
+
+	const blocks = normalize(value);
+
+	return blocks.every(isBlockEmpty);
 }

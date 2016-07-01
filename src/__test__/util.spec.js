@@ -9,7 +9,8 @@ import {
 	getEditorStateFromValue,
 	getValueFromEditorState,
 	normalize,
-	valuesEqual
+	valuesEqual,
+	isEmpty
 } from '../utils';
 
 describe('Value Convertion', () => {
@@ -167,6 +168,28 @@ describe('Value Convertion', () => {
 			const b = '<html><body><p>Choice B</p></body></html>';
 
 			expect(valuesEqual(a, b)).toBeFalsy();
+		});
+	});
+
+
+	describe('isEmpty checks', () => {
+		it ('Empty string is empty', () => {
+			expect(isEmpty('')).toBeTruthy();
+		});
+
+
+		it ('Empty tags is empty', () => {
+			expect(isEmpty('<p><span></span></p><p><strong></strong></p>')).toBeTruthy();
+		});
+
+
+		it ('Non empty string is not empty', () => {
+			expect(isEmpty('test')).toBeFalsy();
+		});
+
+
+		it ('Non empty tags are not empty', () => {
+			expect(isEmpty('<p><span>Test</span></p><p><strong>Test</strong></p>')).toBeFalsy();
 		});
 	});
 });

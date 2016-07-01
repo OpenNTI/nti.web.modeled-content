@@ -45,6 +45,7 @@ class Test extends React.Component {
 						onFocus={this.onFocus}
 						onBlur={this.onBlur}
 						ref={this.attachEditor2Ref}
+						warning="You cannot have duplicate answers."
 						singleLine
 						plainText
 						/>

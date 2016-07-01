@@ -2,11 +2,13 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import Core from './Core';
+import TextEditorError from './TextEditorError';
 
 import CharCounter from './plugins/CharacterCounter';
 import Value from './plugins/ValueIsString';
 import PlainText from './plugins/PlainText';
 import SingleLine from './plugins/SingleLine';
+import {isEmpty} from './utils';
 
 export default class TextEditor extends React.Component {
 
@@ -31,7 +33,9 @@ export default class TextEditor extends React.Component {
 
 		charLimit: PropTypes.number,
 		plainText: PropTypes.bool,
-		singleLine: PropTypes.bool
+		singleLine: PropTypes.bool,
+		error: PropTypes.string,
+		warning: PropTypes.string
 	}
 
 
@@ -105,12 +109,14 @@ export default class TextEditor extends React.Component {
 	 */
 	getValue () {
 		const {editor} = this;
-		return editor && editor.getValue();
+		const value = editor && editor.getValue();
+
+		return isEmpty(value) ? '' : value;
 	}
 
 
 	render () {
-		const {props: {className, placeholder}, state: {value}, counterComponent: Counter} = this;
+		const {props: {className, placeholder, error, warning}, state: {value}, counterComponent: Counter} = this;
 		return (
 			<div className="text-editor">
 				<Core className={cx('text-editor', className)} value={value}
@@ -123,6 +129,7 @@ export default class TextEditor extends React.Component {
 					toolbars={false}
 					/>
 				{Counter && <Counter/>}
+				{(error || warning) && <TextEditorError error={error} warning={warning} />}
 			</div>
 		);
 	}

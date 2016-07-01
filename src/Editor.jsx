@@ -9,10 +9,9 @@ import FormatButton, {Formats} from './FormatButton';
 import InsertImageButton from './InsertImageButton';
 import InsertVideoButton from './InsertVideoButton';
 import InsertFileAttachment from './InsertFileAttachment';
+import {isEmpty} from './utils';
 
 const {SOUTH} = REGIONS;
-
-const WHITESPACE_ENTITIES_AND_TAGS = /((<[^>]+>)|&nbsp;|[\s\r\n])+/ig;
 
 export default class Editor extends React.Component {
 
@@ -60,19 +59,7 @@ export default class Editor extends React.Component {
 
 
 	static isEmpty (html) {
-		if (!Array.isArray(html)) {
-			html = [html];
-		}
-
-		// This filter fn will return true if:
-		// 1) x is not 'null' AND:
-		// 2a) x is not a string OR
-		// 2b) is a string that does not reduce to lenth 0
-		let empties = x=>
-			x && (typeof x !== 'string' || x.replace(WHITESPACE_ENTITIES_AND_TAGS, '').length);
-
-		return html.filter(empties).length === 0;
-
+		return isEmpty(html);
 	}
 
 	/**

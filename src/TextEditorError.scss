@@ -1,0 +1,13 @@
+@import "~nti-style-common";
+
+.text-editor .text-editor-error {
+	font-size: 0.875rem;
+
+	&.error {
+		color: $primary-red;
+	}
+
+	&.warning {
+		color: $primary-orange;
+	}
+}
