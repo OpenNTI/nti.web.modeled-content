@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
+import {ErrorCmp} from 'nti-web-commons';
 import cx from 'classnames';
 
 import Core from './Core';
-import TextEditorError from './TextEditorError';
 
 import CharCounter from './plugins/CharacterCounter';
 import Value from './plugins/ValueIsString';
@@ -34,8 +34,8 @@ export default class TextEditor extends React.Component {
 		charLimit: PropTypes.number,
 		plainText: PropTypes.bool,
 		singleLine: PropTypes.bool,
-		error: PropTypes.string,
-		warning: PropTypes.string
+		error: PropTypes.object,
+		warning: PropTypes.object
 	}
 
 
@@ -66,6 +66,11 @@ export default class TextEditor extends React.Component {
 	onFocus = () => {
 		const {onFocus = () =>{}} = this.props;
 		onFocus(this);
+	}
+
+
+	onErrorFocused = () => {
+		this.focus();
 	}
 
 
@@ -129,7 +134,8 @@ export default class TextEditor extends React.Component {
 					toolbars={false}
 					/>
 				{Counter && <Counter/>}
-				{(error || warning) && <TextEditorError error={error} warning={warning} />}
+				{error && <ErrorCmp error={error} onFocus={this.onErrorFocused} />}
+				{warning && <ErrorCmp error={warning} onFocus={this.onErrorFocused} isWarning/>}
 			</div>
 		);
 	}

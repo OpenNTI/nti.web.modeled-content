@@ -2,6 +2,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {ErrorFactory} from 'nti-web-commons';
 import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
 
@@ -12,6 +13,9 @@ import 'nti-web-commons/lib/index.css';
 const counter = new CharCounter(20);
 const CharCount = counter.getComponent();
 
+const errorFactory = new ErrorFactory();
+const error = errorFactory.make('Fake ID', 'Fake Field', {Code: 'TooShort', message: 'Too Short'});
+
 
 class Test extends React.Component {
 
@@ -21,6 +25,7 @@ class Test extends React.Component {
 	attachEditor2Ref = e => this.editor2 = e;
 	logValue = ()=> console.debug(this.focused.getValue())
 	logState = ()=> this.focused.logState()
+	focusError = () => error.focus()
 
 	onFocus = (editor) => {
 		this.setState({editor});
@@ -45,7 +50,7 @@ class Test extends React.Component {
 						onFocus={this.onFocus}
 						onBlur={this.onBlur}
 						ref={this.attachEditor2Ref}
-						warning="You cannot have duplicate answers."
+						error={error}
 						singleLine
 						plainText
 						/>
@@ -68,6 +73,10 @@ class Test extends React.Component {
 
 					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logValue}>
 						Log Value
+					</button>
+
+					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusError}>
+						Focus Error
 					</button>
 				</div>
 			</div>
