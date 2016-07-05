@@ -17,6 +17,7 @@ export default class PlainText extends Plugin {
 	 */
 	onChange (newState) {
 		let content = newState.getCurrentContent();
+		const originalContent = content;
 
 		for (let block of content.getBlocksAsArray()) {
 			const blockKey = block.getKey();
@@ -36,11 +37,17 @@ export default class PlainText extends Plugin {
 			}
 
 			//make the block a simple unstyed "plain text" block (paragraph)
-			content = Modifier.setBlockType(content, range, 'unstyled');
+			if (block.type !== 'unstyled') {
+				content = Modifier.setBlockType(content, range, 'unstyled');
+			}
 		}
 
 		const blocks = content.getBlocksAsArray();
 		if (blocks.length < 1) {
+			return;
+		}
+
+		if (content === originalContent) {
 			return;
 		}
 
