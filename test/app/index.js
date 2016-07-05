@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {ErrorFactory} from 'nti-web-commons';
+import {Errors} from 'nti-web-commons';
 import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
 
@@ -13,8 +13,10 @@ import 'nti-web-commons/lib/index.css';
 const counter = new CharCounter(20);
 const CharCount = counter.getComponent();
 
+const {Field:{Factory:ErrorFactory}} = Errors;
+
 const errorFactory = new ErrorFactory();
-const error = errorFactory.make('Fake ID', 'Fake Field', {Code: 'TooShort', message: 'Too Short'});
+const error = errorFactory.make({NTIID: 'Fake ID', label: 'Fake Field'}, {Code: 'TooShort', message: 'Too Short'});
 
 
 class Test extends React.Component {
