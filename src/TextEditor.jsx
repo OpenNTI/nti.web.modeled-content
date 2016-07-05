@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {ErrorCmp} from 'nti-web-commons';
+import {Errors} from 'nti-web-commons';
 import cx from 'classnames';
 
 import Core from './Core';
@@ -9,6 +9,8 @@ import Value from './plugins/ValueIsString';
 import PlainText from './plugins/PlainText';
 import SingleLine from './plugins/SingleLine';
 import {isEmpty} from './utils';
+
+const {Field:{Component:ErrorCmp}} = Errors;
 
 export default class TextEditor extends React.Component {
 
