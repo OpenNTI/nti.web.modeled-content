@@ -13,6 +13,7 @@ const CLOSE_TAG = x => `</${x}>`;
 const logger = Logger.get('modeled-content:utils');
 
 const WHITESPACE_ENTITIES_AND_TAGS = /((<[^>]+>)|&nbsp;|[\s\r\n])+/ig;
+const TAGS_REGEX = /(<([^>]+)>)/igm;
 
 export function getEditorStateFromValue (value) {
 	//falsy values and empty arrays. (empty strings are falsy)
@@ -283,4 +284,9 @@ export function isEmpty (value) {
 	const blocks = normalize(value);
 
 	return blocks.every(isBlockEmpty);
+}
+
+
+export function stripTags (value) {
+	return value.replace(TAGS_REGEX, '');
 }

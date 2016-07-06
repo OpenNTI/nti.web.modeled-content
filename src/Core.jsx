@@ -226,15 +226,21 @@ export default class Core extends React.Component {
 
 
 	getValue () {
-		const value = getValueFromEditorState(this.state.editorState);
-		const valuePlugins = this.plugins().filter(x => x.getValue);
+		const mapPlugins = this.plugins().filter(x => x.mapValue);
+		const getPlugins = this.plugins().filter(x => x.getValue);
 
-		const shouldHaveSensibleAmountOfValueFilters = valuePlugins.length <= 1;
+		let value = getValueFromEditorState(this.state.editorState);
+
+		value = mapPlugins.reduce((acc, plugin) => {
+			return plugin.mapValue(acc);
+		}, value);
+
+		const shouldHaveSensibleAmountOfValueFilters = getPlugins.length <= 1;
 
 		invariant(shouldHaveSensibleAmountOfValueFilters, 'More than one plugin defines getValue! '
 			+ 'If this is intended, make a high-order plugin that composes these to ensure value filter order.');
 
-		const [plugin] = valuePlugins;
+		const [plugin] = getPlugins;
 		return plugin ? plugin.getValue(value) : value;
 	}
 

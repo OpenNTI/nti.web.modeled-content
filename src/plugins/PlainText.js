@@ -1,4 +1,5 @@
 import Plugin from './Plugin';
+import {stripTags} from '../utils';
 import {EditorState, Modifier, SelectionState} from 'draft-js';
 
 
@@ -57,6 +58,15 @@ export default class PlainText extends Plugin {
 			decorator: newState.getDecorator(),
 			selection: newState.getSelection()
 		});
+	}
+
+	/**
+	 * Unwrap any html tags around the text
+	 * @param  {[String]} blocks the value from the editor
+	 * @return {[String]}        [description]
+	 */
+	mapValue (blocks) {
+		return blocks.map(stripTags);
 	}
 
 }
