@@ -3,8 +3,8 @@ exports = module.exports = Object.assign(require('./webpack.config'), {
 	externals: [],
 	output: {
 		path: '/',
-		filename: 'index.js',
-		publicPath: '/'
+		filename: 'index.js'
+		// publicPath: '/'
 	}
 });
 
