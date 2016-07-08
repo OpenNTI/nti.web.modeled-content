@@ -41,6 +41,12 @@ export default class TextEditor extends React.Component {
 	}
 
 
+	static defaultProps = {
+		onBlur () {},
+		onFocus () {}
+	}
+
+
 	constructor (props) {
 		super(props);
 		this.setupValue(props);
@@ -60,14 +66,12 @@ export default class TextEditor extends React.Component {
 
 
 	onBlur = () => {
-		const {onBlur = () =>{}} = this.props;
-		onBlur(this);
+		this.props.onBlur(this);
 	}
 
 
 	onFocus = () => {
-		const {onFocus = () =>{}} = this.props;
-		onFocus(this);
+		this.props.onFocus(this);
 	}
 
 

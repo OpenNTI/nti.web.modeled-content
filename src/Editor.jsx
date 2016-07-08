@@ -5,6 +5,7 @@ import getPartType from './editor-parts';
 
 import Core from './Core';
 import {REGIONS} from './Toolbar';
+import ToolbarSection from './ToolbarSection';
 import FormatButton, {Formats} from './FormatButton';
 import InsertImageButton from './InsertImageButton';
 import InsertVideoButton from './InsertVideoButton';
@@ -54,7 +55,9 @@ export default class Editor extends React.Component {
 	static defaultProps = {
 		allowInsertFile: false,
 		allowInsertImage: true,
-		allowInsertVideo: false
+		allowInsertVideo: false,
+		onBlur () {},
+		onFocus () {}
 	}
 
 
@@ -91,14 +94,12 @@ export default class Editor extends React.Component {
 
 
 	onBlur = () => {
-		const {onBlur = () =>{}} = this.props;
-		onBlur(this);
+		this.props.onBlur(this);
 	}
 
 
 	onFocus = () => {
-		const {onFocus = () =>{}} = this.props;
-		onFocus(this);
+		this.props.onFocus(this);
 	}
 
 
@@ -173,9 +174,9 @@ export default class Editor extends React.Component {
 					<InsertFileAttachment region={SOUTH}/>
 				)}
 
-				<div className="right-south" region={SOUTH}>
+				<ToolbarSection className="right-south" region={SOUTH}>
 					{children}
-				</div>
+				</ToolbarSection>
 			</Core>
 		);
 	}
