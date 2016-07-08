@@ -180,6 +180,17 @@ export function getValueFromEditorState (editorState) {
 	}
 
 
+	function trimEmptiesOffEnd (blocks) {
+		const output = blocks.slice();
+
+		while (output.length && isHTMLEmpty(output[output.length - 1])) {
+			output.pop();
+		}
+
+		return output;
+	}
+
+
 	function renderBlock (block, key) {
 
 		if (block.type === 'atomic') {
@@ -197,12 +208,14 @@ export function getValueFromEditorState (editorState) {
 
 		const [prefix, postfix] = getBlockTags(block, prev, next);
 
-		return prefix + renderContentBlockContent(tree, block) + postfix;
+		return prefix + renderContentBlockContent(tree, block).trim() + postfix;
 	}
 
-	return content.getBlockMap()
-		.map(renderBlock)
-		.toArray()
+	return trimEmptiesOffEnd(
+		content.getBlockMap()
+			.map(renderBlock)
+			.toArray()
+		)
 		.reduce(joinTextBlocks, []);
 }
 
