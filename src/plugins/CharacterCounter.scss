@@ -1,11 +1,13 @@
 @import "~nti-style-common";
 
 .character-over-limit {
-	// background-color: rgba($primary-red, .7);
-	// color: rgba($secondary-red, .8);
-	color: $primary-red;
+	background-color: rgba($primary-red, .15);
 }
 
-.character-count.over {
-	color: $primary-red;
+.character-count{
+	font-size: 0.875rem;
+
+	&.over {
+		color: $primary-red;
+	}
 }

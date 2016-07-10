@@ -68,18 +68,23 @@ export default class Counter extends Plugin {
 
 	getComponent () {
 		const inst = this;
+
 		return React.createClass({
 			displayName: 'Counter',
 			componentDidMount () { inst.registerComponent(this); },
 			componentWillUnmount () { inst.unregisterComponent(this); },
 			render () {
 				const count = inst.getCount();
+				const limit = inst.limit;
+				const diff = limit - count;
+
 				const cls = cx('character-count', {
-					'over': inst.isOver(count)
+					'over': diff < 0
 				});
+
 				return (
 					<div className={cls}>
-						{count}
+						{diff}
 					</div>
 				);
 			}
