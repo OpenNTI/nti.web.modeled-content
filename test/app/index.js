@@ -49,6 +49,7 @@ class Test extends React.Component {
 					</div>
 
 					<TextEditor charLimit={150}
+						countDown
 						onFocus={this.onFocus}
 						onBlur={this.onBlur}
 						ref={this.attachEditor2Ref}

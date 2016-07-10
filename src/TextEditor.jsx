@@ -34,6 +34,9 @@ export default class TextEditor extends React.Component {
 		placeholder: PropTypes.string,
 
 		charLimit: PropTypes.number,
+		//Count down to the charLimit
+		countDown: PropTypes.bool,
+
 		plainText: PropTypes.bool,
 		singleLine: PropTypes.bool,
 		error: PropTypes.object,
@@ -102,7 +105,7 @@ export default class TextEditor extends React.Component {
 		].filter(x => x);
 
 		if (props.charLimit) {
-			let counter = new CharCounter(props.charLimit);
+			let counter = new CharCounter(props.charLimit, props.countDown);
 			this.plugins.push(counter);
 			this.counterComponent = counter.getComponent();
 		}

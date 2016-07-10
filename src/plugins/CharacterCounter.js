@@ -35,13 +35,22 @@ function getSumOfAllBlocksBefore (blockKey, editorState) {
 
 export default class Counter extends Plugin {
 
-	constructor (limit) {
+	constructor (limit, countDown) {
 		super();
-		Object.defineProperty(this, 'limit', {
-			configurable: false,
-			enumerable: false,
-			writable: false,
-			value: limit
+		Object.defineProperties(this, {
+			limit: {
+				configurable: false,
+				enumerable: false,
+				writable: false,
+				value: limit
+			},
+			countDown: {
+				configurable: false,
+				enumerable: false,
+				writable: false,
+				value: limit && countDown
+
+			}
 		});
 
 		this.components = [];
@@ -74,17 +83,17 @@ export default class Counter extends Plugin {
 			componentDidMount () { inst.registerComponent(this); },
 			componentWillUnmount () { inst.unregisterComponent(this); },
 			render () {
+				const countDown = inst.countDown;
 				const count = inst.getCount();
 				const limit = inst.limit;
-				const diff = limit - count;
 
 				const cls = cx('character-count', {
-					'over': diff < 0
+					'over': inst.isOver()
 				});
 
 				return (
 					<div className={cls}>
-						{diff}
+						{countDown ? (limit - count) : count}
 					</div>
 				);
 			}
