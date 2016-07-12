@@ -33,15 +33,6 @@ const getEditorState = x => x ? x.editorState : EditorState.createEmpty();
 const applyDecorators = (state, config) => config ? EditorState.set(state, config) : state;
 
 
-const COMMANDS = {
-	[getKeyCode({altKey: true, key: 'Enter'})]: 'commit',
-	[getKeyCode({ctrlKey: true, key: 'Enter'})]: 'commit',
-	[getKeyCode({shiftKey: true, key: 'Enter'})]: 'commit',
-	[getKeyCode({commandKey: true, key: 'Enter'})]: 'commit',
-	[getKeyCode({key: 'Enter'})]: 'split-block'
-};
-
-
 // Custom overrides for "code" style.
 const styleMap = {
 	CODE: {
@@ -58,6 +49,7 @@ export default class Core extends React.Component {
 	static propTypes = {
 		children: PropTypes.any,
 		className: PropTypes.string,
+		customBindings: PropTypes.object,
 		getCustomBlockType: PropTypes.func,
 		onBlur: PropTypes.func,
 		onFocus: PropTypes.func,
@@ -253,16 +245,39 @@ export default class Core extends React.Component {
 
 
 	handleKeyCommand = (command) => {
-		const {handleKeyCommand} = this.props;
+		const {
+			state: {
+				editorState
+			},
+			props: {
+				handleKeyCommand,
+				customBindings
+			}
+		} = this;
+
+
+		//prop handleKeyCommand override.
 		if (handleKeyCommand && handleKeyCommand(command)) {
 			return true;
 		}
 
+		//customBindings override.
+		const fn = customBindings && customBindings[command];
+		if (fn) {
+			if (typeof fn !== 'function') {
+				logger.warn('Binding for %s is not a function!', command);
+			} else if(fn(editorState)) {
+				return true;
+			}
+		}
+
+		//Plugin override.
 		if (this.pluginHandler('handleKeyCommand', command)) {
 			return true;
 		}
 
-		const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
+		//Default.
+		const newState = RichUtils.handleKeyCommand(editorState, command);
 		if (newState) {
 			this.onChange(newState);
 			return true;
@@ -279,12 +294,17 @@ export default class Core extends React.Component {
 
 
 	keyBinding = (e) => {
-		const {keyBinding} = this.props;
+		const keyCode = getKeyCode(e);
+		const {keyBinding, customBindings} = this.props;
 		if (keyBinding) {
 			let result = keyBinding(e);
 			if (result) {
 				return result;
 			}
+		}
+
+		if (customBindings && customBindings[keyCode]) {
+			return keyCode;
 		}
 
 		let pluginKeyBind = this.pluginHandler('keyBinding', e);

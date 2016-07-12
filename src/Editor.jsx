@@ -19,6 +19,7 @@ export default class Editor extends React.Component {
 	static propTypes = {
 		children: PropTypes.any,
 		className: PropTypes.string,
+		customBindings: PropTypes.object,
 		allowInsertImage: PropTypes.bool,
 		allowInsertVideo: PropTypes.bool,
 		allowInsertFile: PropTypes.bool,
@@ -147,9 +148,25 @@ export default class Editor extends React.Component {
 
 
 	render () {
-		const {props: {allowInsertFile, allowInsertImage, allowInsertVideo, className, children, plugins, placeholder}, state: {value}} = this;
+		const {
+			props: {
+				allowInsertFile,
+				allowInsertImage,
+				allowInsertVideo,
+				className,
+				children,
+				customBindings,
+				plugins,
+				placeholder
+			},
+			state: {
+				value
+			}
+		} = this;
+
 		return (
 			<Core className={cx('modeled-content-editor', className)} value={value}
+				customBindings={customBindings}
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
 				onFocus={this.onFocus}

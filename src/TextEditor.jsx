@@ -16,6 +16,7 @@ export default class TextEditor extends React.Component {
 
 	static propTypes = {
 		className: PropTypes.string,
+		customBindings: PropTypes.object,
 
 		onFocus: PropTypes.func,
 		onBlur: PropTypes.func,
@@ -130,10 +131,24 @@ export default class TextEditor extends React.Component {
 
 
 	render () {
-		const {props: {className, placeholder, error, warning}, state: {value}, counterComponent: Counter} = this;
+		const {
+			props: {
+				className,
+				customBindings,
+				placeholder,
+				error,
+				warning
+			},
+			state: {
+				value
+			},
+			counterComponent: Counter
+		} = this;
+
 		return (
 			<div className="text-editor">
 				<Core className={cx('text-editor', className)} value={value}
+					customBindings={customBindings}
 					onChange={this.props.onChange}
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
