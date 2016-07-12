@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import invariant from 'invariant';
 
+import getKeyCode from 'nti-commons/lib/get-key-code';
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
@@ -35,6 +36,16 @@ function schedual (fn) {
 	clearTimeout(fn.callBuffer);
 	fn.callBuffer = setTimeout(fn, 1);
 }
+
+
+const COMMANDS = {
+	[getKeyCode({altKey: true, key: 'Enter'})]: 'commit',
+	[getKeyCode({ctrlKey: true, key: 'Enter'})]: 'commit',
+	[getKeyCode({shiftKey: true, key: 'Enter'})]: 'commit',
+	[getKeyCode({commandKey: true, key: 'Enter'})]: 'commit',
+	[getKeyCode({key: 'Enter'})]: 'split-block'
+};
+
 
 // Custom overrides for "code" style.
 const styleMap = {
