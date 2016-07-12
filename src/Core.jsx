@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import invariant from 'invariant';
 
-import autobind from 'nti-commons/lib/autobind';
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
@@ -92,20 +91,6 @@ export default class Core extends React.Component {
 
 		this.allowedFormats = new Set(Object.keys(Formats));
 		this.setupValue(props);
-
-		autobind(this,
-			'getValue',
-			'handleReturn',
-			'handleKeyCommand',
-			'handlePastedText',
-			'onChange',
-			'onBlur',
-			'onFocus',
-			'onTab',
-			'renderBlock',
-			'toggleBlockType',
-			'toggleInlineStyle'
-		);
 	}
 
 	attachContextRef = (r) => this.editorContext = r
@@ -155,19 +140,19 @@ export default class Core extends React.Component {
 	}
 
 
-	onBlur () {
+	onBlur = () => {
 		const {onBlur} = this.props;
 		onBlur(this);
 	}
 
 
-	onFocus () {
+	onFocus = () => {
 		const {onFocus} = this.props;
 		onFocus(this);
 	}
 
 
-	onChange (editorState, cb) {
+	onChange = (editorState, cb) => {
 		const finish = () => typeof cb === 'function' && cb();
 		const hasFocus = editorState.getSelection().getHasFocus();
 		const {
@@ -225,7 +210,7 @@ export default class Core extends React.Component {
 	}
 
 
-	getValue () {
+	getValue = () => {
 		const mapPlugins = this.plugins().filter(x => x.mapValue);
 		const getPlugins = this.plugins().filter(x => x.getValue);
 
@@ -245,7 +230,7 @@ export default class Core extends React.Component {
 	}
 
 
-	handleReturn (...args) {
+	handleReturn = (...args) => {
 		for(let plugin of this.plugins()) {
 			if (plugin.handleReturn) {
 				if (plugin.handleReturn(...args)) {
@@ -256,7 +241,7 @@ export default class Core extends React.Component {
 	}
 
 
-	handleKeyCommand (command) {
+	handleKeyCommand = (command) => {
 		const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
 		if (newState) {
 			this.onChange(newState);
@@ -266,7 +251,7 @@ export default class Core extends React.Component {
 	}
 
 
-	handlePastedText (...args) {
+	handlePastedText = (...args) => {
 		for(let plugin of this.plugins()) {
 			if (plugin.handlePastedText) {
 				if (plugin.handlePastedText(...args)) {
@@ -277,7 +262,7 @@ export default class Core extends React.Component {
 	}
 
 
-	onTab (e) {
+	onTab = (e) => {
 		const newState = RichUtils.onTab(e, this.state.editorState);
 		if (newState) {
 			this.onChange(newState);
@@ -358,7 +343,7 @@ export default class Core extends React.Component {
 	}
 
 
-	toggleBlockType (blockType) {
+	toggleBlockType = (blockType) => {
 		this.onChange(
 			RichUtils.toggleBlockType(
 				this.state.editorState,
@@ -368,7 +353,7 @@ export default class Core extends React.Component {
 	}
 
 
-	toggleInlineStyle (format, reclaimFocus) {
+	toggleInlineStyle = (format, reclaimFocus) => {
 		logger.log(format);
 		const afterApply = reclaimFocus ? ()=> this.focus() : void 0;
 		this.onChange(
@@ -402,7 +387,7 @@ export default class Core extends React.Component {
 	}
 
 
-	renderBlock (block) {
+	renderBlock = (block) => {
 		const {getCustomBlockType} = this.props;
 		if (getCustomBlockType && block.getType() === 'atomic') {
 			return {
