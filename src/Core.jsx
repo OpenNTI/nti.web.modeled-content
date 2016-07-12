@@ -237,8 +237,18 @@ export default class Core extends React.Component {
 	}
 
 
-	handleReturn = (...args) => {
-		if (this.pluginHandler('handleReturn', ...args)) {
+	handleReturn = (e) => {
+		const keyCode = getKeyCode(e);
+		const {state: {editorState}, props:{customBindings}} = this;
+
+		if (customBindings && customBindings[keyCode]) {
+			if (customBindings[keyCode](editorState)) {
+				e.preventDefault();
+				return true;
+			}
+		}
+
+		if (this.pluginHandler('handleReturn', e)) {
 			return true;
 		}
 	}
@@ -317,6 +327,16 @@ export default class Core extends React.Component {
 
 
 	onTab = (e) => {
+		const keyCode = getKeyCode(e);
+		const {state: {editorState}, props:{customBindings}} = this;
+
+		if (customBindings && customBindings[keyCode]) {
+			if (customBindings[keyCode](editorState)) {
+				e.preventDefault();
+				return true;
+			}
+		}
+
 		if (this.pluginHandler('onTab', e)) {
 			return true;
 		}
