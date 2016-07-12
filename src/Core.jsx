@@ -32,11 +32,6 @@ const logger = Logger.get('modeled-content:editor:core');
 const getEditorState = x => x ? x.editorState : EditorState.createEmpty();
 const applyDecorators = (state, config) => config ? EditorState.set(state, config) : state;
 
-function schedual (fn) {
-	clearTimeout(fn.callBuffer);
-	fn.callBuffer = setTimeout(fn, 1);
-}
-
 
 const COMMANDS = {
 	[getKeyCode({altKey: true, key: 'Enter'})]: 'commit',
@@ -180,9 +175,7 @@ export default class Core extends React.Component {
 
 	onChange = (editorState, cb) => {
 		const finish = () => typeof cb === 'function' && cb();
-		const hasFocus = editorState.getSelection().getHasFocus();
 		const {
-			state: {editorState: old},
 			props: {onChange}
 		} = this;
 
@@ -202,10 +195,6 @@ export default class Core extends React.Component {
 			finish();
 
 			onChange();
-
-			if(old.getSelection().getHasFocus() !== hasFocus) {
-				schedual(hasFocus ? this.onFocus : this.onBlur);
-			}
 		});
 	}
 
@@ -498,7 +487,9 @@ export default class Core extends React.Component {
 					handlePastedText={this.handlePastedText}
 					handleKeyCommand={this.handleKeyCommand}
 					keyBindingFn={this.keyBinding}
+					onBlur={this.onBlur}
 					onChange={this.onChange}
+					onFocus={this.onFocus}
 					onTab={this.onTab}
 					placeholder={placeholder}
 					ref={this.attachEditorRef}
