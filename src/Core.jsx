@@ -130,6 +130,18 @@ export default class Core extends React.Component {
 	}
 
 
+	pluginHandler (name, ...args) {
+		for(let plugin of this.plugins()) {
+			if (plugin[name]) {
+				let result = plugin[name](...args);
+				if (result) {
+					return result;
+				}
+			}
+		}
+	}
+
+
 	initializePlugins (props = this.props) {
 		const plugins = this.plugins(props);
 		const api = {
@@ -245,12 +257,8 @@ export default class Core extends React.Component {
 
 
 	handleReturn = (...args) => {
-		for(let plugin of this.plugins()) {
-			if (plugin.handleReturn) {
-				if (plugin.handleReturn(...args)) {
-					return true;
-				}
-			}
+		if (this.pluginHandler('handleReturn', ...args)) {
+			return true;
 		}
 	}
 
@@ -258,6 +266,10 @@ export default class Core extends React.Component {
 	handleKeyCommand = (command) => {
 		const {handleKeyCommand} = this.props;
 		if (handleKeyCommand && handleKeyCommand(command)) {
+			return true;
+		}
+
+		if (this.pluginHandler('handleKeyCommand', command)) {
 			return true;
 		}
 
@@ -271,12 +283,8 @@ export default class Core extends React.Component {
 
 
 	handlePastedText = (...args) => {
-		for(let plugin of this.plugins()) {
-			if (plugin.handlePastedText) {
-				if (plugin.handlePastedText(...args)) {
-					return true;
-				}
-			}
+		if (this.pluginHandler('handlePastedText', ...args)) {
+			return true;
 		}
 	}
 
@@ -290,11 +298,20 @@ export default class Core extends React.Component {
 			}
 		}
 
+		let pluginKeyBind = this.pluginHandler('keyBinding', e);
+		if (pluginKeyBind) {
+			return pluginKeyBind;
+		}
+
 		return getDefaultKeyBinding(e);
 	}
 
 
 	onTab = (e) => {
+		if (this.pluginHandler('onTab', e)) {
+			return true;
+		}
+
 		const newState = RichUtils.onTab(e, this.state.editorState);
 		if (newState) {
 			this.onChange(newState);
