@@ -12,7 +12,8 @@ import {
 	Modifier,
 	RichUtils,
 	SelectionState,
-	convertToRaw
+	convertToRaw,
+	getDefaultKeyBinding
 } from 'draft-js';
 
 import Block from './Block';
@@ -56,6 +57,8 @@ export default class Core extends React.Component {
 		onFocus: PropTypes.func,
 		onChange: PropTypes.func,
 		placeholder: PropTypes.string,
+		handleKeyCommand: PropTypes.func,
+		keyBinding: PropTypes.func,
 		toolbars: PropTypes.oneOfType([
 			PropTypes.bool,
 			PropTypes.node,
@@ -242,6 +245,11 @@ export default class Core extends React.Component {
 
 
 	handleKeyCommand = (command) => {
+		const {handleKeyCommand} = this.props;
+		if (handleKeyCommand && handleKeyCommand(command)) {
+			return true;
+		}
+
 		const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
 		if (newState) {
 			this.onChange(newState);
@@ -259,6 +267,19 @@ export default class Core extends React.Component {
 				}
 			}
 		}
+	}
+
+
+	keyBinding = (e) => {
+		const {keyBinding} = this.props;
+		if (keyBinding) {
+			let result = keyBinding(e);
+			if (result) {
+				return result;
+			}
+		}
+
+		return getDefaultKeyBinding(e);
 	}
 
 
@@ -448,6 +469,7 @@ export default class Core extends React.Component {
 					handleReturn={this.handleReturn}
 					handlePastedText={this.handlePastedText}
 					handleKeyCommand={this.handleKeyCommand}
+					keyBindingFn={this.keyBinding}
 					onChange={this.onChange}
 					onTab={this.onTab}
 					placeholder={placeholder}
