@@ -7,6 +7,13 @@ import Editor from '../Editor';
 const getNode = cmp => ReactDOM.findDOMNode(cmp);
 const getText = cmp => getNode(cmp).querySelector('[contenteditable]').textContent;
 
+const render = (node, cmp, props, ...children) => new Promise(next =>
+	void ReactDOM.render(
+		React.createElement(cmp, {...props, ref (x) {cmp = x; props.ref && props.ref(x);}}, ...children),
+		node,
+		() => next(cmp)
+	));
+
 describe('Modeled Body Content Editor', () => {
 	let container = document.createElement('div');
 	let newNode;
@@ -29,49 +36,35 @@ describe('Modeled Body Content Editor', () => {
 	});
 
 
-	it('Base Cases: Mounts with no props.', () => {
-		const A = ReactDOM.render(React.createElement(Editor), newNode);
-		const B = ReactDOM.render(React.createElement(Editor), container);
+	const test = (props = {}, ...children) => Promise.all([
+		render(newNode, Editor, props, ...children),
+		render(container, Editor, props, ...children)
+	]);
 
-		expect(A).toBeTruthy();
-		expect(B).toBeTruthy();
 
-		const a = getNode(A);
-		const b = getNode(B);
+	it('Base Cases: Mounts with no props.', (done) => {
 
-		const aa = Array.from(a.querySelectorAll('[contenteditable]'));
-		const bb = Array.from(b.querySelectorAll('[contenteditable]'));
-
-		expect(aa.length).toBe(1);
-		expect(bb.length).toBe(1);
-
-		expect(A.getValue()).toEqual([]);
-		expect(B.getValue()).toEqual([]);
+		test()
+			.then(cmps => cmps.forEach(cmp => {
+				expect(cmp).toBeTruthy();
+				const a = getNode(cmp);
+				const aa = Array.from(a.querySelectorAll('[contenteditable]'));
+				expect(aa.length).toBe(1);
+				expect(cmp.getValue()).toEqual([]);
+			}))
+			.then(done, done.fail);
 	});
 
 	it('Base Cases: Pass a string, get a BODY string out.', done => {
 		const value = 'test';
 
-		const A = ReactDOM.render(
-			React.createElement(Editor, {initialValue: value}),
-			newNode
-		);
-
-		const B = ReactDOM.render(
-			React.createElement(Editor, {initialValue: value}),
-			container
-		);
-
-		Promise.all([A.pendingSetup, B.pendingSetup])
-			.catch(e => console.error(e))
-			.then(() => {
-				expect(getText(A)).toEqual('test');
-				expect(getText(B)).toEqual('test');
-
-				expect(A.getValue()).toEqual(['<p>test</p>']);
-				expect(B.getValue()).toEqual(['<p>test</p>']);
-				done();
-			});
+		test({initialValue: value})
+			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
+			.then(cmps => cmps.forEach(X => {
+				expect(getText(X)).toEqual('test');
+				expect(X.getValue()).toEqual(['<p>test</p>']);
+			}))
+			.then(done, done.fail);
 	});
 
 	it('Base Cases: Body Parts Render. Unknown is preserved.', done => {
@@ -79,26 +72,16 @@ describe('Modeled Body Content Editor', () => {
 
 		const toExpected = x => typeof x === 'string' ? `<p>${x}</p>` : x;
 
-		const A = ReactDOM.render(
-			React.createElement(Editor, {initialValue: value}),
-			newNode
-		);
+		test({initialValue: value})
+			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
+			.then(cmps => cmps.forEach(X => {
+				expect(getText(X)).toMatch(/test.*?abc/);
 
-		const B = ReactDOM.render(
-			React.createElement(Editor, {initialValue: value}),
-			container
-		);
+				expect(X.getValue()).toEqual(value.map(toExpected));
+			}))
+			.then(done, done.fail);
+	});
 
-		Promise.all([A.pendingSetup, B.pendingSetup])
-			.catch(e => console.error(e))
-			.then(() => {
-				expect(getText(A)).toMatch(/test.*?abc/);
-				expect(getText(B)).toMatch(/test.*?abc/);
-
-				expect(A.getValue()).toEqual(value.map(toExpected));
-				expect(B.getValue()).toEqual(value.map(toExpected));
-				done();
-			});
 	});
 
 });
