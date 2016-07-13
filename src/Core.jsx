@@ -254,7 +254,7 @@ export default class Core extends React.Component {
 	}
 
 
-	handleKeyCommand = (maybeCompoundCommand) => {
+	handleKeyCommand = (command) => {
 		const {
 			state: {
 				editorState
@@ -262,11 +262,11 @@ export default class Core extends React.Component {
 			props: {
 				handleKeyCommand,
 				customBindings
-			}
+			},
+			commandOverride: {[command]: override} = {}
 		} = this;
 
-		let [command, defaultCommand] = maybeCompoundCommand.split(/::/);
-
+		delete this.commandOverride;
 
 		//prop handleKeyCommand override.
 		if (handleKeyCommand && handleKeyCommand(command)) {
@@ -274,14 +274,12 @@ export default class Core extends React.Component {
 		}
 
 		//customBindings override.
-		const fn = customBindings && customBindings[command];
+		const fn = customBindings && (customBindings[override] || customBindings[command]);
 		if (fn) {
 			if (typeof fn !== 'function') {
-				logger.warn('Binding for %s is not a function!', command);
+				logger.warn('Binding for %s is not a function!', command, override);
 			} else if(fn(editorState)) {
 				return true;
-			} else {
-				command = defaultCommand || command;
 			}
 		}
 
@@ -320,11 +318,9 @@ export default class Core extends React.Component {
 			}
 		}
 
+
 		if (customBindings && customBindings[keyCode]) {
-			if (defaults) {
-				return [keyCode, defaults].join('::');
-			}
-			return keyCode;
+			this.commandOverride = {[defaults]: keyCode};
 		}
 
 		return defaults;
