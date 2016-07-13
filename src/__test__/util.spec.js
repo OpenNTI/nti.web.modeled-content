@@ -130,13 +130,13 @@ describe('Value Convertion', () => {
 
 	it ('Conversion to/from EditorState sould be consistent', ()=> {
 		const value = getValueFromEditorState(getEditorStateFromValue([
-			'<html><body><div>Body Content</div><div>Line 2</div></body></html>',
+			'<html><body><div>Body Content</div><p></p><div>Line 2</div></body></html>',
 			{MimeType: 'foobar', baz: 'foo'},
 			'<html><body><div>Last Line</div></body></html>'
 		]));
 
 		expect(value).toEqual([
-			'<p>Body Content</p>\n<p>Line 2</p>',
+			'<p>Body Content</p>\n<p></p>\n<p>Line 2</p>',
 			{MimeType: 'foobar', baz: 'foo'},
 			'<p>Last Line</p>'
 		]);
