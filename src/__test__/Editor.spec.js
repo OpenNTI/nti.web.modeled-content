@@ -45,8 +45,8 @@ describe('Modeled Body Content Editor', () => {
 		expect(aa.length).toBe(1);
 		expect(bb.length).toBe(1);
 
-		expect(A.getValue()).toEqual(['<p></p>']);
-		expect(B.getValue()).toEqual(['<p></p>']);
+		expect(A.getValue()).toEqual([]);
+		expect(B.getValue()).toEqual([]);
 	});
 
 	it('Base Cases: Pass a string, get a BODY string out.', done => {
