@@ -82,6 +82,37 @@ describe('Modeled Body Content Editor', () => {
 			.then(done, done.fail);
 	});
 
+
+	//This is presently breaking on draft-js 0.5, but it breaks worse on 0.7. (all paragraphs are merged).
+	//We're traking an issue (https://github.com/facebook/draft-js/issues/523) that when fixed, should
+	//allow us to update to the next version and fix this.
+	it('Base Cases: Body Parts Render. Paragraphs stay unique.', done => {
+		const value = ['<div>test</div><div><p>test2</p></div><p>test3</p>', 'abc'];
+
+		test({initialValue: value})
+			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
+			.then(cmps => cmps.forEach(X => {
+				expect(getText(X)).toMatch(/test.*?abc/);
+
+				expect(X.getValue()).toEqual(['<p>test</p>\n<p>test2</p>\n<p>test3</p>\n<p>abc</p>']);
+			}))
+			.then(done, done.fail);
 	});
 
+
+	//This is presently breaking on draft-js 0.5, but it breaks worse on 0.7. (all paragraphs are merged).
+	//We're traking an issue (https://github.com/facebook/draft-js/issues/523) that when fixed, should
+	//allow us to update to the next version and fix this.
+	it('Base Cases: Body Parts Render. Blank Lines in the middle are preserved.', done => {
+		const value = ['<div>test</div><div><p></p></div><p></p>', {junk: true}, 'abc'];
+
+		test({initialValue: value})
+			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
+			.then(cmps => cmps.forEach(X => {
+				expect(getText(X)).toMatch(/test.*?abc/);
+
+				expect(X.getValue()).toEqual(['<p>test</p>\n<p></p>\n<p></p>', {junk: true}, '<p>abc</p>']);
+			}))
+			.then(done, done.fail);
+	});
 });

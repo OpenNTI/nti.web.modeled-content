@@ -54,6 +54,7 @@ describe('Value Convertion', () => {
 		});
 	});
 
+
 	it ('Should handle: no argument, and null, undefined, [], {}, "" and any truthy value it does not expect. ', () => {
 		function isEmptyState (state) {
 			const content = state.getCurrentContent();
@@ -128,17 +129,23 @@ describe('Value Convertion', () => {
 	});
 
 
+	//This is presently breaking on draft-js 0.5, but it breaks worse on 0.7. (all paragraphs are merged).
+	//We're traking an issue (https://github.com/facebook/draft-js/issues/523) that when fixed, should
+	//allow us to update to the next version and fix this.
 	it ('Conversion to/from EditorState sould be consistent', ()=> {
 		const value = getValueFromEditorState(getEditorStateFromValue([
+			//Note There are 3 "paragraphs" in this first part. It should be converted into 3 blocks.
 			'<html><body><div>Body Content</div><p></p><div>Line 2</div></body></html>',
+			//this "unknown" object part should be converted to 1 block and rendered as "unknown"
 			{MimeType: 'foobar', baz: 'foo'},
-			'<html><body><div>Last Line</div></body></html>'
+			//There are 3 "paragraphs" here, but the last two are "empty" and should be dropped.
+			'<html><body><div>Last Line</div><p></p><div></div></body></html>'
 		]));
 
 		expect(value).toEqual([
-			'<p>Body Content</p>\n<p></p>\n<p>Line 2</p>',
-			{MimeType: 'foobar', baz: 'foo'},
-			'<p>Last Line</p>'
+			'<p>Body Content</p>\n<p></p>\n<p>Line 2</p>',//we expect the first part to have 3 paragraphs.
+			{MimeType: 'foobar', baz: 'foo'}, //we expect the 2nd part to be our unknown object.
+			'<p>Last Line</p>' //and finally, the last part, should be 1 paragraph since the last two of the three given were empty.
 		]);
 
 		const reparsedValue = getValueFromEditorState(getEditorStateFromValue(value));
