@@ -16,6 +16,7 @@ import {
 	convertToRaw,
 	getDefaultKeyBinding
 } from 'draft-js';
+import UserAgent from 'fbjs/lib/UserAgent';
 
 import Block from './Block';
 import CoreContextProvider from './CoreContextProvider';
@@ -512,6 +513,7 @@ export default class Core extends React.Component {
 				className,
 				{
 					busy,
+					'auto-hyphenate': UserAgent.isBrowser('Firefox'),// || UserAgent.isBrowser('IE')
 					'hide-placeholder': hidePlaceholder
 				}
 			)}>

@@ -65,6 +65,13 @@
 		}
 	}
 
+
+	&.auto-hyphenate {
+		.public-DraftStyleDefault-block {
+			hyphens: auto;
+		}
+	}
+
 	.DraftEditor-root {
 		color: $primary-grey;
 		min-height: 3rem;
