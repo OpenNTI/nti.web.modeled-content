@@ -1,7 +1,7 @@
 import React, {Children, PropTypes} from 'react';
 
-const getAllowedFormats = x => x ? x.getAllowedFormats() : null;
-const getCurrentStyle = x => x ? x.getCurrentInlineStyle() : null;
+const getAllowedFormats = x => (x && x.getAllowedFormats) ? x.getAllowedFormats() : null;
+const getCurrentStyle = x => (x && x.getCurrentInlineStyle) ? x.getCurrentInlineStyle() : null;
 
 export default class CoreContextProvider extends React.Component {
 
