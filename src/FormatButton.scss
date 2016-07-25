@@ -19,11 +19,15 @@
 		position: center center;
 	}
 
+	&:hover { color: $tertiary-grey; }
+
 	&:focus,
 	&:active,
-	&.active {
+	&.active,
+	.no-touch &:hover {
 		color: $secondary-grey;
 	}
+
 
 	&.disabled {
 		opacity: 0.6;
