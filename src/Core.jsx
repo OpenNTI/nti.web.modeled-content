@@ -108,6 +108,27 @@ export default class Core extends React.Component {
 		}
 	}
 
+	focusToEnd = () => {
+		const {editorState} = this.state;
+		const currentSelection = editorState.getSelection();
+		const currentContent = editorState.getCurrentContent();
+		const lastBlock = currentContent.getLastBlock();
+
+		if (lastBlock) {
+			const key = lastBlock.getKey();
+			const length = lastBlock.getLength();
+
+			const updatedSelection = currentSelection.merge({
+				focusKey: key,
+				focusOffset: length,
+				anchorKey: key,
+				anchorOffset: length,
+				hasFocus: true
+			});
+			this.onChange(EditorState.forceSelection(editorState, updatedSelection));
+		}
+	}
+
 	logState = () => {
 		const content = this.state.editorState.getCurrentContent();
 		logger.log(convertToRaw(content));

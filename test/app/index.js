@@ -28,6 +28,7 @@ class Test extends React.Component {
 	logValue = ()=> console.debug(this.focused.getValue())
 	logState = ()=> this.focused.logState()
 	focusError = () => error.focus()
+	focusToEnd = () => this.editor1.focusToEnd()
 
 	onFocus = (editor) => {
 		this.setState({editor});
@@ -80,6 +81,10 @@ class Test extends React.Component {
 
 					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusError}>
 						Focus Error
+					</button>
+
+					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusToEnd}>
+						Focus To End
 					</button>
 				</div>
 			</div>

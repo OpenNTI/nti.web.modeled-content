@@ -103,7 +103,15 @@ export default class Editor extends React.Component {
 		this.props.onFocus(this);
 	}
 
+	focus () {
+		this.editor.focus();
+	}
 
+
+	focusToEnd = () => {
+		this.editor.focusToEnd();
+	}
+	
 
 	componentDidMount () {
 		if (this.markFirstRender) {

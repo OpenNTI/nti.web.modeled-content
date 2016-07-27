@@ -66,6 +66,11 @@ export default class TextEditor extends React.Component {
 	}
 
 
+	focusToEnd = () => {
+		this.editor.focusToEnd();
+	}
+
+
 	logState = () => this.editor.logState()
 
 
