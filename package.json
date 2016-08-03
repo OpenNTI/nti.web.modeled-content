@@ -39,6 +39,7 @@
     "filesize": "^3.3.0",
     "html-reactifier": "^1.0.1",
     "invariant": "^2.1.1",
+    "linkify-it": "^2.0.0",
     "node-uuid": "^1.4.3",
     "nti-commons": "^1.0.22",
     "nti-lib-content-processing": "^1.0.0",

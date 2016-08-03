@@ -111,5 +111,10 @@
 		figure[data-block="true"] {
 			margin: 0;
 		}
+
+		a.external-link[href] {
+			text-decoration: none;
+			color: $primary-blue;
+		}
 	}
 }

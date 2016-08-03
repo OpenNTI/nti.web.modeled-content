@@ -8,6 +8,7 @@ import CharCounter from './plugins/CharacterCounter';
 import Value from './plugins/ValueIsString';
 import PlainText from './plugins/PlainText';
 import SingleLine from './plugins/SingleLine';
+import Linkify from './plugins/Linkify';
 import {isEmpty} from './utils';
 
 const {Field:{Component:ErrorCmp}} = Errors;
@@ -40,6 +41,7 @@ export default class TextEditor extends React.Component {
 
 		plainText: PropTypes.bool,
 		singleLine: PropTypes.bool,
+		linkify: PropTypes.bool,
 		error: PropTypes.object,
 		warning: PropTypes.object
 	}
@@ -47,7 +49,8 @@ export default class TextEditor extends React.Component {
 
 	static defaultProps = {
 		onBlur () {},
-		onFocus () {}
+		onFocus () {},
+		linkify: true
 	}
 
 
@@ -107,7 +110,8 @@ export default class TextEditor extends React.Component {
 		this.plugins = [
 			new Value(),
 			props.plainText && new PlainText(),
-			props.singleLine && new SingleLine()
+			props.singleLine && new SingleLine(),
+			props.linkify && !props.plainText && new Linkify()
 		].filter(x => x);
 
 		if (props.charLimit) {
