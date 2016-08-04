@@ -19,7 +19,7 @@ export function makeAnchorForLink (link) {
 export function wrapLinks (block) {
 	const links = linkify.match(block) || [];
 
-	if (!links || !links.length) { return; }
+	if (!links || !links.length) { return block; }
 
 	let lastIndex = 0;
 	let newBlock = '';
