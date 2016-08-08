@@ -4,6 +4,9 @@ import cx from 'classnames';
 const clone = x =>
 	typeof x === 'string' ? x : React.cloneElement(x);
 
+const stop = e => (e.preventDefault(), e.stopPropagation());
+
+
 export const Formats = Object.freeze({
 	//Treat as an enum. Keys and values must equal each other.
 	CODE: 'CODE',
@@ -54,6 +57,7 @@ export default class FormatButton extends React.Component {
 		const props = {
 			className: cx('format-button', {active, disabled}),
 			onMouseDown: this.onClick,//onClick is too late.
+			onClick: stop,
 			'data-format': label,
 			'aria-label': label
 		};
