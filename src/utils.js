@@ -6,6 +6,9 @@ import {
 	Entity,
 	convertFromHTML
 } from 'draft-js';
+import {AllHtmlEntities} from 'html-entities';
+
+const Entities = new AllHtmlEntities();
 
 const OPEN_TAG = x => `<${x}>`;
 const CLOSE_TAG = x => `</${x}>`;
@@ -308,16 +311,16 @@ export function isEmpty (value) {
  */
 export function stripTags (value) {
 
-	let div = stripTags.sharedElement;
-	if (!div && typeof document !== 'undefined') {
-		div = stripTags.sharedElement = document.createElement('div');
-	}
+	// let div = stripTags.sharedElement;
+	// if (!div && typeof document !== 'undefined') {
+	// 	div = stripTags.sharedElement = document.createElement('div');
+	// }
+	//
+	// if (div) {
+	// 	div.innerHTML = value;
+	// 	return div.textContent != null ? div.textContent : div.innerHTML;
+	// }
+	// //else ... we're running on node.
 
-	if (div) {
-		div.innerHTML = value;
-		return div.textContent != null ? div.textContent : div.innerHTML;
-	}
-	//else ... we're running on node.
-
-	return value.replace(TAGS_REGEX, '');
+	return Entities.decode(value.replace(TAGS_REGEX, ''));
 }
