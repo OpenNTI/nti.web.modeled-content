@@ -1,6 +1,6 @@
 {
   "name": "nti-modeled-content",
-  "version": "1.4.13",
+  "version": "1.4.14",
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for modeled body content",
   "license": "UNLICENSED",
@@ -37,7 +37,7 @@
     "draft-js": "^0.5.0",
     "fbjs": "^0.8.3",
     "filesize": "^3.3.0",
-	"html-entities": "^1.2.0",
+    "html-entities": "^1.2.0",
     "html-reactifier": "^1.0.1",
     "invariant": "^2.1.1",
     "linkify-it": "^2.0.0",
