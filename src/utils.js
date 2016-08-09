@@ -300,6 +300,24 @@ export function isEmpty (value) {
 }
 
 
+/**
+ * Strip all html tags and decode entities.
+ *
+ * @param  {String} value HTML formatted text
+ * @return {String} Plain text
+ */
 export function stripTags (value) {
+
+	let div = stripTags.sharedElement;
+	if (!div && typeof document !== 'undefined') {
+		div = stripTags.sharedElement = document.createElement('div');
+	}
+
+	if (div) {
+		div.innerHTML = value;
+		return div.textContent != null ? div.textContent : div.innerHTML;
+	}
+	//else ... we're running on node.
+
 	return value.replace(TAGS_REGEX, '');
 }
