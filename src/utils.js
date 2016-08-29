@@ -1,10 +1,12 @@
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
+	ContentBlock,
 	ContentState,
 	EditorState,
 	Entity,
-	convertFromHTML
+	convertFromHTML,
+	DefaultDraftBlockRenderMap
 } from 'draft-js';
 import {AllHtmlEntities} from 'html-entities';
 
@@ -17,6 +19,9 @@ const logger = Logger.get('modeled-content:utils');
 
 const WHITESPACE_ENTITIES_AND_TAGS = /((<[^>]+>)|&nbsp;|[\s\r\n])+/ig;
 const TAGS_REGEX = /(<([^>]+)>)/igm;
+
+//Get a new map, with our custome blockType...
+const BlockRenderMapWithParagraph = DefaultDraftBlockRenderMap.set('nti-paragraph', {element: 'p'});
 
 export function getEditorStateFromValue (value) {
 	//falsy values and empty arrays. (empty strings are falsy)
@@ -37,7 +42,17 @@ export function getEditorStateFromValue (value) {
 
 	for (let part of value) {
 		if (typeof part === 'string') {
-			const blocks = convertFromHTML(part);
+			const blocks = convertFromHTML(part, void 0, BlockRenderMapWithParagraph)
+				//We added a new type "nti-paragraph", so that they do not merge together...
+				//now we have to reset the type to "unstyled" so that it can render as normal.
+				.map(b => b.type !== 'nti-paragraph' ? b : new ContentBlock({
+					type: 'unstyled',
+					key: b.key,
+					text: b.text,
+					characterList: b.characterList,
+					depth: b.depth,
+					data: b.data
+				}));
 
 			const existingBlocks = !intermediateState ? [] : intermediateState.getCurrentContent().getBlocksAsArray();
 

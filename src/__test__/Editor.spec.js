@@ -87,7 +87,7 @@ describe('Modeled Body Content Editor', () => {
 	//We're traking an issue (https://github.com/facebook/draft-js/issues/523) that when fixed, should
 	//allow us to update to the next version and fix this.
 	it('Base Cases: Body Parts Render. Paragraphs stay unique.', done => {
-		const value = ['<div>test</div><div><p>test2</p></div><p>test3</p>', 'abc'];
+		const value = ['<div>test</div><p>test2</p><p>test3</p>', 'abc'];
 
 		test({initialValue: value})
 			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
