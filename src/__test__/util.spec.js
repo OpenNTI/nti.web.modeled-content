@@ -1,7 +1,6 @@
 import {
 	convertToRaw,
 	convertFromRaw,
-	ContentState,
 	EditorState
 } from 'draft-js';
 
@@ -36,15 +35,15 @@ describe('Value Convertion', () => {
 
 		expect(raw).toEqual({
 			blocks: [
-				{ text: ' ', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] },
-				{ text: 'damn', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] },
-				{ text: 'this     table', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] },
-				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 0 } ] },
-				{ text: '', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] },
-				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 1 } ] },
-				{ text: 'dood!', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] },
-				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 2 } ] },
-				{ text: 'man', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [] }
+				{ text: ' ', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
+				{ text: 'damn', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
+				{ text: 'this     table', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
+				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 0 } ], data: {} },
+				{ text: '', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
+				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 1 } ], data: {} },
+				{ text: 'dood!', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
+				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 2 } ], data: {} },
+				{ text: 'man', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} }
 			],
 			entityMap: {
 				0: { type: 'a', mutability: 'IMMUTABLE', data: { MimeType: 'a', test: true } },
@@ -103,7 +102,7 @@ describe('Value Convertion', () => {
 			}
 		};
 
-		const content = ContentState.createFromBlockArray(convertFromRaw(rawContent));
+		const content = convertFromRaw(rawContent);
 		const editorState = EditorState.createWithContent(content);
 
 		const value = getValueFromEditorState(editorState);

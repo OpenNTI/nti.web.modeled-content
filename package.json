@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "classnames": "^2.0.0",
-    "draft-js": "^0.5.0",
+    "draft-js": "^0.8.1",
     "fbjs": "^0.8.3",
     "filesize": "^3.3.0",
     "html-entities": "^1.2.0",
