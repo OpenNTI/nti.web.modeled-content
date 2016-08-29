@@ -83,9 +83,7 @@ describe('Modeled Body Content Editor', () => {
 	});
 
 
-	//This is presently breaking on draft-js 0.5, but it breaks worse on 0.7. (all paragraphs are merged).
-	//We're traking an issue (https://github.com/facebook/draft-js/issues/523) that when fixed, should
-	//allow us to update to the next version and fix this.
+	// This is presently breaking on draft-js we worked around
 	it('Base Cases: Body Parts Render. Paragraphs stay unique.', done => {
 		const value = ['<div>test</div><p>test2</p><p>test3</p>', 'abc'];
 
@@ -100,10 +98,9 @@ describe('Modeled Body Content Editor', () => {
 	});
 
 
-	//This is presently breaking on draft-js 0.5, but it breaks worse on 0.7. (all paragraphs are merged).
-	//We're traking an issue (https://github.com/facebook/draft-js/issues/523) that when fixed, should
-	//allow us to update to the next version and fix this.
-	it('Base Cases: Body Parts Render. Blank Lines in the middle are preserved.', done => {
+	// This is presently breaking on draft-js
+	// https://github.com/facebook/draft-js/issues/231
+	xit('Base Cases: Body Parts Render. Blank Lines in the middle are preserved.', done => {
 		const value = ['<div>test</div><div><p></p></div><p></p>', {junk: true}, 'abc'];
 
 		test({initialValue: value})
