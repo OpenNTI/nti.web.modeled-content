@@ -48,7 +48,7 @@ export default class WhiteboardThumbnail extends React.Component {
 		return (
 			<object contentEditable={false} className="body-divider whiteboard" unselectable="on">
 				<div className="whiteboard-wrapper" unselectable="on">
-					{thumbnail && ( <img src={thumbnail} className="thumbnail" alt="Whiteboard Thumbnail" border="0" unselectable="on"/> )}
+					{thumbnail && ( <img src={thumbnail} className="thumbnail" alt="Whiteboard Thumbnail" unselectable="on"/> )}
 					<div className="fill" unselectable="on"/>
 					{/*}
 					<div className="centerer" unselectable="on">
