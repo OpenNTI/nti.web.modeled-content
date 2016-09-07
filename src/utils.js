@@ -189,7 +189,7 @@ export function getValueFromEditorState (editorState) {
 		const lastItem = output[last];
 
 		if (typeof item === 'string' && typeof lastItem === 'string') {
-			output[last] = lastItem + '\n' + item;
+			output[last] = lastItem + item;
 		} else {
 			output.push(item);
 		}

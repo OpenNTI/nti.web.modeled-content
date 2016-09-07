@@ -92,7 +92,7 @@ describe('Modeled Body Content Editor', () => {
 			.then(cmps => cmps.forEach(X => {
 				expect(getText(X)).toMatch(/test.*?abc/);
 
-				expect(X.getValue()).toEqual(['<p>test</p>\n<p>test2</p>\n<p>test3</p>\n<p>abc</p>']);
+				expect(X.getValue()).toEqual(['<p>test</p><p>test2</p><p>test3</p><p>abc</p>']);
 			}))
 			.then(done, done.fail);
 	});

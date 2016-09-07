@@ -118,7 +118,7 @@ describe('Value Convertion', () => {
 				'<li>list-item</li></ol>',
 				'<pre>code</pre>',
 				'<blockquote>quote</blockquote>'
-			].join('\n'),
+			].join(''),
 			{
 				MimeType: 'some-cool-embed',
 				test: true
