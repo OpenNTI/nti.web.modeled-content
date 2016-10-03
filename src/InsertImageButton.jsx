@@ -1,6 +1,6 @@
 import React from 'react';
 import Logger from 'nti-util-logger';
-import {createFromImage, URL} from 'nti-lib-whiteboardjs/lib/utils';
+import {Utils} from 'nti-lib-whiteboardjs';
 
 import Tool from './Tool';
 
@@ -26,7 +26,7 @@ export default class InsertImageButton extends Tool {
 
 
 	render () {
-		if (!URL || this.state.disabled) {
+		if (!Utils.URL || this.state.disabled) {
 			return null;//don't render the button.
 		}
 
@@ -64,12 +64,12 @@ export default class InsertImageButton extends Tool {
 			}
 
 			img.onerror = e => error(e);
-			img.onload = ()=> createFromImage(img)
+			img.onload = ()=> Utils.createFromImage(img)
 								.then(scene=>this.insertWhiteboard(scene, last), error)
 								.then(finish, error)
-								.then(()=> URL.revokeObjectURL(src));
+								.then(()=> Utils.URL.revokeObjectURL(src));
 
-			img.src = src = URL.createObjectURL(file);
+			img.src = src = Utils.URL.createObjectURL(file);
 		});
 	}
 
