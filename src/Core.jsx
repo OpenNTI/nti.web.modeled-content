@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import invariant from 'invariant';
 
-import getKeyCode from 'nti-commons/lib/get-key-code';
+import {Events} from 'nti-commons'
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
@@ -27,6 +27,9 @@ import {
 	getEditorStateFromValue,
 	getValueFromEditorState
 } from './utils';
+
+
+const {getKeyCode} = Events;
 
 const logger = Logger.get('modeled-content:editor:core');
 

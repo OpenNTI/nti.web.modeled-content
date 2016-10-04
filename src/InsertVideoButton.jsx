@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
-import autobind from 'nti-commons/lib/autobind';
-import isActionable from 'nti-commons/lib/is-event-actionable';
+
+import {Events} from 'nti-commons';
 
 import Tool from './Tool';
 
@@ -11,6 +11,7 @@ import {getHandler} from 'nti-web-video';
 
 const logger = Logger.get('modeled-content:components:InsertVideoButton');
 
+const {isActionable} = Events;
 
 export default class InsertVideoButton extends Tool {
 
@@ -21,16 +22,6 @@ export default class InsertVideoButton extends Tool {
 		super(props);
 		this.state = { prompt: false, canSubmit: false };
 		this.attachRef = x => this.input = x;
-
-		autobind(this,
-			'closePrompt',
-			'focusInput',
-			'insert',
-			'onDialogFocus',
-			'onKeyDownHandler',
-			'prompt',
-			'testURL'
-		);
 	}
 
 
@@ -39,12 +30,12 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
-	onDialogFocus (e) {
+	onDialogFocus = (e) => {
 		e.stopPropagation();
 	}
 
 
-	focusInput (e) {
+	focusInput = (e) => {
 		if (e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -57,7 +48,7 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
-	testURL () {
+	testURL = () => {
 		const {input} = this;
 		const {value} = input || {};
 
@@ -86,7 +77,7 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
-	onKeyDownHandler (e) {
+	onKeyDownHandler = (e) => {
 		if (e && e.key === 'Escape') {
 			this.closePrompt();
 		}
@@ -94,7 +85,7 @@ export default class InsertVideoButton extends Tool {
 
 
 
-	closePrompt (e) {
+	closePrompt = (e) => {
 		if (!isActionable(e)) { return; }
 
 		if (e) {
@@ -107,7 +98,7 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
-	prompt (e) {
+	prompt = (e) => {
 		if (!isActionable(e)) { return; }
 
 		e.stopPropagation();
@@ -121,7 +112,7 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
-	insert (e) {
+	insert = (e) => {
 		if (!isActionable(e)) { return; }
 		if (e) {
 			e.preventDefault();
