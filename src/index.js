@@ -12,7 +12,7 @@ import FormatButton from './FormatButton';
 import Tool from './Tool';
 import Toolbar, {REGIONS as ToolbarRegions} from './Toolbar';
 
-const Panel = function () {}; //placeholder for Panel Component
+import Panel from './Panel';
 
 const plugins = {
 	CharacterCounter
