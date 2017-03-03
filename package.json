@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repos.nextthought.com/git/nti.web.component.modeled-content"
+    "url": "https://github.com/NextThought/nti.web.component.modeled-content.git"
   },
   "keywords": [
     "react",
