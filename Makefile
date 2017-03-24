@@ -19,7 +19,7 @@ node_modules: package.json
 	@touch $@
 
 test: node_modules check
-	@karma start --single-run
+	@jest
 
 check:
 	@eslint --ext .js,.jsx ./src
