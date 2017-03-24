@@ -1,6 +1,7 @@
+import punycode from 'punycode';
+
 import React from 'react';
 import cx from 'classnames';
-import punycode from 'punycode';
 
 import Plugin from './Plugin';
 

@@ -1,13 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
-
 import {Events} from 'nti-commons';
-
-import Tool from './Tool';
-
 import {getEventTarget} from 'nti-lib-dom';
 import Logger from 'nti-util-logger';
 import {getHandler} from 'nti-web-video';
+
+import Tool from './Tool';
+
 
 const logger = Logger.get('modeled-content:components:InsertVideoButton');
 

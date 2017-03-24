@@ -1,11 +1,8 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
-
 import {getHTMLSnippet, filterContent, processContent} from 'nti-lib-content-processing';
-
 import uuid from 'uuid';
 import htmlToReactRenderer from 'html-reactifier';
-
 import hash from 'object-hash';//XXX: this is expensive! mark from removal
 
 import SYSTEM_WIDGETS from './SystemWidgetRegistry';

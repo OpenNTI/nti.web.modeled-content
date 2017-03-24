@@ -1,4 +1,3 @@
-import Plugin from './Plugin';
 import {
 	ContentState,
 	// ContentBlock,
@@ -6,6 +5,8 @@ import {
 	Modifier,
 	convertFromHTML
 } from 'draft-js';
+
+import Plugin from './Plugin';
 
 
 export default class SingleLine extends Plugin {

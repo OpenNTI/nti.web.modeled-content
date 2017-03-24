@@ -1,10 +1,10 @@
 import React from 'react';
 import Logger from 'nti-util-logger';
 import {Utils} from 'nti-lib-whiteboardjs';
+import iOSversion from 'nti-util-ios-version';
 
 import Tool from './Tool';
 
-import iOSversion from 'nti-util-ios-version';
 
 const logger = Logger.get('modeled-content:components:InsertImageButton');
 

@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import getPartType from './editor-parts';
-
 import Core from './Core';
 import {REGIONS} from './Toolbar';
 import ToolbarSection from './ToolbarSection';
@@ -111,7 +110,7 @@ export default class Editor extends React.Component {
 	focusToEnd = () => {
 		this.editor.focusToEnd();
 	}
-	
+
 
 	componentDidMount () {
 		if (this.markFirstRender) {

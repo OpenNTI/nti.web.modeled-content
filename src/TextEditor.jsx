@@ -3,7 +3,6 @@ import {Errors} from 'nti-web-commons';
 import cx from 'classnames';
 
 import Core from './Core';
-
 import CharCounter from './plugins/CharacterCounter';
 import Value from './plugins/ValueIsString';
 import PlainText from './plugins/PlainText';

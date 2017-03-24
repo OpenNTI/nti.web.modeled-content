@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import invariant from 'invariant';
-
-import {Events} from 'nti-commons'
+import {Events} from 'nti-commons';
 import Logger from 'nti-util-logger';
 import {
 	AtomicBlockUtils,
@@ -22,7 +21,6 @@ import Block from './Block';
 import CoreContextProvider from './CoreContextProvider';
 import Toolbar, {REGIONS} from './Toolbar';
 import {Formats} from './FormatButton';
-
 import {
 	getEditorStateFromValue,
 	getValueFromEditorState

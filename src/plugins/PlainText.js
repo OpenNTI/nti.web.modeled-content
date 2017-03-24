@@ -1,6 +1,8 @@
-import Plugin from './Plugin';
-import {stripTags} from '../utils';
 import {EditorState, Modifier, SelectionState} from 'draft-js';
+
+import {stripTags} from '../utils';
+
+import Plugin from './Plugin';
 
 
 export default class PlainText extends Plugin {
