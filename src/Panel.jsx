@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import {getHTMLSnippet, filterContent, processContent} from 'nti-lib-content-processing';
 
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 import htmlToReactRenderer from 'html-reactifier';
 
 import hash from 'object-hash';//XXX: this is expensive! mark from removal
@@ -27,7 +27,7 @@ function getPacket (content, strategies, previewMode, maxPreviewLength) {
 		);
 	}
 	else {
-		const key = uuid.v4();
+		const key = uuid();
 		const o = {[key]: Object.assign({}, content, { id: key })};
 
 		packet = {
