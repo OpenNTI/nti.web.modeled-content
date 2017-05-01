@@ -35,7 +35,7 @@
   ],
   "dependencies": {
     "classnames": "^2.0.0",
-    "draft-js": "^0.9.1",
+    "draft-js": "^0.10.0",
     "fbjs": "^0.8.3",
     "filesize": "^3.3.0",
     "html-entities": "^1.2.0",
@@ -50,9 +50,9 @@
     "nti-util-logger": "^1.0.0",
     "nti-web-commons": ">=0.0.1",
     "nti-web-video": "^1.2.0",
-    "nti-web-whiteboard": "0.0.1",
+    "nti-web-whiteboard": ">=0.0.1",
     "object-hash": "^1.1.5",
-    "punycode": "^1.4.1",
+    "punycode": "^2.1.0",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "babel-core": "^6.1.0",
     "babel-eslint": "^7.0.0",
     "babel-jest": "^19.0.0",
-    "babel-loader": "^6.2.0",
+    "babel-loader": "^7.0.0",
     "babel-polyfill": "^6.1.0",
     "babel-preset-env": "^1.1.4",
     "babel-preset-react": "^6.1.0",
@@ -75,7 +75,7 @@
     "jest": "^19.0.2",
     "jest-junit": "^1.4.0",
     "node-sass": "^4.5.0",
-    "normalize.css": "^5.0.0",
+    "normalize.css": "^6.0.0",
     "nti-style-common": "^1.1.11",
     "postcss-loader": "^1.3.0",
     "react": "^15.1.0",
