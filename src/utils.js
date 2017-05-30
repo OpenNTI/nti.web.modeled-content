@@ -43,6 +43,7 @@ export function getEditorStateFromValue (value) {
 	for (let part of value) {
 		if (typeof part === 'string') {
 			const blocks = convertFromHTML(part, void 0, BlockRenderMapWithParagraph)
+				.contentBlocks
 				//We added a new type "nti-paragraph", so that they do not merge together...
 				//now we have to reset the type to "unstyled" so that it can render as normal.
 				.map(b => b.type !== 'nti-paragraph' ? b : new ContentBlock({

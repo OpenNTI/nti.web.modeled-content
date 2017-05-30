@@ -10,7 +10,7 @@ node_modules: package.json
 	@rm -rf node_modules
 	@npm install
 
-test: node_modules check
+test: check
 	@jest
 
 check:
