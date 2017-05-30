@@ -1,6 +1,7 @@
 import punycode from 'punycode';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import Plugin from './Plugin';
@@ -79,10 +80,11 @@ export default class Counter extends Plugin {
 	getComponent () {
 		const inst = this;
 
-		return React.createClass({
-			displayName: 'Counter',
-			componentDidMount () { inst.registerComponent(this); },
-			componentWillUnmount () { inst.unregisterComponent(this); },
+		return class extends React.Component {
+			static displayName = 'Counter';
+			componentDidMount () { inst.registerComponent(this); }
+			componentWillUnmount () { inst.unregisterComponent(this); }
+
 			render () {
 				const countDown = inst.countDown;
 				const count = inst.getCount();
@@ -98,7 +100,7 @@ export default class Counter extends Plugin {
 					</div>
 				);
 			}
-		});
+		};
 	}
 
 
@@ -148,7 +150,7 @@ export default class Counter extends Plugin {
 
 
 OverLimit.propTypes = {
-	children: React.PropTypes.any
+	children: PropTypes.any
 };
 
 function OverLimit (props) {

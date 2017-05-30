@@ -1,4 +1,5 @@
-import React, {Children, PropTypes} from 'react';
+import React, { Children } from 'react';
+import PropTypes from 'prop-types';
 
 const getAllowedFormats = x => (x && x.getAllowedFormats) ? x.getAllowedFormats() : null;
 const getCurrentStyle = x => (x && x.getCurrentInlineStyle) ? x.getCurrentInlineStyle() : null;

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class UnknownThumbnail extends React.Component {
 
 	static propTypes = {
-		data: React.PropTypes.object.isRequired
+		data: PropTypes.object.isRequired
 	}
 
 	getValue () {

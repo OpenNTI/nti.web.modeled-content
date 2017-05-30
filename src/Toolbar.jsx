@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import FormatButton from './FormatButton';
@@ -14,9 +15,9 @@ export const REGIONS = {
 export default class Toolbar extends React.Component {
 
 	static propTypes = {
-		defaultSet: React.PropTypes.bool,
-		region: React.PropTypes.any.isRequired,
-		children: React.PropTypes.any
+		defaultSet: PropTypes.bool,
+		region: PropTypes.any.isRequired,
+		children: PropTypes.any
 	}
 
 

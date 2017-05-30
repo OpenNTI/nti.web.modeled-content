@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 const clone = x =>
@@ -20,15 +21,15 @@ export default class FormatButton extends React.Component {
 	static Formats = Formats
 
 	static contextTypes = {
-		toggleFormat: React.PropTypes.func.isRequired,
-		currentFormat: React.PropTypes.object,
-		allowedFormats: React.PropTypes.object
+		toggleFormat: PropTypes.func.isRequired,
+		currentFormat: PropTypes.object,
+		allowedFormats: PropTypes.object
 	}
 
 
 	static propTypes = {
-		children: React.PropTypes.any,
-		format: React.PropTypes.oneOf(Object.keys(Formats)).isRequired
+		children: PropTypes.any,
+		format: PropTypes.oneOf(Object.keys(Formats)).isRequired
 	}
 
 

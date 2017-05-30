@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class VideoThumbnail extends React.Component {
 
 	static propTypes = {
-		data: React.PropTypes.object.isRequired
+		data: PropTypes.object.isRequired
 	}
 
 	static handles (data) {

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Canvas as WhiteboardRenderer} from 'nti-lib-whiteboardjs';
 
 export default class WhiteboardThumbnail extends React.Component {
 
 	static propTypes = {
-		data: React.PropTypes.object.isRequired
+		data: PropTypes.object.isRequired
 	}
 
 

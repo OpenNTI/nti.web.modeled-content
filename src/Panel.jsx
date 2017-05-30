@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {getHTMLSnippet, filterContent, processContent} from 'nti-lib-content-processing';
 import uuid from 'uuid';
@@ -17,11 +18,11 @@ function getPacket (content, strategies, previewMode, maxPreviewLength) {
 	if (typeof content === 'string') {
 		packet = processContent({
 			content: previewMode
-						? getHTMLSnippet(filterContent(content), maxPreviewLength)
-						: content
+			? getHTMLSnippet(filterContent(content), maxPreviewLength)
+			: content
 		},
-			strategies
-		);
+		strategies
+	);
 	}
 	else {
 		const key = uuid();
@@ -39,13 +40,13 @@ function getPacket (content, strategies, previewMode, maxPreviewLength) {
 	return Promise.resolve(packet);
 }
 
-/**
+/*
  * Component to render Modeled Body Content
  */
-export default React.createClass({
-	displayName: 'ModeledBodyContent',
+export default class extends React.Component {
+	static displayName = 'ModeledBodyContent';
 
-	propTypes: {
+	static propTypes = {
 		className: PropTypes.string,
 		body: PropTypes.array,
 
@@ -55,29 +56,22 @@ export default React.createClass({
 		strategies: PropTypes.object,
 		widgets: PropTypes.object,
 		renderCustomWidget: PropTypes.func
-	},
+	};
 
+	static defaultProps = {
+		previewLength: 36,
+		previewMode: false
+	};
 
-	getDefaultProps () {
-		return {
-			previewLength: 36,
-			previewMode: false
-		};
-	},
+	state = {
+		body: [],
+		propHash: null
+	};
 
-	getInitialState () {
-		return {
-			body: [],
-			propHash: null
-		};
-	},
+	componentDidMount () { this.buildContent(this.props); }
+	componentWillReceiveProps (props) { this.buildContent(props); }
 
-
-	componentDidMount () { this.buildContent(this.props); },
-	componentWillReceiveProps (props) { this.buildContent(props); },
-
-
-	buildContent (props) {
+	buildContent = (props) => {
 		const {body: input, strategies: propStrategies, previewLength, previewMode} = props;
 		const h = hash(props);
 		const widgets = {};
@@ -96,29 +90,29 @@ export default React.createClass({
 			}
 
 			return getPacket(content, strategies, previewMode, previewLength - letterCount)
-				.then(packet => {
+			.then(packet => {
 
-					if (previewMode) {
-						letterCount += packet.body
-										.map(x=> typeof x !== 'string' ? 0 :
-											x
-											.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
-											.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
-											.length
-										)
-										.reduce((sum, x)=> sum + x);
-					}
+				if (previewMode) {
+					letterCount += packet.body
+					.map(x=> typeof x !== 'string' ? 0 :
+					x
+					.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
+					.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
+					.length
+				)
+				.reduce((sum, x)=> sum + x);
+				}
 
-					Object.assign(widgets, packet.widgets);
+				Object.assign(widgets, packet.widgets);
 
-					let processed = packet.body.map(
-						part => (typeof part !== 'string') ?
-							`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
+				let processed = packet.body.map(
+				part => (typeof part !== 'string') ?
+				`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
 
-					return htmlToReactRenderer(
-						processed.join(''),
-						(n, a) => isWidget(n, a, packet.widgets));
-				});
+				return htmlToReactRenderer(
+					processed.join(''),
+					(n, a) => isWidget(n, a, packet.widgets));
+			});
 		}
 
 
@@ -148,14 +142,13 @@ export default React.createClass({
 					widgets: widgets
 				});
 			});
-	},
-
+	};
 
 	render () {
 		const {
-			props: {className, previewMode, ...others},
-			state: {body}
-		} = this;
+				props: {className, previewMode, ...others},
+				state: {body}
+			} = this;
 
 		const props = {
 			...others,
@@ -180,10 +173,9 @@ export default React.createClass({
 		return React.createElement('div', props,
 			...dynamicRenderers.map(renderer => renderer(React, this.renderWidget))
 		);
-	},
+	}
 
-
-	renderWidget (tagName, props, children) {
+	renderWidget = (tagName, props, children) => {
 		let {renderCustomWidget, widgets} = this.props;
 		let f = renderCustomWidget || React.createElement;
 		props = props || {};//ensure we have an object.
@@ -202,8 +194,8 @@ export default React.createClass({
 
 
 		return f(tagName, props, children);
-	}
-});
+	};
+}
 
 
 function isWidget (tagName, props, widgets) {

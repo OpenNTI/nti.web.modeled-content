@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Tool extends React.Component {
 
 	static contextTypes = {
-		editor: React.PropTypes.any.isRequired
+		editor: PropTypes.any.isRequired
 	}
 
 	getEditor () {

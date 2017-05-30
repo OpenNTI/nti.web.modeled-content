@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import linkifyIt from 'linkify-it';
 import cx from 'classnames';
 
@@ -71,9 +72,9 @@ export default class Linkify extends Plugin {
 
 
 Anchor.propTypes = {
-	decoratedText: React.PropTypes.string,
-	className: React.PropTypes.string,
-	children: React.PropTypes.any
+	decoratedText: PropTypes.string,
+	className: PropTypes.string,
+	children: PropTypes.any
 };
 
 function Anchor (props) {

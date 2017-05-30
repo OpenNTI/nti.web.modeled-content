@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import invariant from 'invariant';
 import {Events} from 'nti-commons';
@@ -539,9 +540,9 @@ export default class Core extends React.Component {
 					'hide-placeholder': hidePlaceholder
 				}
 			)}>
-				{builtInToolbars && ( <Toolbar region={REGIONS.NORTH} children={children}/> )}
-				{builtInToolbars && ( <Toolbar region={REGIONS.EAST} children={children}/> )}
-				{builtInToolbars && ( <Toolbar region={REGIONS.WEST} children={children}/> )}
+				{builtInToolbars && ( <Toolbar region={REGIONS.NORTH}>{children}</Toolbar> )}
+				{builtInToolbars && ( <Toolbar region={REGIONS.EAST}>{children}</Toolbar> )}
+				{builtInToolbars && ( <Toolbar region={REGIONS.WEST}>{children}</Toolbar> )}
 				{customToolbars}
 				<Editor
 					blockStyleFn={this.getBlockStyle}
@@ -560,7 +561,7 @@ export default class Core extends React.Component {
 					ref={this.attachEditorRef}
 					spellCheck
 				/>
-				{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} children={children} defaultSet={basicView}/> )}
+				{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} defaultSet={basicView}>{children}</Toolbar> )}
 			</div>
 			</CoreContextProvider>
 		);
