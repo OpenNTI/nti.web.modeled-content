@@ -65,9 +65,9 @@ export default class InsertImageButton extends Tool {
 
 			img.onerror = e => error(e);
 			img.onload = ()=> Utils.createFromImage(img)
-								.then(scene=>this.insertWhiteboard(scene, last), error)
-								.then(finish, error)
-								.then(()=> Utils.URL.revokeObjectURL(src));
+				.then(scene=>this.insertWhiteboard(scene, last), error)
+				.then(finish, error)
+				.then(()=> Utils.URL.revokeObjectURL(src));
 
 			img.src = src = Utils.URL.createObjectURL(file);
 		});

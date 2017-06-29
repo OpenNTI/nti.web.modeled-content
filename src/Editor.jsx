@@ -132,8 +132,8 @@ export default class Editor extends React.Component {
 
 		this.pendingSetup = new Promise(done => {
 			const setState = o => this.state
-								? this.setState(o, done)
-								: (this.state = o);
+				? this.setState(o, done)
+				: (this.state = o);
 
 			if (!this.state) {
 				this.markFirstRender = () => {delete this.markFirstRender; done(); };
@@ -182,7 +182,7 @@ export default class Editor extends React.Component {
 				ref={this.attachEditorRef}
 				placeholder={placeholder}
 				plugins={plugins}
-				>
+			>
 				<FormatButton format={Formats.BOLD} region={SOUTH}/>
 				<FormatButton format={Formats.ITALIC} region={SOUTH}/>
 				<FormatButton format={Formats.UNDERLINE} region={SOUTH}/>

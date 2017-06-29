@@ -531,38 +531,38 @@ export default class Core extends React.Component {
 
 		return (
 			<CoreContextProvider editor={this} ref={this.attachContextRef} internal>
-			<div onClick={this.focus} className={cx(
-				'nti-rich-text',
-				className,
-				{
-					busy,
-					'auto-hyphenate': UserAgent.isBrowser('Firefox'),// || UserAgent.isBrowser('IE')
-					'hide-placeholder': hidePlaceholder
-				}
-			)}>
-				{builtInToolbars && ( <Toolbar region={REGIONS.NORTH}>{children}</Toolbar> )}
-				{builtInToolbars && ( <Toolbar region={REGIONS.EAST}>{children}</Toolbar> )}
-				{builtInToolbars && ( <Toolbar region={REGIONS.WEST}>{children}</Toolbar> )}
-				{customToolbars}
-				<Editor
-					blockStyleFn={this.getBlockStyle}
-					blockRendererFn={this.renderBlock}
-					customStyleMap={styleMap}
-					editorState={editorState}
-					handleReturn={this.handleReturn}
-					handlePastedText={this.handlePastedText}
-					handleKeyCommand={this.handleKeyCommand}
-					keyBindingFn={this.keyBinding}
-					onBlur={this.onBlur}
-					onChange={this.onChange}
-					onFocus={this.onFocus}
-					onTab={this.onTab}
-					placeholder={placeholder}
-					ref={this.attachEditorRef}
-					spellCheck
-				/>
-				{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} defaultSet={basicView}>{children}</Toolbar> )}
-			</div>
+				<div onClick={this.focus} className={cx(
+					'nti-rich-text',
+					className,
+					{
+						busy,
+						'auto-hyphenate': UserAgent.isBrowser('Firefox'),// || UserAgent.isBrowser('IE')
+						'hide-placeholder': hidePlaceholder
+					}
+				)}>
+					{builtInToolbars && ( <Toolbar region={REGIONS.NORTH}>{children}</Toolbar> )}
+					{builtInToolbars && ( <Toolbar region={REGIONS.EAST}>{children}</Toolbar> )}
+					{builtInToolbars && ( <Toolbar region={REGIONS.WEST}>{children}</Toolbar> )}
+					{customToolbars}
+					<Editor
+						blockStyleFn={this.getBlockStyle}
+						blockRendererFn={this.renderBlock}
+						customStyleMap={styleMap}
+						editorState={editorState}
+						handleReturn={this.handleReturn}
+						handlePastedText={this.handlePastedText}
+						handleKeyCommand={this.handleKeyCommand}
+						keyBindingFn={this.keyBinding}
+						onBlur={this.onBlur}
+						onChange={this.onChange}
+						onFocus={this.onFocus}
+						onTab={this.onTab}
+						placeholder={placeholder}
+						ref={this.attachEditorRef}
+						spellCheck
+					/>
+					{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} defaultSet={basicView}>{children}</Toolbar> )}
+				</div>
 			</CoreContextProvider>
 		);
 	}

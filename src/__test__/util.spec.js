@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {
 	convertToRaw,
 	convertFromRaw,

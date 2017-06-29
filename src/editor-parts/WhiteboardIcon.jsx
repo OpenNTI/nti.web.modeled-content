@@ -34,7 +34,7 @@ export default class WhiteboardThumbnail extends React.Component {
 
 	renderIcon (scene) {
 		return WhiteboardRenderer.getThumbnail(scene, false)
-				.then(thumbnail=> this.setState({ thumbnail }));
+			.then(thumbnail=> this.setState({ thumbnail }));
 	}
 
 

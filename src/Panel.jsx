@@ -18,11 +18,11 @@ function getPacket (content, strategies, previewMode, maxPreviewLength) {
 	if (typeof content === 'string') {
 		packet = processContent({
 			content: previewMode
-			? getHTMLSnippet(filterContent(content), maxPreviewLength)
-			: content
+				? getHTMLSnippet(filterContent(content), maxPreviewLength)
+				: content
 		},
 		strategies
-	);
+		);
 	}
 	else {
 		const key = uuid();
@@ -90,29 +90,29 @@ export default class extends React.Component {
 			}
 
 			return getPacket(content, strategies, previewMode, previewLength - letterCount)
-			.then(packet => {
+				.then(packet => {
 
-				if (previewMode) {
-					letterCount += packet.body
-					.map(x=> typeof x !== 'string' ? 0 :
-					x
-					.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
-					.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
-					.length
-				)
-				.reduce((sum, x)=> sum + x);
-				}
+					if (previewMode) {
+						letterCount += packet.body
+							.map(x=> typeof x !== 'string' ? 0 :
+								x
+									.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
+									.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
+									.length
+							)
+							.reduce((sum, x)=> sum + x);
+					}
 
-				Object.assign(widgets, packet.widgets);
+					Object.assign(widgets, packet.widgets);
 
-				let processed = packet.body.map(
-				part => (typeof part !== 'string') ?
-				`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
+					let processed = packet.body.map(
+						part => (typeof part !== 'string') ?
+							`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
 
-				return htmlToReactRenderer(
-					processed.join(''),
-					(n, a) => isWidget(n, a, packet.widgets));
-			});
+					return htmlToReactRenderer(
+						processed.join(''),
+						(n, a) => isWidget(n, a, packet.widgets));
+				});
 		}
 
 
@@ -146,9 +146,9 @@ export default class extends React.Component {
 
 	render () {
 		const {
-				props: {className, previewMode, ...others},
-				state: {body}
-			} = this;
+			props: {className, previewMode, ...others},
+			state: {body}
+		} = this;
 
 		const props = {
 			...others,

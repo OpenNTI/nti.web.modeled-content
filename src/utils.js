@@ -234,7 +234,7 @@ export function getValueFromEditorState (editorState) {
 		content.getBlockMap()
 			.map(renderBlock)
 			.toArray()
-		)
+	)
 		.reduce(joinTextBlocks, []);
 }
 

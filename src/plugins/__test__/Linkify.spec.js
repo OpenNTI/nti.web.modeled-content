@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {makeAnchorForLink, wrapLinks} from '../Linkify';
 
 describe('Linkify Plugin Tests', () => {

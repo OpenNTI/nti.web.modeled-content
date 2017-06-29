@@ -1,4 +1,5 @@
-/*eslint no-console: 0 react/no-find-dom-node: 0*/
+/* eslint-env jest */
+/* eslint no-console: 0 react/no-find-dom-node: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
 

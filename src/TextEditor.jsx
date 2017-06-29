@@ -165,7 +165,7 @@ export default class TextEditor extends React.Component {
 					placeholder={placeholder}
 					plugins={this.plugins}
 					toolbars={false}
-					/>
+				/>
 				{Counter && <Counter/>}
 				{error && <ErrorCmp error={error} onFocus={this.onErrorFocused} />}
 				{warning && <ErrorCmp error={warning} onFocus={this.onErrorFocused} isWarning/>}
