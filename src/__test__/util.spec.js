@@ -15,7 +15,7 @@ import {
 
 describe('Value Convertion', () => {
 
-	it ('Should convert NTI-body-content into EditorState', () => {
+	test ('Should convert NTI-body-content into EditorState', () => {
 		let state = getEditorStateFromValue([
 			'<html><body>  <div>damn</div>this     table</body></html>',
 			{MimeType: 'a', test: true},
@@ -55,7 +55,7 @@ describe('Value Convertion', () => {
 	});
 
 
-	it ('Should handle: no argument, and null, undefined, [], {}, "" and any truthy value it does not expect. ', () => {
+	test ('Should handle: no argument, and null, undefined, [], {}, "" and any truthy value it does not expect. ', () => {
 		function isEmptyState (state) {
 			const content = state.getCurrentContent();
 			const blocks = content.getBlocksAsArray();
@@ -82,7 +82,7 @@ describe('Value Convertion', () => {
 	});
 
 
-	it ('Should convert EditorState to NTI-body-content', ()=> {
+	test ('Should convert EditorState to NTI-body-content', ()=> {
 
 		const rawContent = {
 			blocks: [
@@ -131,7 +131,7 @@ describe('Value Convertion', () => {
 
 	// This is presently breaking on draft-js
 	// https://github.com/facebook/draft-js/issues/231
-	xit ('Conversion to/from EditorState sould be consistent', ()=> {
+	test.skip ('Conversion to/from EditorState sould be consistent', ()=> {
 		const value = getValueFromEditorState(getEditorStateFromValue([
 			//Note There are 3 "paragraphs" in this first part. It should be converted into 3 blocks.
 			'<html><body><div>Body Content</div><p></p><div>Line 2</div></body></html>',
@@ -153,7 +153,7 @@ describe('Value Convertion', () => {
 	});
 
 
-	it ('Normalize unwraps html and body tags', () => {
+	test ('Normalize unwraps html and body tags', () => {
 		const body = '<p>Choice</p>';
 		const value = normalize(`<html><body>${body}</body></html>`);
 
@@ -162,14 +162,14 @@ describe('Value Convertion', () => {
 
 
 	describe('valuesEqual checks', () => {
-		it ('Same values are equal', () => {
+		test ('Same values are equal', () => {
 			const a = '<p>Choice</p>';
 			const b = `<html><body>${a}</body></html>`;
 
 			expect(valuesEqual(a, b)).toBeTruthy();
 		});
 
-		it ('Different values are not equal', () => {
+		test ('Different values are not equal', () => {
 			const a = '<p>Choice A</p>';
 			const b = '<html><body><p>Choice B</p></body></html>';
 
@@ -179,22 +179,22 @@ describe('Value Convertion', () => {
 
 
 	describe('isEmpty checks', () => {
-		it ('Empty string is empty', () => {
+		test ('Empty string is empty', () => {
 			expect(isEmpty('')).toBeTruthy();
 		});
 
 
-		it ('Empty tags is empty', () => {
+		test ('Empty tags is empty', () => {
 			expect(isEmpty('<p><span></span></p><p><strong></strong></p>')).toBeTruthy();
 		});
 
 
-		it ('Non empty string is not empty', () => {
+		test ('Non empty string is not empty', () => {
 			expect(isEmpty('test')).toBeFalsy();
 		});
 
 
-		it ('Non empty tags are not empty', () => {
+		test ('Non empty tags are not empty', () => {
 			expect(isEmpty('<p><span>Test</span></p><p><strong>Test</strong></p>')).toBeFalsy();
 		});
 	});

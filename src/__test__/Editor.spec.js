@@ -37,15 +37,15 @@ describe('Modeled Body Content Editor', () => {
 	});
 
 
-	const test = (props = {}, ...children) => Promise.all([
+	const testRender = (props = {}, ...children) => Promise.all([
 		render(newNode, Editor, props, ...children),
 		render(container, Editor, props, ...children)
 	]);
 
 
-	it('Base Cases: Mounts with no props.', (done) => {
+	test('Base Cases: Mounts with no props.', (done) => {
 
-		test()
+		testRender()
 			.then(cmps => cmps.forEach(cmp => {
 				expect(cmp).toBeTruthy();
 				const a = getNode(cmp);
@@ -56,10 +56,10 @@ describe('Modeled Body Content Editor', () => {
 			.then(done, done.fail);
 	});
 
-	it('Base Cases: Pass a string, get a BODY string out.', done => {
+	test('Base Cases: Pass a string, get a BODY string out.', done => {
 		const value = 'test';
 
-		test({initialValue: value})
+		testRender({initialValue: value})
 			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
 			.then(cmps => cmps.forEach(X => {
 				expect(getText(X)).toEqual('test');
@@ -68,12 +68,12 @@ describe('Modeled Body Content Editor', () => {
 			.then(done, done.fail);
 	});
 
-	it('Base Cases: Body Parts Render. Unknown is preserved.', done => {
+	test('Base Cases: Body Parts Render. Unknown is preserved.', done => {
 		const value = ['test', {junk: true}, 'abc'];
 
 		const toExpected = x => typeof x === 'string' ? `<p>${x}</p>` : x;
 
-		test({initialValue: value})
+		testRender({initialValue: value})
 			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
 			.then(cmps => cmps.forEach(X => {
 				expect(getText(X)).toMatch(/test.*?abc/);
@@ -85,10 +85,10 @@ describe('Modeled Body Content Editor', () => {
 
 
 	// This is presently breaking on draft-js we worked around
-	it('Base Cases: Body Parts Render. Paragraphs stay unique.', done => {
+	test('Base Cases: Body Parts Render. Paragraphs stay unique.', done => {
 		const value = ['<div>test</div><p>test2</p><p>test3</p>', 'abc'];
 
-		test({initialValue: value})
+		testRender({initialValue: value})
 			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
 			.then(cmps => cmps.forEach(X => {
 				expect(getText(X)).toMatch(/test.*?abc/);
@@ -101,10 +101,10 @@ describe('Modeled Body Content Editor', () => {
 
 	// This is presently breaking on draft-js
 	// https://github.com/facebook/draft-js/issues/231
-	xit('Base Cases: Body Parts Render. Blank Lines in the middle are preserved.', done => {
+	test.skip('Base Cases: Body Parts Render. Blank Lines in the middle are preserved.', done => {
 		const value = ['<div>test</div><div><p></p></div><p></p>', {junk: true}, 'abc'];
 
-		test({initialValue: value})
+		testRender({initialValue: value})
 			.then(cmps=> Promise.all(cmps.map(x => x.pendingSetup)).then(()=> cmps))
 			.then(cmps => cmps.forEach(X => {
 				expect(getText(X)).toMatch(/test.*?abc/);
