@@ -123,6 +123,7 @@ export default class TextEditor extends React.Component {
 
 	setupValue (props) {
 		const {initialValue: value} = props;
+		//eslint-disable-next-line react/no-direct-mutation-state
 		const setState = s => this.state ? this.setState(s) : (this.state = s);
 
 		setState({value});

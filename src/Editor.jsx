@@ -133,6 +133,7 @@ export default class Editor extends React.Component {
 		this.pendingSetup = new Promise(done => {
 			const setState = o => this.state
 				? this.setState(o, done)
+				//eslint-disable-next-line react/no-direct-mutation-state
 				: (this.state = o);
 
 			if (!this.state) {

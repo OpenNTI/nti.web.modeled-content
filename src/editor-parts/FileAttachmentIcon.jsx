@@ -96,6 +96,7 @@ export default class FileAttachment extends React.Component {
 		}
 
 		if (!this.state) {
+			//eslint-disable-next-line react/no-direct-mutation-state
 			this.state = {backgroundImage};
 		} else {
 			this.setState({backgroundImage});
