@@ -1,5 +1,6 @@
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';
+import { RichUtils } from 'draft-js';
 
 const getAllowedFormats = x => (x && x.getAllowedFormats) ? x.getAllowedFormats() : null;
 const getCurrentStyle = x => (x && x.getCurrentInlineStyle) ? x.getCurrentInlineStyle() : null;
@@ -24,7 +25,8 @@ export default class CoreContextProvider extends React.Component {
 		editor: PropTypes.any,
 		toggleFormat: PropTypes.func,
 		allowedFormats: PropTypes.object,
-		currentFormat: PropTypes.object
+		currentFormat: PropTypes.object,
+		currentBlockType: PropTypes.object
 	}
 
 	constructor (props) {
@@ -39,12 +41,15 @@ export default class CoreContextProvider extends React.Component {
 		const {state} = editor || {};
 		const allowedFormats = getAllowedFormats(editor);
 		const currentFormat = getCurrentStyle(state && state.editorState);
+		const currentBlockType = RichUtils.getCurrentBlockType(state && state.editorState);
 
 		return {
 			allowedFormats,
 			currentFormat,
+			currentBlockType,
 			editor,
-			toggleFormat (x) { editor.toggleInlineStyle(x, true); }
+			toggleFormat (x) { editor.toggleInlineStyle(x, true); },
+			toggleBlock (x) { editor.toggleBlockType(x); }
 		};
 	}
 

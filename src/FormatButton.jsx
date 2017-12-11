@@ -7,8 +7,12 @@ const clone = x =>
 
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
+export const BlockFormats = Object.freeze({
+	Code: 'CODE',
+	UNSTYLER: 'UNSTYLED'
+});
 
-export const Formats = Object.freeze({
+export const InlineFormats = Object.freeze({
 	//Treat as an enum. Keys and values must equal each other.
 	CODE: 'CODE',
 	BOLD: 'BOLD',
@@ -18,18 +22,22 @@ export const Formats = Object.freeze({
 
 export default class FormatButton extends React.Component {
 
-	static Formats = Formats
+	static InlineFormats = InlineFormats;
+	static BlockFormats = BlockFormats;
 
 	static contextTypes = {
 		toggleFormat: PropTypes.func.isRequired,
 		currentFormat: PropTypes.object,
-		allowedFormats: PropTypes.object
+		allowedFormats: PropTypes.object,
+		currentBlockType: PropTypes.object
 	}
 
 
 	static propTypes = {
 		children: PropTypes.any,
-		format: PropTypes.oneOf(Object.keys(Formats)).isRequired
+		// TODO: make more dynamic with checking if block is in props and change array based on that
+		format: PropTypes.oneOf(Object.keys({...InlineFormats, ...BlockFormats})).isRequired, 
+		block: PropTypes.bool,
 	}
 
 
@@ -40,23 +48,27 @@ export default class FormatButton extends React.Component {
 
 
 	onClick (e) {
-		const {props: {format = '_'}} = this;
+		const {props: {format = '_', block}} = this;
 		if (e) {
 			e.preventDefault();
 		}
-
-		this.context.toggleFormat(format);
+		if (block) {
+			this.context.toggleBlock(format);
+		} else {
+			this.context.toggleFormat(format);
+		}
 	}
 
 
 	render () {
-		const {context: {currentFormat, allowedFormats}, props: {format = '_'}} = this;
-		const active = currentFormat && currentFormat.has(format);
-		const disabled = !currentFormat || !allowedFormats || !allowedFormats.has(format);
+		const {context: {currentFormat, currentBlockType}, props: {format = '_', block}} = this;
+		const active = block ? currentBlockType && currentBlockType.has(format) : currentFormat && currentFormat.has(format);
+		// TODO: Check allowed blocktypes
+		// const disabled = block ? false : !currentFormat || !allowedFormats || !allowedFormats.has(format);
 		const label = (format || '').toLowerCase();
 
 		const props = {
-			className: cx('format-button', {active, disabled}),
+			className: cx('format-button', {active}),
 			onMouseDown: this.onClick,//onClick is too late.
 			onClick: stop,
 			'data-format': label,
