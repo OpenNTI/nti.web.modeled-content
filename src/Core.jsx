@@ -9,7 +9,6 @@ import {
 	CompositeDecorator,
 	Editor,
 	EditorState,
-	Entity,
 	Modifier,
 	RichUtils,
 	SelectionState,
@@ -381,12 +380,15 @@ export default class Core extends React.Component {
 		if (!data || !data.MimeType) {
 			throw new Error('Data must be an object and have a MimeType property');
 		}
+		const {editorState} = this.state;
+		const content = editorState.getCurrentContent();
 
-		const entityKey = Entity.create(data.MimeType, 'IMMUTABLE', data);
+		const contentState = content.createEntity(data.MimeType, 'IMMUTABLE', data);
+		const entityKey = contentState.getLastCreatedEntityKey();
 
 		return this.onChange(
 			AtomicBlockUtils.insertAtomicBlock(
-				this.state.editorState,
+				EditorState.set(editorState, {currentContent: contentState}),
 				entityKey,
 				' '
 			)
@@ -397,9 +399,9 @@ export default class Core extends React.Component {
 	removeBlock (dataOrKey) {
 		const {editorState} = this.state;
 
-		function isBlockWithData (contentBlock) {
+		function isBlockWithData (content, contentBlock) {
 			const key = contentBlock.getEntityAt(0);
-			const entity = key && Entity.get(key);
+			const entity = key && content.getEntity(key);
 			return entity && dataOrKey === entity.getData();
 		}
 
@@ -412,7 +414,7 @@ export default class Core extends React.Component {
 		const getBlock = (content) =>
 			typeof dataOrKey === 'string'
 				? content.getBlockForKey(dataOrKey)
-				: content.getBlocksAsArray().find(isBlockWithData);
+				: content.getBlocksAsArray().find(x => isBlockWithData(content, x));
 
 		const content = editorState.getCurrentContent();
 		const block = getBlock(content);

@@ -4,7 +4,6 @@ import {
 	ContentBlock,
 	ContentState,
 	EditorState,
-	Entity,
 	convertFromHTML,
 	DefaultDraftBlockRenderMap
 } from 'draft-js';
@@ -42,8 +41,8 @@ export function getEditorStateFromValue (value) {
 
 	for (let part of value) {
 		if (typeof part === 'string') {
-			const blocks = convertFromHTML(part, void 0, BlockRenderMapWithParagraph)
-				.contentBlocks
+			const blocks = (convertFromHTML(part, void 0, BlockRenderMapWithParagraph)
+				.contentBlocks || [])
 				//We added a new type "nti-paragraph", so that they do not merge together...
 				//now we have to reset the type to "unstyled" so that it can render as normal.
 				.map(b => b.type !== 'nti-paragraph' ? b : new ContentBlock({
@@ -65,9 +64,14 @@ export function getEditorStateFromValue (value) {
 				existingBlocks.pop();
 			}
 
-			const newContent = ContentState.createFromBlockArray([
+			const newBlocks = [
 				...existingBlocks,
-				...blocks]);
+				...blocks
+			];
+
+			const newContent = newBlocks.length
+				? ContentState.createFromBlockArray(newBlocks)
+				: ContentState.createFromText('');
 
 			lastBlockAtomic = false;
 			intermediateState = EditorState.createWithContent(newContent);
@@ -76,12 +80,22 @@ export function getEditorStateFromValue (value) {
 		//Custom Object body parts are converted to DraftJS Custom Block Atomic Entities.
 		else {
 			lastBlockAtomic = true;
+			intermediateState = intermediateState || EditorState.createEmpty();
+
+			const contentStateWithEntity = intermediateState
+				.getCurrentContent()
+				.createEntity(part.MimeType || 'unknown', 'IMMUTABLE', part);
+
+			const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+
+			intermediateState = EditorState.set(
+				intermediateState,
+				{currentContent: contentStateWithEntity},
+			);
+
 			intermediateState = AtomicBlockUtils.insertAtomicBlock(
-
-				EditorState.moveSelectionToEnd(intermediateState || EditorState.createEmpty()),
-
-				Entity.create(part.MimeType || 'unknown', 'IMMUTABLE', part),
-
+				EditorState.moveSelectionToEnd(intermediateState),
+				entityKey,
 				' '
 			);
 		}
@@ -214,7 +228,7 @@ export function getValueFromEditorState (editorState) {
 
 		if (block.type === 'atomic') {
 			const entityKey = block.getEntityAt(0);
-			const entity = entityKey && Entity.get(entityKey);
+			const entity = entityKey && content.getEntity(entityKey);
 			if (!entity) {
 				logger.error('Atomic Block has no entity?', block);
 			}

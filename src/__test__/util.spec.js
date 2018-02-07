@@ -1,4 +1,5 @@
 /* eslint-env jest */
+import Logger from 'nti-util-logger';
 import {
 	convertToRaw,
 	convertFromRaw,
@@ -56,6 +57,10 @@ describe('Value Convertion', () => {
 
 
 	test ('Should handle: no argument, and null, undefined, [], {}, "" and any truthy value it does not expect. ', () => {
+		const logger = Logger.get('modeled-content:utils');
+
+		jest.spyOn(logger, 'warn').mockImplementation(() => {});
+
 		function isEmptyState (state) {
 			const content = state.getCurrentContent();
 			const blocks = content.getBlocksAsArray();

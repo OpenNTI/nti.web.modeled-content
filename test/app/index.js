@@ -1,8 +1,8 @@
-/*eslint no-console: 0*/
-import 'babel-polyfill';
+/*eslint no-console: 0, import/no-extraneous-dependencies: 0*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Errors} from 'nti-web-commons';
+
 import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
 
@@ -40,13 +40,13 @@ class Test extends React.Component {
 			<div>
 				<div>
 					<div className="text-editor">
-					<Editor plugins={[counter]}
-						onFocus={this.onFocus}
-						ref={this.attachEditor1Ref}
-						allowInsertVideo
-						allowInsertImage
+						<Editor plugins={[counter]}
+							onFocus={this.onFocus}
+							ref={this.attachEditor1Ref}
+							allowInsertVideo
+							allowInsertImage
 						/>
-					<CharCount/>
+						<CharCount/>
 					</div>
 
 					<TextEditor charLimit={150}
@@ -57,7 +57,7 @@ class Test extends React.Component {
 						error={error}
 						singleLine
 						plainText
-						/>
+					/>
 				</div>
 
 				<EditorContextProvider editor={this.state.editor}>
