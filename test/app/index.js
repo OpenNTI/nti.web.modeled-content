@@ -7,7 +7,7 @@ import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src
 import CharCounter from '../../src/plugins/CharacterCounter';
 
 import 'normalize.css';
-import 'nti-style-common/fonts.scss';
+import 'nti-style-common/all.scss';
 import 'nti-web-commons/lib/index.css';
 
 const counter = new CharCounter(20);
