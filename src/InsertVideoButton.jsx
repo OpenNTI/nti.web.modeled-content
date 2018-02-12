@@ -92,8 +92,7 @@ export default class InsertVideoButton extends Tool {
 			e.stopPropagation();
 		}
 
-		this.state = {prompt: false, canSubmit: false};
-		this.forceUpdate();
+		this.setState({prompt: false, canSubmit: false});
 	}
 
 
