@@ -4,7 +4,6 @@ import cx from 'classnames';
 import {getHTMLSnippet, filterContent, processContent} from 'nti-lib-content-processing';
 import uuid from 'uuid';
 import htmlToReactRenderer from 'html-reactifier';
-import hash from 'object-hash';//XXX: this is expensive! mark from removal
 
 import SYSTEM_WIDGETS from './SystemWidgetRegistry';
 
@@ -13,38 +12,10 @@ const SYSTEM_WIDGET_STRATEGIES = {};
 const nullRender = () => {};
 
 
-function getPacket (content, strategies, previewMode, maxPreviewLength) {
-	let packet;
-	if (typeof content === 'string') {
-		packet = processContent({
-			content: previewMode
-				? getHTMLSnippet(filterContent(content), maxPreviewLength)
-				: content
-		},
-		strategies
-		);
-	}
-	else {
-		const key = uuid();
-		const o = {[key]: Object.assign({}, content, { id: key })};
-
-		packet = {
-			widgets: o,
-			body: [{
-				guid: key,
-				type: o[key].MimeType
-			}]
-		};
-	}
-
-	return Promise.resolve(packet);
-}
-
 /*
  * Component to render Modeled Body Content
  */
-export default class extends React.Component {
-	static displayName = 'ModeledBodyContent';
+export default class ModeledBodyContent extends React.Component {
 
 	static propTypes = {
 		className: PropTypes.string,
@@ -56,93 +27,89 @@ export default class extends React.Component {
 		strategies: PropTypes.object,
 		widgets: PropTypes.object,
 		renderCustomWidget: PropTypes.func
-	};
+	}
 
 	static defaultProps = {
 		previewLength: 36,
 		previewMode: false
-	};
+	}
 
 	state = {
 		body: [],
-		propHash: null
-	};
+		widgets: {}
+	}
 
 	componentDidMount () { this.buildContent(this.props); }
-	componentWillReceiveProps (props) { this.buildContent(props); }
 
-	buildContent = (props) => {
+	componentWillReceiveProps (props) {
+		const list = Object.keys(ModeledBodyContent.propTypes);
+		if (list.some(x => props[x] !== this.props[x])) {
+			this.buildContent(props);
+		}
+	}
+
+	buildContent = async (props) => {
 		const {body: input, strategies: propStrategies, previewLength, previewMode} = props;
-		const h = hash(props);
+		const strategies = Object.assign({}, SYSTEM_WIDGET_STRATEGIES, propStrategies);
 		const widgets = {};
 
 		let letterCount = 0;
 
-		if (this.state.propHash === h) {
-			return;
-		}
 
-		const strategies = Object.assign({}, SYSTEM_WIDGET_STRATEGIES, propStrategies);
-
-		function process (content) {
+		async function process (content) {
 			if (previewMode && previewLength <= letterCount) {
-				return Promise.resolve(nullRender);
+				return nullRender;
 			}
 
-			return getPacket(content, strategies, previewMode, previewLength - letterCount)
-				.then(packet => {
+			const packet = await getPacket(content, strategies, previewMode, previewLength - letterCount);
 
-					if (previewMode) {
-						letterCount += packet.body
-							.map(x=> typeof x !== 'string' ? 0 :
-								x
-									.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
-									.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
-									.length
-							)
-							.reduce((sum, x)=> sum + x);
-					}
+			if (previewMode) {
+				letterCount += packet.body
+					.map(x=> typeof x !== 'string' ? 0 :
+						x
+							.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
+							.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
+							.length
+					)
+					.reduce((sum, x)=> sum + x);
+			}
 
-					Object.assign(widgets, packet.widgets);
+			Object.assign(widgets, packet.widgets);
 
-					let processed = packet.body.map(
-						part => (typeof part !== 'string') ?
-							`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
+			const processed = packet.body.map(
+				part => (typeof part !== 'string') ?
+					`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
 
-					return htmlToReactRenderer(
-						processed.join(''),
-						(n, a) => isWidget(n, a, packet.widgets));
-				});
+			return htmlToReactRenderer(
+				processed.join(''),
+				(n, a) => isWidget(n, a, packet.widgets));
 		}
 
 
-
-		new Promise((finish, error) => {
+		async function build () {
 			const body = input || [];
 			const {length} = body;
 			const processed = new Array(length);
 
-			function loop (x) {
+			async function loop (x) {
 				if (x >= length) {
-					return finish(processed);
+					return processed;
 				}
 
-				process(body[x])
-					.then(c => processed[x] = c)
-					.then(() => loop(x + 1))
-					.catch(error);
+				processed[x] = await process(body[x]);
+				return await loop(x + 1);
 			}
 
-			loop(0);
-		})
-			.then(processed => {
-				this.setState({
-					propHash: h,
-					body: processed,
-					widgets: widgets
-				});
-			});
-	};
+			return await loop(0);
+		}
+
+
+		this.setState({
+			body: await build(),
+			widgets
+		});
+	}
+
 
 	render () {
 		const {
@@ -164,7 +131,7 @@ export default class extends React.Component {
 
 		let dynamicRenderers = [];
 		if (Array.isArray(body)) {
-			dynamicRenderers = body;
+			dynamicRenderers = body.filter(Boolean);
 		}
 		else {
 			props.dangerouslySetInnerHTML = {__html: body || ''};
@@ -176,29 +143,49 @@ export default class extends React.Component {
 	}
 
 	renderWidget = (tagName, props, children) => {
-		let {renderCustomWidget, widgets} = this.props;
-		let f = renderCustomWidget || React.createElement;
 		props = props || {};//ensure we have an object.
+		const {renderCustomWidget, widgets} = this.props;
 
 		//TODO: Is it known internally? Render it directly.
-		let {id} = props;//eslint-disable-line react/prop-types
-		let widget = (this.state.widgets || {})[id] || {};
+		const widget = (this.state.widgets || {})[props.id] || {};
 
-		props = Object.assign({}, props, {widget});
-
-		widgets = Object.assign({}, SYSTEM_WIDGETS, widgets);
-
-		if (widget && widgets[widget.MimeType]) {
-			f = widgets[widget.MimeType];
+		let f = renderCustomWidget || React.createElement;
+		if (widget) {
+			f = Object.assign({}, SYSTEM_WIDGETS, widgets)[widget.MimeType] || f;
 		}
 
-
-		return f(tagName, props, children);
-	};
+		return f(tagName, Object.assign({}, props, {widget}), children);
+	}
 }
 
 
 function isWidget (tagName, props, widgets) {
-	let widget = widgets && widgets[props && props.id];
+	const widget = widgets && widgets[props && props.id];
 	return (tagName === 'widget' && widget) ? tagName : null;
+}
+
+
+async function getPacket (content, strategies, previewMode, maxPreviewLength) {
+
+	if (typeof content === 'string') {
+
+		const data = {
+			content: previewMode
+				? getHTMLSnippet(filterContent(content), maxPreviewLength)
+				: content
+		};
+
+		return await processContent(data, strategies);
+	}
+
+	const key = uuid();
+	const o = {[key]: Object.assign({}, content, { id: key })};
+
+	return {
+		widgets: o,
+		body: [{
+			guid: key,
+			type: o[key].MimeType
+		}]
+	};
 }

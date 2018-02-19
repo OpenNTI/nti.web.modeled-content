@@ -50,7 +50,6 @@
     "nti-web-commons": "0.x.x",
     "nti-web-video": "^1.2.0",
     "nti-web-whiteboard": "0.x.x",
-    "object-hash": "^1.1.5",
     "prop-types": "^15.5.10",
     "punycode": "^2.1.0",
     "uuid": "^3.0.1"
