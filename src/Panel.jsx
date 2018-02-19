@@ -2,10 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {getHTMLSnippet, filterContent, processContent} from 'nti-lib-content-processing';
+import Logger from 'nti-util-logger';
 import uuid from 'uuid';
 import htmlToReactRenderer from 'html-reactifier';
 
 import SYSTEM_WIDGETS from './SystemWidgetRegistry';
+
+const logger = Logger.get('modeled-content:Panel');
+
 
 const SYSTEM_WIDGET_STRATEGIES = {};
 
@@ -80,9 +84,14 @@ export default class ModeledBodyContent extends React.Component {
 				part => (typeof part !== 'string') ?
 					`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
 
-			return htmlToReactRenderer(
-				processed.join(''),
-				(n, a) => isWidget(n, a, packet.widgets));
+			try {
+				return htmlToReactRenderer(
+					processed.join(''),
+					(n, a) => isWidget(n, a, packet.widgets));
+			} catch (e) {
+				logger.error(e.stack || e.message || e);
+				return () => <div/>;
+			}
 		}
 
 
