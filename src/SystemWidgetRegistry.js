@@ -12,8 +12,8 @@ export default {
 
 
 function renderVideoWidget (_, properties) {
-	const {widget} = properties;
-	return React.createElement(Video, {src: widget.embedURL, context: []});
+	const {widget, ...props} = properties;
+	return React.createElement(Video, {src: widget.embedURL, ...props});
 }
 
 

@@ -30,7 +30,12 @@ export default class ModeledBodyContent extends React.Component {
 
 		strategies: PropTypes.object,
 		widgets: PropTypes.object,
-		renderCustomWidget: PropTypes.func
+		renderCustomWidget: PropTypes.func,
+
+		/**
+		 * An object of properties to send into the analytics events
+		 */
+		analyticsData: PropTypes.object
 	}
 
 	static defaultProps = {
@@ -137,6 +142,7 @@ export default class ModeledBodyContent extends React.Component {
 		delete props.strategies;
 		delete props.renderCustomWidget;
 		delete props.widgets;
+		delete props.analyticsData;
 
 		let dynamicRenderers = [];
 		if (Array.isArray(body)) {
@@ -153,7 +159,7 @@ export default class ModeledBodyContent extends React.Component {
 
 	renderWidget = (tagName, props, children) => {
 		props = props || {};//ensure we have an object.
-		const {renderCustomWidget, widgets} = this.props;
+		const {renderCustomWidget, widgets, analyticsData} = this.props;
 
 		//TODO: Is it known internally? Render it directly.
 		const widget = (this.state.widgets || {})[props.id] || {};
@@ -163,7 +169,7 @@ export default class ModeledBodyContent extends React.Component {
 			f = Object.assign({}, SYSTEM_WIDGETS, widgets)[widget.MimeType] || f;
 		}
 
-		return f(tagName, Object.assign({}, props, {widget}), children);
+		return f(tagName, Object.assign({}, props, {widget, analyticsData}), children);
 	}
 }
 
