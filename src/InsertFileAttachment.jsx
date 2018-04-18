@@ -1,6 +1,6 @@
 import React from 'react';
-import Logger from 'nti-util-logger';
-import iOSversion from 'nti-util-ios-version';
+import Logger from '@nti/util-logger';
+import iOSversion from '@nti/util-ios-version';
 
 import Tool from './Tool';
 

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import filesize from 'filesize';
-import {URL} from 'nti-lib-dom';
-import {AssetIcon} from 'nti-web-commons';
+import {URL} from '@nti/lib-dom';
+import {AssetIcon} from '@nti/web-commons';
 
 const consume = e => e.stopPropagation();
 

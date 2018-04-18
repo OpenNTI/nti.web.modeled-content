@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {getHTMLSnippet, filterContent, processContent} from 'nti-lib-content-processing';
-import Logger from 'nti-util-logger';
+import {getHTMLSnippet, filterContent, processContent} from '@nti/lib-content-processing';
+import Logger from '@nti/util-logger';
 import uuid from 'uuid';
 import htmlToReactRenderer from 'html-reactifier';
 

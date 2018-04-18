@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Canvas as WhiteboardRenderer} from 'nti-lib-whiteboardjs';
+import {Canvas as WhiteboardRenderer} from '@nti/lib-whiteboard';
 
 export default class WhiteboardThumbnail extends React.Component {
 

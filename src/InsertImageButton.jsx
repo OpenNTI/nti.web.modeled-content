@@ -1,7 +1,7 @@
 import React from 'react';
-import Logger from 'nti-util-logger';
-import {Utils} from 'nti-lib-whiteboardjs';
-import iOSversion from 'nti-util-ios-version';
+import Logger from '@nti/util-logger';
+import {Utils} from '@nti/lib-whiteboard';
+import iOSversion from '@nti/util-ios-version';
 
 import Tool from './Tool';
 

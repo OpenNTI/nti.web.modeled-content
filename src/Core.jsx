@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import invariant from 'invariant';
-import {Events} from 'nti-commons';
-import Logger from 'nti-util-logger';
+import {Events} from '@nti/lib-commons';
+import Logger from '@nti/util-logger';
 import {
 	AtomicBlockUtils,
 	CompositeDecorator,

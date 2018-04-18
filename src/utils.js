@@ -1,4 +1,4 @@
-import Logger from 'nti-util-logger';
+import Logger from '@nti/util-logger';
 import {
 	AtomicBlockUtils,
 	ContentBlock,

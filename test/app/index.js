@@ -1,14 +1,14 @@
 /*eslint no-console: 0, import/no-extraneous-dependencies: 0*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Errors} from 'nti-web-commons';
+import {Errors} from '@nti/web-commons';
 
 import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
 
 import 'normalize.css';
-import 'nti-style-common/all.scss';
-import 'nti-web-commons/lib/index.css';
+import '@nti/style-common/all.scss';
+import '@nti/web-commons/lib/index.css';
 
 const counter = new CharCounter(20);
 const CharCount = counter.getComponent();
