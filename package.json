@@ -4,21 +4,21 @@
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for modeled body content",
   "license": "UNLICENSED",
-  "main": "./lib/cjs-index.js",
-  "module": "./lib/index.js",
+  "main": "lib/cjs-index.js",
+  "module": "lib/index.js",
   "style": "./lib/index.css",
   "files": [
     "lib"
   ],
   "scripts": {
-    "test": "nti-cmp-scripts test",
-    "start": "nti-cmp-scripts start",
-    "prepack": "nti-cmp-scripts build",
-    "build": "nti-cmp-scripts build",
-    "clean": "nti-cmp-scripts clean",
-    "check": "nti-cmp-scripts check",
-    "release": "nti-cmp-scripts release",
-    "install-snapshots": "nti-cmp-scripts install-snapshots"
+    "test": "cmp-scripts test",
+    "start": "cmp-scripts start",
+    "prepack": "cmp-scripts build",
+    "build": "cmp-scripts build",
+    "clean": "cmp-scripts clean",
+    "check": "cmp-scripts check",
+    "release": "cmp-scripts release",
+    "install-snapshots": "cmp-scripts install-snapshots"
   },
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "nti-cmp-scripts": "^1.0.33",
+    "@nti/cmp-scripts": "^1.16.0",
     "@nti/style-common": "^1.1.11",
     "raf": "^3.4.0",
     "react": "^16.2.0",
