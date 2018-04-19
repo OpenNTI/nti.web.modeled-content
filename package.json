@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-modeled-content",
-  "version": "1.10.0",
+  "version": "1.11.0-alpha",
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for modeled body content",
   "license": "UNLICENSED",
