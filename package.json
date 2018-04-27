@@ -55,7 +55,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "@nti/cmp-scripts": "^1.16.0",
+    "@nti/cmp-scripts": "^1.17.16",
     "@nti/style-common": "^1.1.11",
     "raf": "^3.4.0",
     "react": "^16.2.0",
