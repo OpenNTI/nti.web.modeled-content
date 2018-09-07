@@ -6,10 +6,6 @@ import {Errors} from '@nti/web-commons';
 import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
 
-import 'normalize.css';
-import '@nti/style-common/all.scss';
-import '@nti/web-commons/lib/index.css';
-
 const counter = new CharCounter(20);
 const CharCount = counter.getComponent();
 
