@@ -45,6 +45,10 @@ export default class ModeledBodyContent extends React.Component {
 
 	componentDidMount () { this.buildContent(this.props); }
 
+	componentWillUnmount () {
+		this.unmounted = true;
+	}
+
 	componentWillReceiveProps (props) {
 		const list = Object.keys(ModeledBodyContent.propTypes);
 		if (list.some(x => props[x] !== this.props[x])) {
@@ -54,7 +58,7 @@ export default class ModeledBodyContent extends React.Component {
 
 	buildContent = async (props) => {
 		const {body: input, strategies: propStrategies, previewLength, previewMode} = props;
-		const strategies = Object.assign({}, SYSTEM_WIDGET_STRATEGIES, propStrategies);
+		const strategies = { ...SYSTEM_WIDGET_STRATEGIES, ...propStrategies};
 		const widgets = {};
 
 		let letterCount = 0;
@@ -112,11 +116,14 @@ export default class ModeledBodyContent extends React.Component {
 			return await loop(0);
 		}
 
+		const body = await build();
 
-		this.setState({
-			body: await build(),
-			widgets
-		});
+		if (!this.unmounted) {
+			this.setState({
+				body,
+				widgets
+			});
+		}
 	}
 
 
@@ -160,10 +167,10 @@ export default class ModeledBodyContent extends React.Component {
 
 		let f = renderCustomWidget || React.createElement;
 		if (widget) {
-			f = Object.assign({}, SYSTEM_WIDGETS, widgets)[widget.MimeType] || f;
+			f = ({ ...SYSTEM_WIDGETS, ...widgets})[widget.MimeType] || f;
 		}
 
-		return f(tagName, Object.assign({}, props, {widget}), children);
+		return f(tagName, { ...props, widget}, children);
 	}
 }
 
@@ -188,7 +195,7 @@ async function getPacket (content, strategies, previewMode, maxPreviewLength) {
 	}
 
 	const key = uuid();
-	const o = {[key]: Object.assign({}, content, { id: key })};
+	const o = {[key]: { ...content, id: key}};
 
 	return {
 		widgets: o,
