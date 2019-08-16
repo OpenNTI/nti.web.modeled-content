@@ -30,13 +30,17 @@ export default class ModeledBodyContent extends React.Component {
 
 		strategies: PropTypes.object,
 		widgets: PropTypes.object,
-		renderCustomWidget: PropTypes.func
+		renderCustomWidget: PropTypes.func,
+
+		afterRender: PropTypes.func
 	}
 
 	static defaultProps = {
 		previewLength: 36,
 		previewMode: false
 	}
+
+	bodyRef = React.createRef()
 
 	state = {
 		body: [],
@@ -57,7 +61,7 @@ export default class ModeledBodyContent extends React.Component {
 	}
 
 	buildContent = async (props) => {
-		const {body: input, strategies: propStrategies, previewLength, previewMode} = props;
+		const {body: input, strategies: propStrategies, previewLength, previewMode, afterRender} = props;
 		const strategies = { ...SYSTEM_WIDGET_STRATEGIES, ...propStrategies};
 		const widgets = {};
 
@@ -122,6 +126,10 @@ export default class ModeledBodyContent extends React.Component {
 			this.setState({
 				body,
 				widgets
+			}, () => {
+				if (afterRender) {
+					afterRender(this.bodyRef.current);
+				}
 			});
 		}
 	}
@@ -135,6 +143,7 @@ export default class ModeledBodyContent extends React.Component {
 
 		const props = {
 			...others,
+			ref: this.bodyRef,
 			className: cx('modeled-content', className, {preview: previewMode}),
 		};
 
@@ -144,6 +153,7 @@ export default class ModeledBodyContent extends React.Component {
 		delete props.strategies;
 		delete props.renderCustomWidget;
 		delete props.widgets;
+		delete props.afterRender;
 
 		let dynamicRenderers = [];
 		if (Array.isArray(body)) {
