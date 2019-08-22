@@ -85,7 +85,6 @@ export default class ModeledBodyContentTextPreview extends React.Component {
 			const text = await getTextOnlyContent(body, strategies);
 			const attachmentCounts = getAttachmentCounts(body, strategies);
 
-			debugger;
 			const preview = text ? getTextPreview(text) : getAttachmentPreview(attachmentCounts);
 
 			this.setState({
@@ -106,14 +105,22 @@ export default class ModeledBodyContentTextPreview extends React.Component {
 		const {preview, hasText, error} = this.state;
 		const otherProps = restProps(ModeledBodyContentTextPreview, this.props);
 
+		let contents = null;
+
+		if (error) {
+			contents = t('error');
+		} else if (typeof preview === 'function') {
+			contents = preview(React, x => x);
+		} else if (typeof preview === 'string') {
+			contents = preview;
+		}
+
 		return (
 			<Text.Base
 				className={cx('nti-modeled-content-text-preview', className, {error, 'attachments': !hasText})}
 				{...otherProps}
 			>
-				{error && t('error')}
-				{!error && typeof preview === 'function' && preview(React, (x) => x)}
-				{!error && typeof preview === 'string' && preview}
+				{contents}
 			</Text.Base>
 		);
 	}
