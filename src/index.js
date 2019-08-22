@@ -9,6 +9,7 @@ import FormatButton from './FormatButton';
 import Tool from './Tool';
 import Toolbar, {REGIONS as ToolbarRegions} from './Toolbar';
 import Panel from './Panel';
+import TextPreview from './text-preview';
 
 const plugins = {
 	CharacterCounter
@@ -24,6 +25,8 @@ export {
 	Toolbar,
 	ToolbarRegions,
 	Tool,
+
+	TextPreview,
 
 	FileAttachmentIcon,
 	VideoIcon,
