@@ -66,6 +66,7 @@ export default class ModeledBodyContent extends React.Component {
 		const widgets = {};
 
 		let letterCount = 0;
+		const updateLetterCount = x => letterCount += x;
 
 
 		async function process (content) {
@@ -76,14 +77,14 @@ export default class ModeledBodyContent extends React.Component {
 			const packet = await getPacket(content, strategies, previewMode, previewLength - letterCount);
 
 			if (previewMode) {
-				letterCount += packet.body
+				updateLetterCount(packet.body
 					.map(x=> typeof x !== 'string' ? 0 :
 						x
 							.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
 							.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
 							.length
 					)
-					.reduce((sum, x)=> sum + x);
+					.reduce((sum, x)=> sum + x));
 			}
 
 			Object.assign(widgets, packet.widgets);
