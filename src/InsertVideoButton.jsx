@@ -3,7 +3,8 @@ import cx from 'classnames';
 import {Events} from '@nti/lib-commons';
 import {getEventTarget} from '@nti/lib-dom';
 import Logger from '@nti/util-logger';
-import {getHandler} from '@nti/web-video';
+import {Prompt} from '@nti/web-commons';
+import {getHandler, EmbedInput} from '@nti/web-video';
 
 import Tool from './Tool';
 
@@ -34,42 +35,16 @@ export default class InsertVideoButton extends Tool {
 	}
 
 
-	focusInput = (e) => {
-		if (e) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
-
-		const {input} = this;
-		if (input) {
-			input.focus();
-		}
-	}
-
-
-	testURL = () => {
-		const {input} = this;
-		const {value} = input || {};
-
-		const handler = getHandler(value);
-		this.setState({canSubmit: !!handler});
-	}
-
-
 	render () {
-		const {state: {prompt, canSubmit}} = this;
+		const {state: {prompt}} = this;
 
 		return (
 			<div className="button insert-video" role="button" tabIndex="0" onClick={this.prompt} onKeyDown={this.prompt}>
 				Insert Video
 				{!prompt ? null : (
-					<div className="dialog" onKeyDown={this.onKeyDownHandler} onClick={this.focusInput} onFocus={this.onDialogFocus} role="dialog" aria-label="Enter URL to video">
-						<input type="url" placeholder="Video URL" ref={this.attachRef} onChange={this.testURL}/>
-						<div className="buttons">
-							<a className="button link" onKeyDown={this.closePrompt} onClick={this.closePrompt} tabIndex="0">Cancel</a>
-							<a className={cx('button commit', {disabled: !canSubmit})} onKeyDown={this.insert} onClick={this.insert} tabIndex="0">Insert</a>
-						</div>
-					</div>
+					<Prompt.Dialog onBeforeDismiss={this.closePrompt} className={cx('insert-video-dialog')}>
+						<EmbedInput autoFocus onSelect={this.onVideoSelected} onCancel={this.closePrompt} />
+					</Prompt.Dialog>
 				)}
 			</div>
 		);
@@ -81,8 +56,6 @@ export default class InsertVideoButton extends Tool {
 			this.closePrompt();
 		}
 	}
-
-
 
 	closePrompt = (e) => {
 		if (!isActionable(e)) { return; }
@@ -106,34 +79,15 @@ export default class InsertVideoButton extends Tool {
 			e.preventDefault();
 		}
 
-		this.setState({prompt: true}, ()=> this.focusInput());
+		this.setState({prompt: true});
 	}
 
-
-	insert = (e) => {
-		if (!isActionable(e)) { return; }
-		if (e) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
-
-
-		const {input} = this;
-		const {value} = input || {};
-		const handler = getHandler(value);
-
-		const data = handler && {
+	onVideoSelected = (source) => {
+		const data = {
 			MimeType: 'application/vnd.nextthought.embeddedvideo',
-			embedURL: handler.getCanonicalURL ? handler.getCanonicalURL(value) : value,
-			type: handler.service
+			embedURL: source.href,
+			type: source.service
 		};
-
-		if (!handler) {
-			// input.value = '';
-			logger.warn('Bad Video URL');
-			return;
-		}
-
 
 		this.closePrompt();
 		this.getEditor().insertBlock(data);

@@ -1,5 +1,12 @@
 @import "~@nti/style-common";
 
+.insert-video-dialog {
+	.video-embed-input {
+		max-width: 23.4375rem;
+		width: 100%;
+	}
+}
+
 .modeled-content-editor .button.insert-video {
 	background-image: url(./assets/video.png);
 	text-indent: -1000px;
