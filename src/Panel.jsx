@@ -205,7 +205,7 @@ async function getPacket (content, strategies, previewMode, maxPreviewLength) {
 		return await processContent(data, strategies);
 	}
 
-	const key = uuid();
+	const key = uuid.v4();
 	const o = {[key]: { ...content, id: key}};
 
 	return {
