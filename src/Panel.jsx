@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {getHTMLSnippet, filterContent, processContent} from '@nti/lib-content-processing';
 import Logger from '@nti/util-logger';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 import htmlToReactRenderer from 'html-reactifier';
 
 import SYSTEM_WIDGETS from './SystemWidgetRegistry';
@@ -205,7 +205,7 @@ async function getPacket (content, strategies, previewMode, maxPreviewLength) {
 		return await processContent(data, strategies);
 	}
 
-	const key = uuid.v4();
+	const key = uuid();
 	const o = {[key]: { ...content, id: key}};
 
 	return {
