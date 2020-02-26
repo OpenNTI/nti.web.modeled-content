@@ -1,51 +1,31 @@
 @import "~@nti/style-common";
+@import '~draft-js/dist/Draft.css';
 
-.modeled-content-editor {
-	.right-south {
-		position: relative;
-		float: right;
+.nti-rich-text.modeled-content-editor {
+	border: 1px solid $border-grey;
+	background: #fff;
 
+	.toolbar {
+		background: $panel-background;
+		border-top: 1px solid $border-grey;
+		display: flex;
+		flex-direction: row;
 
-		button, .button {
-			margin: 0;
-			padding: 0 1.25rem;
-			text-transform: none;
+		.button.insert-video {
+			width: 32px;
+			height: 32px;
+			background-repeat: no-repeat;
+			background-position: center;
+			cursor: pointer;
+		}
+	}
 
-			letter-spacing: normal;
-			line-height: 2.4rem;
-			height: 2.4rem;
-			vertical-align: middle;
-			text-align: center;
+	.draft-core-style-button {
+		color: #a5a5a5;
 
-			&.save {
-				font-weight: 600;
-				font-size: 0.9rem;
-				min-width: 90px;
-				background: $primary-blue;
-				border: 1px solid $border-blue;
-				color: white;
-
-				html:not(.touch) &:hover {
-					opacity: 0.9;
-				}
-
-				&.disabled {
-					&, &:hover {
-						opacity: 0.5;
-						background: $tertiary-grey;
-						border-color: $border-grey;
-					}
-				}
-			}
-
-			&.cancel {
-				font-weight: 400;
-				font-size: 0.75rem;
-				text-decoration: underline;
-				background: none !important;
-				border: 0;
-				color: $primary-grey;
-			}
+		&.active {
+			box-shadow: none;
+			color: #3fb3f6;
 		}
 	}
 }

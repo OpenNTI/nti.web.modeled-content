@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Errors} from '@nti/web-commons';
 import cx from 'classnames';
 
-import Core from './Core';
+// import Core from './Core';
 import CharCounter from './plugins/CharacterCounter';
 import Value from './plugins/ValueIsString';
 import PlainText from './plugins/PlainText';
@@ -157,7 +157,7 @@ export default class TextEditor extends React.Component {
 
 		return (
 			<div className="text-editor">
-				<Core className={cx('text-editor', className)} value={value}
+				{/* <Core className={cx('text-editor', className)} value={value}
 					customBindings={customBindings}
 					onChange={this.props.onChange}
 					onFocus={this.onFocus}
@@ -166,7 +166,7 @@ export default class TextEditor extends React.Component {
 					placeholder={placeholder}
 					plugins={this.plugins}
 					toolbars={false}
-				/>
+				/> */}
 				{Counter && <Counter/>}
 				{error && <ErrorCmp error={error} onFocus={this.onErrorFocused} />}
 				{warning && <ErrorCmp error={warning} onFocus={this.onErrorFocused} isWarning/>}

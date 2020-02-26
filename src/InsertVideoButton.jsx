@@ -2,94 +2,71 @@ import React from 'react';
 import cx from 'classnames';
 import {Events} from '@nti/lib-commons';
 import {getEventTarget} from '@nti/lib-dom';
-import Logger from '@nti/util-logger';
 import {Prompt} from '@nti/web-commons';
-import {getHandler, EmbedInput} from '@nti/web-video';
+import {EmbedInput} from '@nti/web-video';
+import {BLOCKS, Plugins} from '@nti/web-editor';
+import uuid from 'uuid';
+import {scoped} from '@nti/lib-locale';
 
 import Tool from './Tool';
 
-
-const logger = Logger.get('modeled-content:components:InsertVideoButton');
-
 const {isActionable} = Events;
+const {Button} = Plugins.InsertBlock.components;
+const { modal } = Prompt;
+
+const DEFAULT_TEXT = {
+	label: 'Insert Video'
+};
+
+const t = scoped('modeled-content.InsertVideoButton', DEFAULT_TEXT);
 
 export default class InsertVideoButton extends Tool {
 
 	static service = 'kaltura';
 
+	static show () {
+		return new Promise((select, reject) => {
+			modal(
+				<EmbedInput
+					autoFocus
+					onSelect={select}
+					onCancel={reject}
+				/>,
+				{ className: 'insert-video-dialog' }
+			);
+		});
+	}
 
 	constructor (props) {
 		super(props);
-		this.state = { prompt: false, canSubmit: false };
 		this.attachRef = x => this.input = x;
 	}
 
-
-	componentDidUpdate () {
-		// this.focusInput();
+	createBlock = insertBlock => {
+		InsertVideoButton.show()
+			.then(({ source }) => {
+				const block = {
+					type: BLOCKS.ATOMIC,
+					text: '',
+					data: {
+						name: 'ntivideoref',
+						body: [],
+						arguments: `${source}`,
+						options: {uid: uuid()}
+					}
+				};
+				insertBlock(block);
+			});
 	}
-
-
-	onDialogFocus = (e) => {
-		e.stopPropagation();
-	}
-
 
 	render () {
-		const {state: {prompt}} = this;
-
 		return (
-			<div className="button insert-video" role="button" tabIndex="0" onClick={this.prompt} onKeyDown={this.prompt}>
-				Insert Video
-				{!prompt ? null : (
-					<Prompt.Dialog onBeforeDismiss={this.closePrompt} className={cx('insert-video-dialog')}>
-						<EmbedInput autoFocus onSelect={this.onVideoSelected} onCancel={this.closePrompt} />
-					</Prompt.Dialog>
-				)}
-			</div>
+			<Button
+				className="video-button"
+				label={t('label')}
+				createBlock={this.createBlock}
+			/>
 		);
 	}
 
-
-	onKeyDownHandler = (e) => {
-		if (e && e.key === 'Escape') {
-			this.closePrompt();
-		}
-	}
-
-	closePrompt = (e) => {
-		if (!isActionable(e)) { return; }
-
-		if (e) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
-
-		this.setState({prompt: false, canSubmit: false});
-	}
-
-
-	prompt = (e) => {
-		if (!isActionable(e)) { return; }
-
-		e.stopPropagation();
-		if (getEventTarget(e, '.dialog')) {
-			return;
-		} else {
-			e.preventDefault();
-		}
-
-		this.setState({prompt: true});
-	}
-
-	onVideoSelected = (source) => {
-		const data = {
-			MimeType: 'application/vnd.nextthought.embeddedvideo',
-			embedURL: source.href,
-			type: source.service
-		};
-
-		this.closePrompt();
-		this.getEditor().insertBlock(data);
-	}
 }
