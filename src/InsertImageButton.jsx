@@ -40,7 +40,9 @@ export default class InsertImageButton extends Tool {
 
 
 	insertWhiteboard (scene/*, last*/) {
-		this.getEditor().insertBlock(scene);
+		const editor = this.getEditor();
+
+		editor.insertBlock(scene, editor.blurredSelection);
 
 		// if (last) {
 		// 	setTimeout(()=> node.scrollIntoView(), 500);

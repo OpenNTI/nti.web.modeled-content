@@ -79,7 +79,9 @@ export default class InsertVideoButton extends Tool {
 			e.preventDefault();
 		}
 
-		this.setState({prompt: true});
+		this.setState({
+			prompt: true
+		});
 	}
 
 	onVideoSelected = (source) => {
@@ -90,6 +92,9 @@ export default class InsertVideoButton extends Tool {
 		};
 
 		this.closePrompt();
-		this.getEditor().insertBlock(data);
+
+		const editor = this.getEditor();
+
+		editor.insertBlock(data, editor.blurredSelection);
 	}
 }

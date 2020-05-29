@@ -130,6 +130,12 @@ export default class Core extends React.Component {
 		}
 	}
 
+	getSelection () {
+		const {editorState} = this.state;
+
+		return editorState?.getSelection();
+	}
+
 	logState = () => {
 		const content = this.state.editorState.getCurrentContent();
 		logger.log(convertToRaw(content));
@@ -178,12 +184,16 @@ export default class Core extends React.Component {
 
 	onBlur = () => {
 		const {onBlur} = this.props;
+
+		this.blurredSelection = this.getSelection();
+
 		onBlur(this);
 	}
 
 
 	onFocus = () => {
 		const {onFocus} = this.props;
+
 		onFocus(this);
 	}
 
@@ -376,7 +386,7 @@ export default class Core extends React.Component {
 	}
 
 
-	insertBlock (data) {
+	insertBlock (data, selection) {
 		if (!data || !data.MimeType) {
 			throw new Error('Data must be an object and have a MimeType property');
 		}
@@ -388,7 +398,10 @@ export default class Core extends React.Component {
 
 		return this.onChange(
 			AtomicBlockUtils.insertAtomicBlock(
-				EditorState.set(editorState, {currentContent: contentState}),
+				EditorState.set(editorState, {
+					currentContent: contentState,
+					selection: selection || editorState.getSelection()
+				}),
 				entityKey,
 				' '
 			)

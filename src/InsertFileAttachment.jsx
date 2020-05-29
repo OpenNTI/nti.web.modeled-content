@@ -38,7 +38,9 @@ export default class InsertFileAttachmentButton extends Tool {
 
 
 	insertFile (filePart) {
-		this.getEditor().insertBlock(filePart);
+		const editor = this.getEditor();
+
+		editor().insertBlock(filePart, editor.blurredSelection);
 	}
 
 
