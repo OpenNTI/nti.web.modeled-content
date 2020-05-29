@@ -37,7 +37,6 @@ describe('Value Convertion', () => {
 
 		expect(raw).toEqual({
 			blocks: [
-				{ text: ' ', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
 				{ text: 'damn', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
 				{ text: 'this     table', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
 				{ text: ' ', type: 'atomic', depth: 0, inlineStyleRanges: [], entityRanges: [ { offset: 0, length: 1, key: 0 } ], data: {} },
