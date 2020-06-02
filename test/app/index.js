@@ -11,9 +11,14 @@ const cx = classnames.bind(Styles);
 function Test () {
 	return (
 		<div className={cx('split-screen')}>
-			<div className={cx('screen')}>
-				<Editor />
-			</div>
+			<Editor.ContextProvider>
+				<div className={cx('screen')}>
+					<Editor />
+					<Editor.Buttons.Bold />
+					<Editor.Buttons.Italic />
+					<Editor.Buttons.Underline />
+				</div>
+			</Editor.ContextProvider>
 			<div className={cx('screen')}>
 				<Viewer />
 			</div>
