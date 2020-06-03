@@ -18,6 +18,7 @@ function EditorProvider ({children}) {
 }
 
 EditorContextProvider.EditorProvider = EditorProvider;
+EditorContextProvider.useEditorContext = () => ContextProvider.useContext();
 EditorContextProvider.useContext = () => React.useContext(Context);
 EditorContextProvider.propTypes = {
 	children: PropTypes.any

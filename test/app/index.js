@@ -17,6 +17,9 @@ function Test () {
 					<Editor.Buttons.Bold />
 					<Editor.Buttons.Italic />
 					<Editor.Buttons.Underline />
+					<Editor.Buttons.File />
+					<Editor.Buttons.Video />
+					<Editor.Buttons.Whiteboard />
 				</div>
 			</Editor.ContextProvider>
 			<div className={cx('screen')}>

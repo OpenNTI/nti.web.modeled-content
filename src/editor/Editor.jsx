@@ -4,6 +4,8 @@ import classnames from 'classnames/bind';
 import {Loading} from '@nti/web-commons';
 import {Parsers, Editor, Plugins, BLOCKS, STYLES} from '@nti/web-editor';
 
+import {EditorCustomRenderers} from '../attachments';
+
 import Styles from './Editor.css';
 import * as Buttons from './buttons';
 import ContextProvider from './ContextProvider';
@@ -17,6 +19,8 @@ const EditorPlugins = [
 	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.ATOMIC, BLOCKS.UNSTYLED])}),
 	Plugins.LimitStyles.create({allow: new Set([STYLES.BOLD, STYLES.ITALIC, STYLES.UNDERLINE])}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED])}),
+	Plugins.InsertBlock.create(),
+	Plugins.CustomBlocks.create({customRenderers: EditorCustomRenderers}),
 	Plugins.KeepFocusInView.create(),
 	Plugins.ContiguousEntities.create()
 ];
