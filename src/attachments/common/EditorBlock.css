@@ -1,3 +1,35 @@
-.mc-attachment-editor {
+.mc-attachment-editor-render-style {
 	margin: 0;
+}
+
+.mc-attachment-editor-block {
+	display: inline-block;
+	position: relative;
+
+	&:hover {
+		& .controls {
+			visibility: visible;
+		}
+	}
+
+	& .controls {
+		visibility: hidden;
+		display: flex;
+		position: absolute;
+		top: -15px; bottom: auto;
+		left: auto; right: -15px;
+	}
+
+	& .remove {
+		padding: 0.625rem;
+		cursor: pointer;
+
+		& i {
+			color: white;
+			background: var(--secondary-grey);
+			border: 2px solid white;
+			border-radius: 20px;
+			box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
+		}
+	}
 }

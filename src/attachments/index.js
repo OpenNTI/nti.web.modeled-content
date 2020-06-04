@@ -1,12 +1,11 @@
-import classnames from 'classnames/bind';
+import cx from 'classnames';
 
 import * as File from './file';
 import * as Video from './video';
 import * as Whiteboard from './whiteboard';
 import {getHandlesBlock} from './utils';
-import EditorBlockStyles from './common/EditorBlock.css';
+import EditorBlock from './common/EditorBlock';
 
-const editorClasses = classnames.bind(EditorBlockStyles);
 const Types = [File, Video, Whiteboard];
 
 export const ImageButton = File.Button.ImageAttachmentButton;
@@ -28,7 +27,7 @@ export const EditorCustomRenderers = Types.reduce((acc, type) => {
 export const EditorCustomStyles = Types.reduce((acc, type) => {
 	acc.push({
 		handlesBlock: getHandlesBlock(type.Handles),
-		className: editorClasses('mc-attachment-editor', type.className)
+		className: cx(EditorBlock.renderStyleClass, type.className)
 	});
 
 	return acc;

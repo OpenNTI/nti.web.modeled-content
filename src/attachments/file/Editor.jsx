@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {getAtomicBlockData} from '@nti/web-editor';
 
+import EditorBlock from '../common/EditorBlock';
+
 import View from './View';
 
 FileAttachmentEditor.propTypes = {
@@ -16,6 +18,8 @@ export default function FileAttachmentEditor ({block, blockProps}) {
 	const data = getAtomicBlockData(block, editorState);
 
 	return (
-		<View attachment={data} edit />
+		<EditorBlock removeBlock={removeBlock}>
+			<View attachment={data} edit />
+		</EditorBlock>
 	);
 }

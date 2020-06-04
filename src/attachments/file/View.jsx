@@ -5,7 +5,7 @@ import {scoped} from '@nti/lib-locale';
 import {Image, Text} from '@nti/web-commons';
 
 import Styles from './View.css';
-import {isImageType} from './utils';
+import {isImageType, useAttachmentURL} from './utils';
 
 const cx = classnames.bind(Styles);
 const t = scoped('modeled-content.attachments.file.View', {
@@ -16,23 +16,7 @@ ImageAttachmentView.propTypes = {
 	attachment: PropTypes.object
 };
 function ImageAttachmentView ({attachment}) {
-	const [url, setURL] = React.useState(null);
-
-	React.useEffect(() => {
-		let allocated = null;
-
-		if (attachment.file) {
-			allocated = URL.createObjectURL(attachment.file);
-		}
-
-		setURL(allocated || attachment.url);
-
-		return () => {
-			if (allocated) {
-				URL.revokeObjectURL(url);
-			}
-		};
-	}, [attachment]);
+	const url = useAttachmentURL(attachment);
 
 	return (
 		<div className={cx('mc-image-attachment')}>
