@@ -12,6 +12,35 @@ const t = scoped('modeled-content.attachments.file.View', {
 	download: 'Download'
 });
 
+/*
+ * File Ref from Server:
+ *
+ *          Class : "ContentBlobFile"
+ *    CreatedTime : 1463589919.99757
+ *   FileMimeType : "image/png"
+ *  Last Modified : 1463597302.755455
+ *       MimeType : "application/vnd.nextthought.contentfile"
+ *          NTIID : "tag:nextthought.com,2011-10:system-OID-0x49c8c7:5573657273"
+ *            OID : "tag:nextthought.com,2011-10:system-OID-0x49c8c7:5573657273"
+ *    contentType : "image/png"
+ *   download_url : "/dataserver2/.../@@download"
+ *       filename : "Filename.png"
+ *             id : "2e7f8971-fdc5-49fb-a72f-0a1c15c9d5cb"
+ *           name : "96fc0fa7-cfbd-fcde-f8f7-0cd119fe880a"
+ *           size : 13697
+ *            url : "/dataserver2/.../@@view/Filename.png"
+ *          value : "/dataserver2/.../@@view/Filename.png"
+ *
+ * If a NEW file (not posted):
+ *
+ *       MimeType : "application/vnd.nextthought.contentfile"
+ *   FileMimeType : "image/png"
+ *    contentType : "image/png"
+ *       filename : "Filename.png"
+ *           size : 13697
+ *           file : {File instance}
+ */
+
 ImageAttachmentView.propTypes = {
 	attachment: PropTypes.object
 };
