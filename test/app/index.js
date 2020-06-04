@@ -6,6 +6,8 @@ import {Viewer, Editor} from '../../src';
 
 import Styles from './index.css';
 
+window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+
 const cx = classnames.bind(Styles);
 
 function Test () {
@@ -17,6 +19,7 @@ function Test () {
 					<Editor.Buttons.Bold />
 					<Editor.Buttons.Italic />
 					<Editor.Buttons.Underline />
+					<Editor.Buttons.Image />
 					<Editor.Buttons.File />
 					<Editor.Buttons.Video />
 					<Editor.Buttons.Whiteboard />

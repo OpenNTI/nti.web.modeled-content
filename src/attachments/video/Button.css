@@ -1,0 +1,6 @@
+.insert-video-dialog {
+	& :global(.video-embed-input) {
+		max-width: 23.4375rem;
+		width: 100%;
+	}
+}

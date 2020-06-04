@@ -1,0 +1,1 @@
+export const isImageType = type => type.split('/')[0] === 'image';

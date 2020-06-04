@@ -1,0 +1,61 @@
+.mc-image-attachment {
+	position: relative;
+	display: inline-block;
+	min-width: 200px;
+	background: var(--panel-background);
+	overflow: hidden;
+	box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
+
+	& img {
+		max-width: 100%;
+		min-height: 50px;
+		object-fit: scale-down;
+		display: block;
+		margin: 0 auto;
+	}
+
+	& .title-bar {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), transparent);
+		top: auto; bottom: 0;
+		left: 0; right: 0;
+		padding: 0.25rem 0.5rem;
+		overflow: hidden;
+		color: white;
+		text-shadow: 0 0 1px black;
+		font-size: 0.875rem;
+		font-weight: 400;
+		transform: translateY(100%);
+		transition: transform 0.3s;
+
+		& .filename {
+			flex: 1 1 auto;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+
+		& .download {
+			color: white;
+			font-size: 0.625rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			text-decoration: none;
+			cursor: pointer;
+
+			&:focus,
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&:hover,
+	&:focus-within {
+		& .title-bar {
+			transform: translateY(0);
+		}
+	}
+}
