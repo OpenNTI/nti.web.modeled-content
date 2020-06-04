@@ -4,7 +4,6 @@
 	min-width: 200px;
 	background: var(--panel-background);
 	overflow: hidden;
-	box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
 
 	& img {
 		max-width: 100%;
@@ -17,6 +16,8 @@
 	& .title-bar {
 		position: absolute;
 		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 		align-items: center;
 		background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), transparent);
 		top: auto; bottom: 0;
@@ -31,7 +32,7 @@
 		transition: transform 0.3s;
 
 		& .filename {
-			flex: 1 1 auto;
+			flex: 0 0 auto;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
@@ -57,5 +58,44 @@
 		& .title-bar {
 			transform: translateY(0);
 		}
+	}
+}
+
+.mc-file-attachment {
+	background: var(--panel-background);
+	padding: 0.25rem 1rem;
+	text-decoration: none;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	& .download {
+		flex: 0 0 auto;
+		font-size: 24px;
+		color: var(--tertiary-grey);
+		margin-right: 1rem;
+	}
+
+	& .file-info {
+		flex: 1 1 auto;
+	}
+
+	& .filename {
+		font-size: 1rem;
+		font-weight: 400;
+		color: var(--secondary-grey);
+	}
+
+	& .file-meta {
+		font-size: 0.875rem;
+		font-weight: 400;
+		color: var(--secondary-grey);
+	}
+}
+
+:global(.mc-attachment-editor-block-context) {
+	& .mc-file-attachment {
+		width: 100vw;
+		max-width: 100%;
 	}
 }

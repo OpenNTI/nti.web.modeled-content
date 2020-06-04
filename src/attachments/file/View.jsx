@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Image, Text} from '@nti/web-commons';
+import {Image, File, StandardUI, Icons, List} from '@nti/web-commons';
 
 import Styles from './View.css';
 import {isImageType, useAttachmentURL} from './utils';
@@ -19,13 +19,33 @@ function ImageAttachmentView ({attachment}) {
 	const url = useAttachmentURL(attachment);
 
 	return (
-		<div className={cx('mc-image-attachment')}>
+		<StandardUI.Card className={cx('mc-image-attachment')}>
 			<Image src={url} />
 			<div className={cx('title-bar')}>
-				<Text.Base className={cx('filename')}>{attachment.filename}</Text.Base>
+				<File.Name file={attachment} className={cx('filename')} />
 				<a className={cx('download')} href={url} download={attachment.filename}>{t('download')}</a>
 			</div>
-		</div>
+		</StandardUI.Card>
+	);
+}
+
+DocumentAttachmentView.propTypes = {
+	attachment: PropTypes.object
+};
+function DocumentAttachmentView ({attachment}) {
+	const url = useAttachmentURL(attachment);
+
+	return (
+		<StandardUI.Card as="a" href={url} target="_blank" rel="noreferrer noopener" className={cx('mc-file-attachment')}>
+			<Icons.Download className={cx('download')} />
+			<div className={cx('file-info')}>
+				<File.Name className={cx('filename')} file={attachment} />
+				<List.SeparatedInline className={cx('file-meta')}>
+					<File.Extension className={cx('extension')} file={attachment} />
+					<File.Size className={cx('size')} file={attachment} />
+				</List.SeparatedInline>
+			</div>
+		</StandardUI.Card>
 	);
 }
 
@@ -40,8 +60,6 @@ export default function FileAttachmentView ({attachment, ...otherProps}) {
 	}
 
 	return (
-		<div>
-			File Attachment View
-		</div>
+		<DocumentAttachmentView attachment={attachment} {...otherProps} />
 	);
 }

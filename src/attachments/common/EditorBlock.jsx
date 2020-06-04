@@ -23,7 +23,7 @@ export default function EditorBlock ({removeBlock, children}) {
 	}
 
 	return (
-		<div className={cx('mc-attachment-editor-block')} contentEditable={false} unselectable="on">
+		<div className={cx('mc-attachment-editor-block', 'mc-attachment-editor-block-context')} contentEditable={false} unselectable="on">
 			{children}
 			{controls.length > 0 && (
 				<div className={cx('controls')}>
