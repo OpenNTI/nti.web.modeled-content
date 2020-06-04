@@ -17,7 +17,7 @@ export function useAttachmentURL (attachment) {
 				URL.revokeObjectURL(allocated);
 			}
 		};
-	}, [attachment]);
+	}, [attachment.file, attachment.url]);
 
 	return url;
 }
