@@ -42,7 +42,7 @@ function ModeledContent ({className, parsed, widgets, renderCustomWidget, previe
 	const props = {
 		...otherProps,
 		ref: bodyRef,
-		className: cx('modeled-content', className, {preview: previewMode})
+		className: cx('modeled-content', 'nt-modeled-content', className, {preview: previewMode})
 	};
 
 	const renderWidget = createRenderWidget(bodyWidgets, widgets, renderCustomWidget);
