@@ -32,7 +32,11 @@ function Test () {
 				</div>
 			</Editor.ContextProvider>
 			<div className={cx('screen')}>
+				<h2>Viewer</h2>
 				<Viewer content={content} />
+				<hr />
+				<h2>Text Preview</h2>
+				<Viewer.TextPreview content={content} />
 			</div>
 		</div>
 	);

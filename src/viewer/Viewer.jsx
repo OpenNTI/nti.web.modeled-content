@@ -7,6 +7,7 @@ import {WidgetStrategies} from '../attachments';
 
 import Styles from './Viewer.css';
 import {buildContent} from './utils';
+import TextPreview from './TextPreview';
 
 const cx = classnames.bind(Styles);
 
@@ -62,6 +63,7 @@ function ModeledContent ({className, parsed, widgets, renderCustomWidget, previe
 	);
 }
 
+ModeledContentViewer.TextPreview = TextPreview;
 ModeledContentViewer.propTypes = {
 	content: PropTypes.array,
 
