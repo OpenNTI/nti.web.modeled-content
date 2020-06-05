@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Prompt} from '@nti/web-commons';
+import {Prompt, Icons} from '@nti/web-commons';
 import {EmbedInput} from '@nti/web-video';
 
 import Button from '../common/Button';
@@ -35,7 +35,7 @@ export default function VideoButton () {
 			label={t('label')}
 			onClick={openPrompt}
 		>
-			<span>{t('label')}</span>
+			<Icons.Video />
 			{prompt && (
 				<Prompt.Dialog onBeforeDismiss={closePrompt} className={cx('insert-video-dialog')}>
 					<EmbedInput autoFocus onSelect={onVideoSelected} onCancel={closePrompt} />

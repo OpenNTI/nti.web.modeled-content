@@ -15,7 +15,8 @@ const cx = classnames.bind(Styles);
 const {EditorProvider} = ContextProvider;
 
 const variantProps = {
-	className: cx('mc-style-button')
+	className: cx('mc-style-button'),
+	plain: true
 };
 
 const BoldCmp = (props, ref) => (<EditorProvider><BoldButton {...variantProps} {...props} ref={ref} /></EditorProvider>);

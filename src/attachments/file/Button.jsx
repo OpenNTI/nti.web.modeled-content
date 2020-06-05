@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Input, HOC} from '@nti/web-commons';
+import {Input, HOC, Icons} from '@nti/web-commons';
 
 import Button from '../common/Button';
 
@@ -70,7 +70,7 @@ export default function FileAttachmentButton ({imageOnly}) {
 				label={label}
 				onClick={stop}
 			>
-				<span>{label}</span>
+				{imageOnly ? (<Icons.Image />) : (<Icons.FileUpload />)}
 			</Button>
 		</Input.FileInputWrapper>
 	);
