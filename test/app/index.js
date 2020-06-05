@@ -11,11 +11,17 @@ window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 const cx = classnames.bind(Styles);
 
 function Test () {
+	const [content, setContent] = React.useState(null);
+
+	const onContentChange = (newContent) => {
+		setContent(newContent);
+	};
+
 	return (
 		<div className={cx('split-screen')}>
 			<Editor.ContextProvider>
 				<div className={cx('screen')}>
-					<Editor />
+					<Editor content={content} onContentChange={onContentChange} />
 					<Editor.Buttons.Bold />
 					<Editor.Buttons.Italic />
 					<Editor.Buttons.Underline />
@@ -26,7 +32,7 @@ function Test () {
 				</div>
 			</Editor.ContextProvider>
 			<div className={cx('screen')}>
-				<Viewer />
+				<Viewer content={content} />
 			</div>
 		</div>
 	);

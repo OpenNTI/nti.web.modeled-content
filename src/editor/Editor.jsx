@@ -41,7 +41,7 @@ ModeledContentEditor.propTypes = {
 export default function ModeledContentEditor ({className, content, onContentChange:onContentChangeProp}) {
 	const editorContext = ContextProvider.useContext();
 
-	const contentRef = React.createRef(null);
+	const contentRef = React.useRef(null);
 	const [editorState, setEditorState] = React.useState(null);
 
 	const addEditorRef = (editor) => {
@@ -49,7 +49,7 @@ export default function ModeledContentEditor ({className, content, onContentChan
 	};
 
 	React.useEffect(() => {
-		if (content !== contentRef.current) {
+		if (!contentRef.current || content !== contentRef.current) {
 			setEditorState(toDraftState(content));
 		}
 	}, [content]);

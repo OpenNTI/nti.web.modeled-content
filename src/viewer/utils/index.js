@@ -1,0 +1,1 @@
+export buildContent from './build-content';

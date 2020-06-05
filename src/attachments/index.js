@@ -1,3 +1,4 @@
+import React from 'react';
 import cx from 'classnames';
 
 import * as File from './file';
@@ -32,3 +33,15 @@ export const EditorCustomStyles = Types.reduce((acc, type) => {
 
 	return acc;
 }, []);
+
+export const WidgetStrategies = Types.reduce((acc, type) => {
+	function WidgetStrategy (_, properties) {
+		const {widget, ...props} = properties;
+
+		return React.createElement(type.View, {attachment: widget, ...props});
+	}
+
+	acc[type.Handles] = WidgetStrategy;
+
+	return acc;
+}, {});
