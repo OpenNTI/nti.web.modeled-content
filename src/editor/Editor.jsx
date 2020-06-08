@@ -38,7 +38,7 @@ ModeledContentEditor.propTypes = {
 
 	onContentChange: PropTypes.func
 };
-export default function ModeledContentEditor ({className, content, onContentChange:onContentChangeProp}) {
+export default function ModeledContentEditor ({className, content, onContentChange:onContentChangeProp, ...otherProps}) {
 	const editorContext = ContextProvider.useContext();
 
 	const contentRef = React.useRef(null);
@@ -71,6 +71,7 @@ export default function ModeledContentEditor ({className, content, onContentChan
 					className={cx('mc-editor')}
 					editorState={editorState}
 					onContentChange={onContentChange}
+					{...otherProps}
 				/>
 			)}
 		</div>
