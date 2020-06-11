@@ -39,7 +39,10 @@ ModeledContentEditor.propTypes = {
 
 	onContentChange: PropTypes.func,
 
-	taggingStrategies: PropTypes.array
+	taggingStrategies: PropTypes.oneOfType([
+		PropTypes.object,
+		PropTypes.array
+	])
 };
 export default function ModeledContentEditor ({className, content, onContentChange:onContentChangeProp, taggingStrategies, ...otherProps}) {
 	const editorContext = ContextProvider.useContext();
@@ -60,7 +63,7 @@ export default function ModeledContentEditor ({className, content, onContentChan
 	}, [content]);
 
 	React.useEffect(() => {
-		if (taggingStrategies && taggingStrategies.length > 0) {
+		if (taggingStrategies) {
 			setPlugins([
 				Plugins.Tagging.create(taggingStrategies),
 				...getEditorPlugins()
@@ -74,7 +77,11 @@ export default function ModeledContentEditor ({className, content, onContentChan
 		const newContent = fromDraftState(newEditorState);
 
 		contentRef.current = newContent;
-		onContentChangeProp?.(newContent, newEditorState);
+		onContentChangeProp?.(
+			newContent,
+			Plugins.Tagging.getAllTags(taggingStrategies, newEditorState),
+			newEditorState
+		);
 	};
 
 	return (
