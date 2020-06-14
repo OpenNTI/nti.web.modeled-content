@@ -25,6 +25,8 @@ const getEditorPlugins = () => ([
 	Plugins.ContiguousEntities.create()
 ]);
 
+ModeledContentEditor.toDraftState = toDraftState;
+ModeledContentEditor.fromDraftState = fromDraftState;
 ModeledContentEditor.Tagging = Plugins.Tagging;
 ModeledContentEditor.Buttons = Buttons;
 ModeledContentEditor.ContextProvider = ContextProvider;
