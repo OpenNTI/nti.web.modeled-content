@@ -13,7 +13,7 @@ const t = scoped('modeled-content.attachments.video.Button', {
 	label: 'Attach a Video'
 });
 
-export default function VideoButton () {
+export default function VideoButton (props) {
 	const insertAtomicBlock = Button.useInsertAtomicBlock();
 
 	const [prompt, setPrompt] = React.useState(false);
@@ -34,6 +34,7 @@ export default function VideoButton () {
 		<Button
 			label={t('label')}
 			onClick={openPrompt}
+			{...props}
 		>
 			<Icons.Video />
 			{prompt && (

@@ -8,9 +8,9 @@ const t = scoped('modeled-content.attachments.whiteboard.Button', {
 	label: 'Attach a Drawing'
 });
 
-export default function WhiteboardButton () {
+export default function WhiteboardButton (props) {
 	return (
-		<Button label={t('label')}>
+		<Button label={t('label')} {...props} >
 			<Icons.Drawing />
 		</Button>
 	);

@@ -44,7 +44,7 @@ FileAttachmentButton.ImageAttachmentButton = Variant(FileAttachmentButton, {imag
 FileAttachmentButton.propTypes = {
 	imageOnly: PropTypes.bool
 };
-export default function FileAttachmentButton ({imageOnly}) {
+export default function FileAttachmentButton ({imageOnly, ...otherProps}) {
 	const insertAtomicBlock = Button.useInsertAtomicBlock();
 	const label = imageOnly ? t('image.label') : t('file.label');
 
@@ -69,6 +69,7 @@ export default function FileAttachmentButton ({imageOnly}) {
 			<Button
 				label={label}
 				onClick={stop}
+				{...otherProps}
 			>
 				{imageOnly ? (<Icons.Image />) : (<Icons.FileUpload />)}
 			</Button>
