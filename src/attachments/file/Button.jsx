@@ -42,9 +42,10 @@ function getDataForFiles (files, imageOnly) {
 
 FileAttachmentButton.ImageAttachmentButton = Variant(FileAttachmentButton, {imageOnly: true}); 
 FileAttachmentButton.propTypes = {
-	imageOnly: PropTypes.bool
+	imageOnly: PropTypes.bool,
+	className: PropTypes.string
 };
-export default function FileAttachmentButton ({imageOnly, ...otherProps}) {
+export default function FileAttachmentButton ({imageOnly, className, ...otherProps}) {
 	const insertAtomicBlock = Button.useInsertAtomicBlock();
 	const label = imageOnly ? t('image.label') : t('file.label');
 
@@ -65,7 +66,7 @@ export default function FileAttachmentButton ({imageOnly, ...otherProps}) {
 	};
 
 	return (
-		<Input.FileInputWrapper onChange={onFileChange} accept={imageOnly ? 'image/*' : '*'}>
+		<Input.FileInputWrapper className={className} onChange={onFileChange} accept={imageOnly ? 'image/*' : '*'}>
 			<Button
 				label={label}
 				onClick={stop}
