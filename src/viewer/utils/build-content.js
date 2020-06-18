@@ -23,6 +23,8 @@ const getBodySize = (body) => {
 const isWidget = (tagName, props, widgets) => {
 	const widget = widgets && widgets[props && props.id];
 
+	if (tagName === 'a') { return true; }
+
 	return (tagName === 'widget' && widget) ? tagName : null;
 };
 

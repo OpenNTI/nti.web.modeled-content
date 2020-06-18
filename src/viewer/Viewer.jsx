@@ -14,13 +14,15 @@ const cx = classnames.bind(Styles);
 const {useResolver} = Hooks;
 const {isPending, isResolved, isErrored} = useResolver;
 
-function createRenderWidget (bodyWidgets, widgets, renderCustomWidget) {
+function createRenderWidget (bodyWidgets, widgets, renderCustomWidget, renderAnchor) {
 	return (tagName, props = {}, children) => {
 		const widget = (bodyWidgets || {})[props.id] || {};
 
 		let f = renderCustomWidget || React.createElement;
 
-		if (widget) {
+		if (tagName === 'a') {
+			f = renderAnchor || React.createElement;
+		} else if (widget) {
 			f = ({...WidgetStrategies, ...widgets})[widget.MimeType] || f;
 		}
 
@@ -35,10 +37,11 @@ ModeledContent.propTypes = {
 	}),
 	widgets: PropTypes.object,
 	renderCustomWidget: PropTypes.func,
+	renderAnchor: PropTypes.func,
 	previewMode: PropTypes.bool,
 	bodyRef: PropTypes.any
 };
-function ModeledContent ({className, parsed, widgets, renderCustomWidget, previewMode, bodyRef, ...otherProps}) {
+function ModeledContent ({className, parsed, widgets, renderCustomWidget, renderAnchor, previewMode, bodyRef, ...otherProps}) {
 	const {body, widgets:bodyWidgets} = parsed;
 	const props = {
 		...otherProps,
@@ -46,7 +49,7 @@ function ModeledContent ({className, parsed, widgets, renderCustomWidget, previe
 		className: cx('modeled-content', 'nt-modeled-content', className, {preview: previewMode})
 	};
 
-	const renderWidget = createRenderWidget(bodyWidgets, widgets, renderCustomWidget);
+	const renderWidget = createRenderWidget(bodyWidgets, widgets, renderCustomWidget, renderAnchor);
 
 	let dynamicRenderers = [];
 
@@ -73,6 +76,7 @@ ModeledContentViewer.propTypes = {
 	strategies: PropTypes.object,
 	widgets: PropTypes.object,
 	renderCustomWidget: PropTypes.func,
+	renderAnchor: PropTypes.func,
 
 	afterRender: PropTypes.func
 };
@@ -85,6 +89,7 @@ export default function ModeledContentViewer ({
 	strategies,
 	widgets,
 	renderCustomWidget,
+	renderAnchor,
 	
 	afterRender,
 
@@ -128,6 +133,7 @@ export default function ModeledContentViewer ({
 					parsed={parsed}
 					widgets={widgets}
 					renderCustomWidget={renderCustomWidget}
+					renderAnchor={renderAnchor}
 					previewMode={previewMode}
 					{...otherProps}
 				/>
