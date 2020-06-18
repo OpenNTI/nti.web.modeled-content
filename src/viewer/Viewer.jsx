@@ -90,7 +90,6 @@ export default function ModeledContentViewer ({
 
 	...otherProps
 }) {
-	const bodyRef = React.useRef();
 	const contentResolver = useResolver(
 		() => buildContent(content, strategies, previewMode, previewLength),
 		[content, strategies, previewMode, previewLength]
@@ -100,9 +99,23 @@ export default function ModeledContentViewer ({
 	const error = isErrored(contentResolver) ? contentResolver : null;
 	const parsed = isResolved(contentResolver) ? contentResolver : null;
 
+	const bodyRef = React.useRef();
+	const bodyCallbackRef = React.useRef();
+
+	const setBodyRef = (body) => {
+		if (body === bodyRef.current) { return; }
+		bodyRef.current = body;
+		bodyCallbackRef.current?.(body);
+	};
+
 	React.useEffect(() => {
-		if (parsed) {
-			afterRender?.(bodyRef.current);
+		bodyCallbackRef.current = (body) => {
+			afterRender?.(body);
+			bodyCallbackRef.current = null;
+		};
+
+		if (bodyRef.current) {
+			bodyCallbackRef.current(bodyRef.current);
 		}
 	}, [parsed]);
 
@@ -111,7 +124,7 @@ export default function ModeledContentViewer ({
 			{error && (<Errors.Message error={error} />)}
 			{parsed && (
 				<ModeledContent
-					bodyRef={bodyRef}
+					bodyRef={setBodyRef}
 					parsed={parsed}
 					widgets={widgets}
 					renderCustomWidget={renderCustomWidget}
