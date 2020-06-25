@@ -10,16 +10,33 @@ WhiteboardEditor.propTypes = {
 	block: PropTypes.object,
 	blockProps: PropTypes.shape({
 		editorState: PropTypes.object,
-		removeBlock: PropTypes.func
+		removeBlock: PropTypes.func,
+		setBlockData: PropTypes.func,
 	})
 };
 export default function WhiteboardEditor ({block, blockProps}) {
 	const {editorState, removeBlock} = blockProps;
 	const data = getAtomicBlockData(block, editorState);
 
+	const WhiteboardEditorCmp = View.getWhiteboardEditor();
+	const [editing, setEditing] = React.useState();
+	const onClick = WhiteboardEditorCmp ? (() => setEditing(true)) : (() => {});
+
+	const setData = (newData) => {
+		blockProps.setBlockData(newData, false, true);
+		setEditing(false);
+	};
+
 	return (
 		<EditorBlock removeBlock={removeBlock}>
-			<View attachment={data} edit />
+			<View attachment={data} edit onClick={onClick}/>
+			{editing && WhiteboardEditor && (
+				<WhiteboardEditorCmp
+					data={data}
+					onClose={() => setEditing(false)}
+					setData={setData}
+				/>
+			)}
 		</EditorBlock>
 	);
 }
