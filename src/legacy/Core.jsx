@@ -14,7 +14,7 @@ import {
 	SelectionState,
 	convertToRaw,
 	getDefaultKeyBinding
-} from 'draft-js';
+} from 'draft-js';//eslint-disable-line
 import UserAgent from 'fbjs/lib/UserAgent';
 
 import Block from './Block';

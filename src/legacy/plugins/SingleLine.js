@@ -4,7 +4,7 @@ import {
 	EditorState,
 	Modifier,
 	convertFromHTML
-} from 'draft-js';
+} from 'draft-js';//eslint-disable-line
 
 import Plugin from './Plugin';
 

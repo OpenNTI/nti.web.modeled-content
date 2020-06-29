@@ -6,7 +6,7 @@ import {
 	EditorState,
 	convertFromHTML,
 	DefaultDraftBlockRenderMap
-} from 'draft-js';
+} from 'draft-js';//eslint-disable-line
 import {AllHtmlEntities} from 'html-entities';
 
 const Entities = new AllHtmlEntities();
