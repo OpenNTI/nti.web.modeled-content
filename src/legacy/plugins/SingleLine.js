@@ -1,10 +1,4 @@
-import {
-	ContentState,
-	// ContentBlock,
-	EditorState,
-	Modifier,
-	convertFromHTML
-} from 'draft-js';//eslint-disable-line
+import {ContentState, EditorState, Modifier, convertFromHTML} from 'draft-js';//eslint-disable-line
 
 import Plugin from './Plugin';
 
