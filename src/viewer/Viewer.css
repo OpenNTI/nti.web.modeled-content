@@ -1,7 +1,8 @@
 .nt-modeled-content {
 	cursor: text;
 
-	&, div, * {
+	&,
+	& * {
 		white-space: pre-wrap;
 		word-wrap: break-word;
 		word-break: break-word;
