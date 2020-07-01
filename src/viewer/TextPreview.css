@@ -1,3 +1,9 @@
 .modeled-content-text-preview.attachments {
 	font-style: italic;
 }
+
+.modeled-content-text-preview {
+	& p {
+		margin: 0;
+	}
+}
