@@ -2,5 +2,10 @@
 	& :global(.video-embed-input) {
 		max-width: 23.4375rem;
 		width: 100%;
+		box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
 	}
+}
+
+:global(html.window-open) .insert-video-dialog {
+	z-index: 1003;
 }
