@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Loading} from '@nti/web-commons';
-import {Parsers, Editor, Plugins, BLOCKS, STYLES} from '@nti/web-editor';
+import {Parsers, Editor, Plugins, BLOCK_SET, STYLES} from '@nti/web-editor';
 
 import {EditorCustomRenderers, EditorCustomStyles} from '../attachments';
 
@@ -16,9 +16,10 @@ const toDraftState = value => Parsers.HTML.toDraftState(value);
 const fromDraftState = draftState => Parsers.HTML.fromDraftState(draftState);
 
 const getEditorPlugins = () => ([
-	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.ATOMIC, BLOCKS.UNSTYLED])}),
+	Plugins.LimitBlockTypes.create({allow: BLOCK_SET}),
 	Plugins.LimitStyles.create({allow: new Set([STYLES.BOLD, STYLES.ITALIC, STYLES.UNDERLINE])}),
-	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED])}),
+	Plugins.ExternalLinks.create({allowedInBlockTypes: BLOCK_SET}),
+	Plugins.FormatPasted.create({}),
 	Plugins.InsertBlock.create(),
 	Plugins.CustomBlocks.create({customRenderers: EditorCustomRenderers, customStyles: EditorCustomStyles}),
 	Plugins.KeepFocusInView.create(),

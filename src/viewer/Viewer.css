@@ -1,5 +1,6 @@
 .nt-modeled-content {
 	cursor: text;
+	color: var(--primary-grey);
 
 	&,
 	& * {
