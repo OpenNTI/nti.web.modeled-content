@@ -40,6 +40,7 @@ function getDataForFiles (files, imageOnly) {
 	}, []);
 }
 
+FileAttachmentButton.getDataForFiles = getDataForFiles;
 FileAttachmentButton.ImageAttachmentButton = Variant(FileAttachmentButton, {imageOnly: true}); 
 FileAttachmentButton.propTypes = {
 	imageOnly: PropTypes.bool,

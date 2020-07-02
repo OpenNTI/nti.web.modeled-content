@@ -9,6 +9,8 @@ import EditorBlock from './common/EditorBlock';
 
 const Types = [File, Video, Whiteboard];
 
+export const getDataForFiles = File.Button.getDataForFiles;
+
 export const ImageButton = File.Button.ImageAttachmentButton;
 export const FileButton = File.Button;
 export const VideoButton = Video.Button;
