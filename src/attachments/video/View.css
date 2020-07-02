@@ -1,7 +1,5 @@
 .mc-video-attachment {
 	width: 100%;
-	max-width: 100%;
-	max-width: max(100%, 500px);
 }
 
 :global(.mc-attachment-editor-block-context) {
