@@ -16,14 +16,15 @@ ModeledContentAttachmentButton.propTypes = {
 };
 export default function ModeledContentAttachmentButton ({className, label, children, ...otherProps}) {
 	return (
-		<button
+		<a
 			{...otherProps}
 			className={cx('mc-attachment-button', className)}
 			aria-label={label}
 			title={label}
+			role="button"
 		>
 			{children}
-		</button>
+		</a>
 	);
 }
 
