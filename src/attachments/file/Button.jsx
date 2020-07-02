@@ -67,7 +67,13 @@ export default function FileAttachmentButton ({imageOnly, className, ...otherPro
 	};
 
 	return (
-		<Input.FileInputWrapper className={className} onChange={onFileChange} accept={imageOnly ? 'image/*' : '*'} multiple>
+		<Input.FileInputWrapper
+			className={className}
+			onChange={onFileChange}
+			accept={imageOnly ? 'image/*' : '*'}
+			multiple
+			title={label}
+		>
 			<Button
 				label={label}
 				onClick={stop}
