@@ -6,6 +6,8 @@
 	}
 }
 
-:global(html.window-open) .insert-video-dialog {
-	z-index: 1003;
+:global(html.window-open body>.modal .modal-mask) {
+	&.insert-video-dialog {
+		z-index: 1003;
+	}
 }
