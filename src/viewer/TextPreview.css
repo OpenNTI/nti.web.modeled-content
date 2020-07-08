@@ -5,5 +5,7 @@
 .modeled-content-text-preview {
 	& p {
 		margin: 0;
+		font-size: 1em;
+		line-height: 1.3;
 	}
 }

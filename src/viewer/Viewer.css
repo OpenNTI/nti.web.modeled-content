@@ -11,6 +11,8 @@
 
 	& p {
 		margin: 0;
+		font-size: 1em;
+		line-height: 1.3;
 
 		&:empty::before {
 			content: ' ';
