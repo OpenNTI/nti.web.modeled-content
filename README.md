@@ -1,5 +1,8 @@
 # Modeled Body Content Editor & Panel components, for ReactJS
 
+![Build Status](https://github.com/NextThought/nti.web.modeled-content/workflows/Project%20Health/badge.svg)
+
+
 
 
 ##### File naming conventions:

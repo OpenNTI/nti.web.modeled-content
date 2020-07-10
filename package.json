@@ -13,12 +13,9 @@
   "scripts": {
     "test": "cmp-scripts test",
     "start": "cmp-scripts start",
-    "prepack": "cmp-scripts build",
-    "build": "cmp-scripts build",
     "clean": "cmp-scripts clean",
     "check": "cmp-scripts check",
-    "release": "cmp-scripts release",
-    "install-snapshots": "cmp-scripts install-snapshots"
+    "release": "cmp-scripts release"
   },
   "repository": {
     "type": "git",
@@ -36,17 +33,17 @@
     "component"
   ],
   "dependencies": {
-    "@nti/lib-commons": "^2.0.0",
-    "@nti/lib-content-processing": "^1.0.1",
-    "@nti/lib-dom": "^1.3.3",
-    "@nti/lib-locale": "^1.7.0",
-    "@nti/lib-whiteboard": "^1.3.0",
-    "@nti/util-ios-version": "^1.0.0",
-    "@nti/util-logger": "^1.0.0",
-    "@nti/web-commons": "0.x.x",
-    "@nti/web-editor": "0.x.x",
-    "@nti/web-video": "^1.2.0",
-    "@nti/web-whiteboard": "0.x.x",
+    "@nti/lib-commons": "NextThought/nti.lib.commons",
+    "@nti/lib-content-processing": "NextThought/nti.lib.content-processing",
+    "@nti/lib-dom": "NextThought/nti.lib.dom",
+    "@nti/lib-locale": "NextThought/nti.lib.locale",
+    "@nti/lib-whiteboard": "NextThought/nti.lib.whiteboard",
+    "@nti/util-ios-version": "NextThought/nti.util.ios-version",
+    "@nti/util-logger": "NextThought/nti.util.logger",
+    "@nti/web-commons": "NextThought/nti.web.commons",
+    "@nti/web-editor": "NextThought/nti.web.editor",
+    "@nti/web-video": "NextThought/nti.web.video",
+    "@nti/web-whiteboard": "NextThought/nti.web.whiteboard",
     "classnames": "^2.0.0",
     "fbjs": "^0.8.3",
     "filesize": "^3.3.0",
@@ -60,7 +57,7 @@
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.0.0",
-    "@nti/style-common": "^1.1.11",
+    "@nti/style-common": "NextThought/nti.style.common",
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
