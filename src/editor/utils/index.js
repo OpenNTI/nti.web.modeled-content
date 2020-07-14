@@ -1,0 +1,1 @@
+export getContentForImage from './get-content-for-image';

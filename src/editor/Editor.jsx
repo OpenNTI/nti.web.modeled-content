@@ -9,6 +9,7 @@ import {EditorCustomRenderers, EditorCustomStyles, getDataForFiles} from '../att
 import Styles from './Editor.css';
 import * as Buttons from './buttons';
 import ContextProvider from './ContextProvider';
+import {getContentForImage} from './utils';
 
 const cx = classnames.bind(Styles);
 
@@ -27,6 +28,7 @@ const getEditorPlugins = () => ([
 	Plugins.ContiguousEntities.create()
 ]);
 
+ModeledContentEditor.getContentForImage = getContentForImage;
 ModeledContentEditor.toDraftState = toDraftState;
 ModeledContentEditor.fromDraftState = fromDraftState;
 ModeledContentEditor.Tagging = Plugins.Tagging;
