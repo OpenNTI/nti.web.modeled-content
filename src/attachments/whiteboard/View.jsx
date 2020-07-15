@@ -26,8 +26,11 @@ WhiteboardView.propTypes = {
 	edit: PropTypes.bool
 };
 export default function WhiteboardView ({attachment, onClick, edit}) {
-	const resolver = useResolver(() => WhiteboardRenderer.getThumbnail(attachment, false, 750), [attachment]);
-	const thumbnail = isResolved(resolver) ? resolver : null;
+	const prevThumbnail = React.useRef(null);
+	const resolver = useResolver(() => WhiteboardRenderer.getThumbnail(attachment, false, 750), []);
+	const thumbnail = isResolved(resolver) ? resolver : prevThumbnail.current;
+
+	prevThumbnail.current = thumbnail;
 
 	const card = (
 		<StandardUI.Card className={cx('whiteboard-wrapper', {editable: edit})} onClick={onClick}>
