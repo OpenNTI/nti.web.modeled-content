@@ -1,24 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {createMediaSourceFromUrl} from '@nti/web-video';
+import {getHandler} from '@nti/web-video';
 
 import VideoAttachment from '../../video/View';
 
-VideoLinkPreview.resolver = async ({href}) => {
-	try {
-		const mediaSource = await createMediaSourceFromUrl(href);
-		debugger;
-		return {mediaSource};
-	} catch (e) {
-		return null;
-	}
-};
-VideoLinkPreview.handles = ({mediaSource}) => Boolean(mediaSource);
+VideoLinkPreview.handles = ({attachment}) => Boolean(getHandler(attachment.href));
 VideoLinkPreview.propTypes = {
-	mediaSource: PropTypes.object
+	attachment: PropTypes.shape({
+		href: PropTypes.string
+	})
 };
-export default function VideoLinkPreview ({mediaSource}) {
+export default function VideoLinkPreview ({attachment}) {
 	return (
-		<VideoAttachment.VideoPlayer src={mediaSource} />
+		<VideoAttachment.VideoPlayer src={attachment.href} />
 	);
 }

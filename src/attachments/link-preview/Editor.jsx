@@ -7,14 +7,20 @@ import EditorBlock from '../common/EditorBlock';
 
 import View from './View';
 
+
 async function resolveMetadata (href) {
 	try {
 		const service = await getService();
 		const metadata = await service.getMetadataFor(href);
 
+		const images = metadata.images ?? [];
+		const image = images[0];//if there are multiple images, maybe add a heuristic to pick the best one
+
 		return {
 			title: metadata.title,
-			description: metadata.description
+			description: metadata.description,
+			creator: metadata.creator,
+			image: image?.url
 		};
 	} catch (e) {
 		//swallow
