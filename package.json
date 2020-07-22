@@ -40,6 +40,7 @@
     "@nti/lib-whiteboard": "NextThought/nti.lib.whiteboard",
     "@nti/util-ios-version": "NextThought/nti.util.ios-version",
     "@nti/util-logger": "NextThought/nti.util.logger",
+    "@nti/web-client": "NextThought/nti.web.client",
     "@nti/web-commons": "NextThought/nti.web.commons",
     "@nti/web-editor": "NextThought/nti.web.editor",
     "@nti/web-video": "NextThought/nti.web.video",

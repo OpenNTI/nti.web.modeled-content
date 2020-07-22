@@ -2,14 +2,16 @@ import React from 'react';
 import cx from 'classnames';
 
 import * as File from './file';
+import * as LinkPreview from './link-preview';
 import * as Video from './video';
 import * as Whiteboard from './whiteboard';
 import {getHandlesBlock} from './utils';
 import EditorBlock from './common/EditorBlock';
 
-const Types = [File, Video, Whiteboard];
+const Types = [File, Video, Whiteboard, LinkPreview];
 
 export const getDataForFiles = File.Button.getDataForFiles;
+export const getDataForLink = LinkPreview.Editor.getDataForLink;
 
 export const ImageButton = File.Button.ImageAttachmentButton;
 export const FileButton = File.Button;

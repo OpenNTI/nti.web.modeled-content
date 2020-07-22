@@ -10,12 +10,16 @@ window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
 const cx = classnames.bind(Styles);
 
+const InitialContent = ['<p><a data-nti-entity-type="LINK" data-nti-entity-…nti-entity-autoLink="true">www.google.com</a></p>', '<object type="application/vnd.nextthought.app.l´ink…="href" value="http://www.google.com" /></object>'];
+
 function Test () {
-	const [content, setContent] = React.useState(null);
+	const [content, setContent] = React.useState(InitialContent);
 
 	const onContentChange = (newContent) => {
 		setContent(newContent);
 	};
+
+	const logContent = () => console.log(content);//eslint-disable-line
 
 	return (
 		<div className={cx('split-screen')}>
@@ -37,6 +41,9 @@ function Test () {
 				<hr />
 				<h2>Text Preview</h2>
 				<Viewer.TextPreview content={content} />
+				<hr />
+				<h2>Log ModeledContent</h2>
+				<button onClick={logContent}>Log</button>
 			</div>
 		</div>
 	);
