@@ -35,7 +35,7 @@ function getHrefInfo (href) {
 WebsiteLinkPreview.handles = () => true;
 WebsiteLinkPreview.propTypes = {
 	attachment: PropTypes.shape({
-		href: PropTypes.string,
+		embedURL: PropTypes.string,
 		title: PropTypes.string,
 		description: PropTypes.string,
 		image: PropTypes.string,
@@ -43,13 +43,13 @@ WebsiteLinkPreview.propTypes = {
 	})
 };
 export default function WebsiteLinkPreview ({attachment = {}}) {
-	const {href, title, description, creator, image} = attachment;
-	const hrefInfo = getHrefInfo(href);
+	const {embedURL, title, description, creator, image} = attachment;
+	const hrefInfo = getHrefInfo(embedURL);
 
 	return (
 		<StandardUI.Card
 			as="a"
-			href={href}
+			href={embedURL}
 			target="_blank"
 			rel="noreferrer noopener"
 			className={cx('mc-website-link-preview')}
@@ -69,7 +69,7 @@ export default function WebsiteLinkPreview ({attachment = {}}) {
 					</Text.Base>
 					{creator && (<Text.Base className={cx('creator')}>{t('creator', {creator})}</Text.Base>)}
 					<Text.Base className={cx('description')} limitLines={2} overflow={Text.Overflow.Ellipsis}>
-						{description || href}
+						{description || embedURL}
 					</Text.Base>
 				</div>
 			</Responsive.ClassList>

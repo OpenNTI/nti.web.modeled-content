@@ -29,8 +29,8 @@ async function resolveMetadata (href) {
 
 LinkPreviewAttachment.getDataForLink = (link) => {
 	return {
-		MimeType: 'application/vnd.nextthought.app.link-preview',
-		href: link.href
+		MimeType: 'application/vnd.nextthought.embeddedlink',
+		embedURL: link.href
 	};
 };
 LinkPreviewAttachment.propTypes = {
@@ -44,23 +44,23 @@ LinkPreviewAttachment.propTypes = {
 export default function LinkPreviewAttachment ({block, blockProps}) {
 	const {editorState, removeBlock, setBlockData} = blockProps;
 	const data = getAtomicBlockData(block, editorState);
-	const {href} = data;
+	const {embedURL} = data;
 
 	React.useEffect(() => {
 		let unmounted = false;
 		let buffer = setTimeout(async () => {
-			const meta = await resolveMetadata(href);
+			const meta = await resolveMetadata(embedURL);
 
 			if (unmounted) { return; }
 			
-			setBlockData({...data, ...meta}, void 0, true);
+			setBlockData(meta, void 0, true);
 		}, 300);
 
 		return () => {
 			unmounted = true;
 			clearTimeout(buffer);
 		};
-	}, [href]);
+	}, [embedURL]);
 
 	return (
 		<EditorBlock removeBlock={removeBlock}>
