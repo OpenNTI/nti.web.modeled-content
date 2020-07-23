@@ -38,12 +38,12 @@ WebsiteLinkPreview.propTypes = {
 		embedURL: PropTypes.string,
 		title: PropTypes.string,
 		description: PropTypes.string,
-		image: PropTypes.string,
+		imageURL: PropTypes.string,
 		creator: PropTypes.string
 	})
 };
 export default function WebsiteLinkPreview ({attachment = {}}) {
-	const {embedURL, title, description, creator, image} = attachment;
+	const {embedURL, title, description, creator, imageURL} = attachment;
 	const hrefInfo = getHrefInfo(embedURL);
 
 	return (
@@ -58,9 +58,9 @@ export default function WebsiteLinkPreview ({attachment = {}}) {
 				className={cx('content')}
 				classList={ClassList}
 			>
-				{image && (
+				{imageURL && (
 					<div className={cx('image-container')}>
-						<img className={cx('image')} src={image} />
+						<img className={cx('image')} src={imageURL} />
 					</div>
 				)}
 				<div className={cx('meta')}>
