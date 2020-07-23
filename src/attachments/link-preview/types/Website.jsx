@@ -46,6 +46,7 @@ WebsiteLinkPreview.propTypes = {
 export default function WebsiteLinkPreview ({attachment = {}}) {
 	const {embedURL, title, description, creator, imageURL, contentMimeType} = attachment;
 	const hrefInfo = getHrefInfo(embedURL);
+	const contentType = contentMimeType !== 'text/html' ? contentMimeType : null;
 
 	return (
 		<StandardUI.Card
@@ -59,11 +60,11 @@ export default function WebsiteLinkPreview ({attachment = {}}) {
 				className={cx('content')}
 				classList={ClassList}
 			>
-				{(imageURL || contentMimeType) && (
+				{(imageURL || contentType) && (
 					<div className={cx('image-container')}>
 						{imageURL && (<img className={cx('image')} src={imageURL} />)}
-						{!imageURL && contentMimeType && (
-							<AssetIcon className={cx('asset-icon')} mimeType={contentMimeType} />
+						{!imageURL && contentType && contentType !== 'text/html' && (
+							<AssetIcon className={cx('asset-icon')} mimeType={contentType} />
 						)}
 					</div>
 				)}
