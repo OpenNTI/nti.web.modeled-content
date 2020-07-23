@@ -20,7 +20,8 @@ async function resolveMetadata (href) {
 			title: metadata.title,
 			description: metadata.description,
 			creator: metadata.creator,
-			imageURL: image?.url
+			imageURL: image?.url,
+			contentMimeType: metadata.contentMimeType
 		};
 	} catch (e) {
 		//swallow

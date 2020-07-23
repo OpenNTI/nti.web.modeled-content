@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Layouts, Text, StandardUI} from '@nti/web-commons';
+import {Layouts, Text, StandardUI, AssetIcon} from '@nti/web-commons';
 
 import Styles from './Styles.css';
 
@@ -39,11 +39,12 @@ WebsiteLinkPreview.propTypes = {
 		title: PropTypes.string,
 		description: PropTypes.string,
 		imageURL: PropTypes.string,
-		creator: PropTypes.string
+		creator: PropTypes.string,
+		contentMimeType: PropTypes.string
 	})
 };
 export default function WebsiteLinkPreview ({attachment = {}}) {
-	const {embedURL, title, description, creator, imageURL} = attachment;
+	const {embedURL, title, description, creator, imageURL, contentMimeType} = attachment;
 	const hrefInfo = getHrefInfo(embedURL);
 
 	return (
@@ -58,9 +59,12 @@ export default function WebsiteLinkPreview ({attachment = {}}) {
 				className={cx('content')}
 				classList={ClassList}
 			>
-				{imageURL && (
+				{(imageURL || contentMimeType) && (
 					<div className={cx('image-container')}>
-						<img className={cx('image')} src={imageURL} />
+						{imageURL && (<img className={cx('image')} src={imageURL} />)}
+						{!imageURL && contentMimeType && (
+							<AssetIcon className={cx('asset-icon')} mimeType={contentMimeType} />
+						)}
 					</div>
 				)}
 				<div className={cx('meta')}>
