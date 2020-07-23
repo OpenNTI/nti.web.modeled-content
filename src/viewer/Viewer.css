@@ -19,6 +19,11 @@
 		}
 	}
 
+	& a {
+		color: var(--primary-blue);
+		text-decoration: none;
+	}
+
 	& em,
 	& em strong {
 		font-style: italic;
