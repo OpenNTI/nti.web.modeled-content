@@ -51,6 +51,10 @@
 			font-weight: 600;
 		}
 
+		& .creator {
+			font-size: 0.875rem;
+		}
+
 		& .description {
 			margin-top: 0.5rem;
 			font-size: 0.875rem;
