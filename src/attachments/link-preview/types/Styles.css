@@ -69,9 +69,26 @@
 	}
 }
 
+.mc-image-link-preview {
+	position: relative;
+	display: inline-block;
+	min-width: 200px;
+	background: var(--panel-background);
+	overflow: hidden;
+
+	& img {
+		max-width: 100%;
+		min-height: 50px;
+		object-fit: scale-down;
+		display: block;
+		margin: 0 auto;
+	}
+}
+
 :global(.mc-attachment-editor-block-context) {
 	& .mc-website-link-preview {
 		width: 100vw;
 		max-width: 100%;
+		margin: 0;
 	}
 }
