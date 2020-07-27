@@ -22,12 +22,15 @@ WhiteboardView.setWhiteboardEditor = (editor) => WhiteboardEditor = editor;
 WhiteboardView.getWhiteboardEditor = () => WhiteboardEditor;
 WhiteboardView.propTypes = {
 	attachment: PropTypes.object,
+
+	version: PropTypes.number,
+
 	onClick: PropTypes.func,
 	edit: PropTypes.bool
 };
-export default function WhiteboardView ({attachment, onClick, edit}) {
+export default function WhiteboardView ({attachment, version = 1, onClick, edit}) {
 	const prevThumbnail = React.useRef(null);
-	const resolver = useResolver(() => WhiteboardRenderer.getThumbnail(attachment, false, 750), []);
+	const resolver = useResolver(() => WhiteboardRenderer.getThumbnail(attachment, false, 750), [version]);
 	const thumbnail = isResolved(resolver) ? resolver : prevThumbnail.current;
 
 	prevThumbnail.current = thumbnail;

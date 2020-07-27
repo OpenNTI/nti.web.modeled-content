@@ -20,16 +20,19 @@ export default function WhiteboardEditor ({block, blockProps}) {
 
 	const WhiteboardEditorCmp = View.getWhiteboardEditor();
 	const [editing, setEditing] = React.useState();
+	const [version, setVersion] = React.useState();
 	const onClick = WhiteboardEditorCmp ? (() => setEditing(true)) : (() => {});
 
 	const setData = (newData) => {
-		blockProps.setBlockData(newData, false, true);
-		setEditing(false);
+		blockProps.setBlockData(newData, false, true, () => {
+			setVersion(Date.now());
+			setEditing(false);
+		});
 	};
 
 	return (
 		<EditorBlock removeBlock={removeBlock}>
-			<View attachment={data} edit onClick={onClick}/>
+			<View attachment={data} version={version} edit onClick={onClick}/>
 			{editing && WhiteboardEditor && (
 				<WhiteboardEditorCmp
 					data={data}
