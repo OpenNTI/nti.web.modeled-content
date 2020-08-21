@@ -1,3 +1,4 @@
+import './CharacterCounter.scss';
 import punycode from 'punycode';
 
 import React from 'react';

@@ -1,3 +1,4 @@
+import './InsertFileAttachment.scss';
 import React from 'react';
 import Logger from '@nti/util-logger';
 import iOSversion from '@nti/util-ios-version';

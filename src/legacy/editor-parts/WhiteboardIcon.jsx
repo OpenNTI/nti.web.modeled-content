@@ -1,3 +1,4 @@
+import './WhiteboardIcon.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Canvas as WhiteboardRenderer} from '@nti/lib-whiteboard';
