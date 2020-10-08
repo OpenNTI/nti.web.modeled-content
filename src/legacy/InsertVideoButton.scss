@@ -88,7 +88,7 @@
 
 				&.link {
 					background: none;
-					color: $primary-grey;
+					color: var(--primary-grey);
 					text-decoration: underline;
 				}
 			}

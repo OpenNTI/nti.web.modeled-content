@@ -73,7 +73,7 @@
 	}
 
 	.DraftEditor-root {
-		color: $primary-grey;
+		color: var(--primary-grey);
 		min-height: 3rem;
 		padding: 0.6rem;
 		padding-bottom: 2.5rem;//on android, the selection handlebars get in the way of the bottom toolbar.

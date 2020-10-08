@@ -50,7 +50,7 @@
 			}
 
 			.filename {
-				color: $primary-grey;
+				color: var(--primary-grey);
 				border-bottom: none;
 				font-size: .875rem;
 				font-weight: 600;
