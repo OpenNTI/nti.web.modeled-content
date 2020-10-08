@@ -71,7 +71,7 @@
 					font-size: 0.625rem;
 
 					&, &:active, &:visited, &:hover {
-						color: $primary-blue;
+						color: var(--primary-blue);
 					}
 				}
 			}

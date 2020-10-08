@@ -52,7 +52,7 @@
 
 			&:focus {
 				outline: none;
-				border-color: $primary-blue;
+				border-color: var(--primary-blue);
 			}
 		}
 
@@ -77,8 +77,8 @@
 				display: inline-block;
 				padding: .5625rem 1.25rem .625rem;
 				font-size: 0.9rem;
-				background-color: $primary-blue;
-				border-color: $primary-blue;
+				background-color: var(--primary-blue);
+				border-color: var(--primary-blue);
 				color: #fff;
 				transition: background-color 300ms ease-out;
 
