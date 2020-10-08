@@ -2,7 +2,7 @@
 
 .modeled-content-editor .toolbar {
 	background: $panel-background;
-	border: 0 solid $border-grey;
+	border: 0 solid var(--border-grey);
 
 	&::after {
 		content: '';

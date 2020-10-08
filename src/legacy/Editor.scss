@@ -33,7 +33,7 @@
 					&, &:hover {
 						opacity: 0.5;
 						background: var(--tertiary-grey);
-						border-color: $border-grey;
+						border-color: var(--border-grey);
 					}
 				}
 			}
