@@ -8,6 +8,6 @@
 	}
 
 	&.warning {
-		color: $primary-orange;
+		color: var(--primary-orange);
 	}
 }
