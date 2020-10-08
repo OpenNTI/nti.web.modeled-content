@@ -4,7 +4,7 @@
 	font-size: 0.875rem;
 
 	&.error {
-		color: $primary-red;
+		color: var(--primary-red);
 	}
 
 	&.warning {
