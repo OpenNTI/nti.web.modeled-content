@@ -1,7 +1,7 @@
 @import "~@nti/style-common";
 
 .format-button {
-	color: $tertiary-grey;
+	color: var(--tertiary-grey);
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
@@ -19,7 +19,7 @@
 		position: center center;
 	}
 
-	&:hover { color: $tertiary-grey; }
+	&:hover { color: var(--tertiary-grey); }
 
 	&:focus,
 	&:active,

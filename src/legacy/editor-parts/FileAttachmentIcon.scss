@@ -15,7 +15,7 @@
 		overflow: hidden;
 
 		background-color: #ececec;
-		border: 1px solid $tertiary-grey;
+		border: 1px solid var(--tertiary-grey);
 		// box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
 		border-radius: 1px;//iOS fix for box-shadow
 
@@ -80,7 +80,7 @@
 			.size {
 				flex: 1 1 100%;
 				display: inline-block;
-				color: $tertiary-grey;
+				color: var(--tertiary-grey);
 				font-size: .625rem;
 				font-weight: 600;
 				line-height: 2.4;
