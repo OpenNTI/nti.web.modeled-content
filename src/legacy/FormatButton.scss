@@ -25,7 +25,7 @@
 	&:active,
 	&.active,
 	.no-touch &:hover {
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 	}
 
 
