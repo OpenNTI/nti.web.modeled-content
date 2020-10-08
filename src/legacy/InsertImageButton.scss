@@ -24,7 +24,7 @@
 		}
 		&:active, &:focus {
 			& + .button {
-				background-color: darken($panel-background, 10%);
+				background-color: darken(var(--panel-background), 10%);
 				background-image: url(./assets/image_active.png);
 			}
 		}

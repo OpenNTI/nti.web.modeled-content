@@ -21,7 +21,7 @@
 		text-indent: initial;
 		text-align: left;
 		position: absolute;
-		background: $panel-background;
+		background: var(--panel-background);
 		z-index: 999;
 
 		top: 0; left: 0; right: 0; bottom: 0;
