@@ -35,7 +35,7 @@
 		&:active,
 		&:focus {
 			outline: none;
-			background-color: darken(var(--panel-background), 10%);
+			background-color: var(--panel-background-alt);
 		}
 	}
 }
