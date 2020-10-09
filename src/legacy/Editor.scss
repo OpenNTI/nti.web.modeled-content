@@ -21,8 +21,8 @@
 				font-weight: 600;
 				font-size: 0.9rem;
 				min-width: 90px;
-				background: $primary-blue;
-				border: 1px solid $border-blue;
+				background: var(--primary-blue);
+				border: 1px solid var(--border-blue);
 				color: white;
 
 				html:not(.touch) &:hover {
@@ -32,8 +32,8 @@
 				&.disabled {
 					&, &:hover {
 						opacity: 0.5;
-						background: $tertiary-grey;
-						border-color: $border-grey;
+						background: var(--tertiary-grey);
+						border-color: var(--border-grey);
 					}
 				}
 			}
@@ -44,7 +44,7 @@
 				text-decoration: underline;
 				background: none !important;
 				border: 0;
-				color: $primary-grey;
+				color: var(--primary-grey);
 			}
 		}
 	}
