@@ -1,33 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames/bind';
+import cx from 'classnames';
 import {Loading} from '@nti/web-commons';
 import {Editor, Plugins, BLOCK_SET, STYLES} from '@nti/web-editor';
 
 import {EditorCustomRenderers, EditorCustomStyles, getDataForFiles, getDataForLink} from '../attachments';
 
-import Styles from './Editor.css';
 import * as Buttons from './buttons';
 import ContextProvider from './ContextProvider';
 import {getContentForImage} from './utils';
 import {toDraftState, fromDraftState} from './Parser';
 
-const cx = classnames.bind(Styles);
-
 const getEditorPlugins = () => ([
 	Plugins.LimitBlockTypes.create({allow: BLOCK_SET}),
 	Plugins.LimitStyles.create({allow: new Set([STYLES.BOLD, STYLES.ITALIC, STYLES.UNDERLINE])}),
-	
+
 	Plugins.Links.AutoLink.create(),
 	Plugins.Links.CustomLinks.create(),
 	Plugins.Links.InsertPreview.create({getDataForLink}),
 
 	Plugins.FormatPasted.create({}),
 	Plugins.HandleFiles.create({getAtomicBlockData: getDataForFiles}),
-	
+
 	Plugins.InsertBlock.create(),
 	Plugins.CustomBlocks.create({customRenderers: EditorCustomRenderers, customStyles: EditorCustomStyles}),
-	
+
 	Plugins.KeepFocusInView.create(),
 	Plugins.ContiguousEntities.create()
 ]);

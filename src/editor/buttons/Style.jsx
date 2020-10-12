@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames/bind';
+import cx from 'classnames';
 import {
 	BoldButton,
 	ItalicButton,
@@ -8,9 +8,6 @@ import {
 
 import ContextProvider from '../ContextProvider';
 
-import Styles from './Style.css';
-
-const cx = classnames.bind(Styles);
 
 const {EditorProvider} = ContextProvider;
 
