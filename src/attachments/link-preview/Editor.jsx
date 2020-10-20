@@ -7,7 +7,6 @@ import EditorBlock from '../common/EditorBlock';
 
 import View from './View';
 
-
 async function resolveMetadata (href) {
 	try {
 		const service = await getService();
@@ -16,8 +15,14 @@ async function resolveMetadata (href) {
 		const images = metadata.images ?? [];
 		const image = images[0];//if there are multiple images, maybe add a heuristic to pick the best one
 
+		let title = metadata.title;
+
+		if (title.length > 140) {
+			title = `${title.substr(0, 137).trimEnd()}...`;
+		}
+
 		return {
-			title: metadata.title,
+			title: title,
 			description: metadata.description,
 			creator: metadata.creator,
 			imageURL: image?.url,
@@ -53,7 +58,7 @@ export default function LinkPreviewAttachment ({block, blockProps}) {
 			const meta = await resolveMetadata(embedURL);
 
 			if (unmounted) { return; }
-			
+
 			setBlockData(meta, void 0, true);
 		}, 300);
 
