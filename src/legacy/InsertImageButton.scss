@@ -1,7 +1,6 @@
 @import "~@nti/style-common";
 
 .modeled-content-editor .button.insert-whiteboard {
-
 	input[type=file] {
 		position: absolute;
 		cursor: pointer;
@@ -22,6 +21,7 @@
 			display: block;
 			position: static;
 		}
+
 		&:active, &:focus {
 			& + .button {
 				background-color: var(--panel-background-alt);

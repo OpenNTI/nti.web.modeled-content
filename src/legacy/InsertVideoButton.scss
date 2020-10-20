@@ -23,8 +23,10 @@
 		position: absolute;
 		background: var(--panel-background);
 		z-index: 999;
-
-		top: 0; left: 0; right: 0; bottom: 0;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
 
 		// top: 50%;
 		// left: 50%;
@@ -37,6 +39,7 @@
 		border-radius: 3px;
 		// box-shadow: 1px 2px 3px 0 rgba(0,0,0, 0.2);
 		font-size: 0.875rem;
+
 		input {
 			box-sizing: border-box;
 			display: block;
@@ -58,12 +61,12 @@
 
 		.buttons {
 			text-align: right;
+
 			.button {
 				height: auto;
 				line-height: normal;
 				width: auto;
 				min-width: 0;
-
 				appearance: none;
 				border-radius: 0;
 				border-style: solid;
@@ -75,7 +78,7 @@
 				text-align: center;
 				text-decoration: none;
 				display: inline-block;
-				padding: .5625rem 1.25rem .625rem;
+				padding: 0.5625rem 1.25rem 0.625rem;
 				font-size: 0.9rem;
 				background-color: var(--primary-blue);
 				border-color: var(--primary-blue);

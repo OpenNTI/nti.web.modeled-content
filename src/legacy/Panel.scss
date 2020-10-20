@@ -8,8 +8,9 @@
 
 	cursor: text;
 
-	p{
-		margin:0;
+	p {
+		margin: 0;
+
 		&:empty::before {
 			content: ' ';
 		}
@@ -50,7 +51,6 @@
 					margin: 0;
 					label { font-size: 0.5rem; }
 				}
-
 			}
 
 			.meta {

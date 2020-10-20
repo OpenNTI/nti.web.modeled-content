@@ -20,8 +20,10 @@
 		justify-content: space-between;
 		align-items: center;
 		background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), transparent);
-		top: auto; bottom: 0;
-		left: 0; right: 0;
+		top: auto;
+		bottom: 0;
+		left: 0;
+		right: 0;
 		padding: 0.25rem 0.5rem;
 		overflow: hidden;
 		color: white;

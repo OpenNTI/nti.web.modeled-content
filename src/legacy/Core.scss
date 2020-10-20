@@ -1,13 +1,11 @@
 @import "~@nti/style-common";
 @import "~draft-js/dist/Draft.css";
 
-
 .nti-rich-text {
 	border: 1px solid var(--border-grey);
 	background: #fff;
 	position: relative;
 	z-index: 0;//counteract draft's styles having a z-index on them
-
 	-webkit-overflow-scrolling: touch;
 	overflow: {
 		x: hidden;
@@ -32,7 +30,10 @@
 			content: '';
 			position: absolute;
 			opacity: 1;
-			top: 0; left: 0; right: 0; bottom: 0;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
 			background: rgba(240, 240, 240, 0.1);
 			z-index: 10;
 		}
@@ -42,20 +43,18 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-
 			width: 40px;
 			height: 40px;
 			margin: -20px 0 0 -20px;
 			z-index: 12;
 			opacity: 1;
-
-			animation: rotation .9s infinite linear;
+			animation: rotation 0.9s infinite linear;
 
 			// border: 1px solid rgba(142,183,55,.15);
 			// border-top-color: rgba(142,183,55,.8);
-			border: 1px solid rgba(63,179,79,.15);
-			border-top-color: rgba(63,179,79,.8);
-			border-radius:100%;
+			border: 1px solid rgba(63, 179, 79, 0.15);
+			border-top-color: rgba(63, 179, 79, 0.8);
+			border-radius: 100%;
 		}
 	}
 
@@ -64,7 +63,6 @@
 			display: none;
 		}
 	}
-
 
 	&.auto-hyphenate {
 		.public-DraftStyleDefault-block {
@@ -86,10 +84,11 @@
 			weight: normal;
 			style: normal;
 		}
+
 		&:focus {
 			outline: 1px solid var(--primary-blue);
-			box-shadow: inset 0 0 5px -1px rgba(0,0,0, 0.3);
-			background-color: rgba(245,245,245,0.2);
+			box-shadow: inset 0 0 5px -1px rgba(0, 0, 0, 0.3);
+			background-color: rgba(245, 245, 245, 0.2);
 		}
 
 		.DraftEditor-blockquote {

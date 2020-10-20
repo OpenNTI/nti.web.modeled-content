@@ -1,7 +1,6 @@
 @import "~@nti/style-common";
 
 .body-divider.unknown {
-
 	.unknown-icon {
 		background-image: url(./assets/filetype-unknown.png);
 		width: 35px;
@@ -11,17 +10,20 @@
 		position: relative;
 		overflow: hidden;
 		cursor: pointer;
-		padding: 0px;
+		padding: 0;
 		margin: 5px 2px;
 		border: 1px solid var(--tertiary-grey);
-		box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
+		box-shadow: 2px 3px 1px 0 rgba(0, 0, 0, 0.13);
 		border-radius: 1px;//iOS fix for box-shadow
 	}
 
 	.fill {
 		display: block;
-		position:absolute;
-		top: 0; left: 0; right: 0; bottom: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
 		box-shadow: inset 0 0 0 3px white;
 		background: rgba(63, 179, 246, 0.05);
 	}

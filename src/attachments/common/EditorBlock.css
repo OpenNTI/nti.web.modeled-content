@@ -17,8 +17,10 @@
 		visibility: hidden;
 		display: flex;
 		position: absolute;
-		top: -15px; bottom: auto;
-		left: auto; right: -15px;
+		top: -15px;
+		bottom: auto;
+		left: auto;
+		right: -15px;
 	}
 
 	& .remove {

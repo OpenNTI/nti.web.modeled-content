@@ -5,15 +5,13 @@
 
 	.file-icon {
 		cursor: pointer;
-		padding: 0px;
+		padding: 0;
 		margin: 7px 0;
 		width: 300px;
 		min-width: 115px;
 		max-width: 90%;
-
 		position: relative;
 		overflow: hidden;
-
 		background-color: #ececec;
 		border: 1px solid var(--tertiary-grey);
 		// box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
@@ -24,6 +22,7 @@
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
+
 			&.image {
 				padding-top: 53.3333333%;
 			}
@@ -35,12 +34,11 @@
 			}
 		}
 
-
 		.meta {
 			// position: relative;
 			display: block;
 			background-color: white;
-			padding: .625rem .75rem;
+			padding: 0.625rem 0.75rem;
 			margin: 0;
 
 			.filename, .size {
@@ -52,7 +50,7 @@
 			.filename {
 				color: var(--primary-grey);
 				border-bottom: none;
-				font-size: .875rem;
+				font-size: 0.875rem;
 				font-weight: 600;
 				line-height: 1.5;
 				margin: 0;
@@ -63,6 +61,7 @@
 				display: flex;
 				align-items: center;
 				font-style: normal;
+
 				a {
 					display: inline-block;
 					flex: 0 0 auto;
@@ -76,12 +75,11 @@
 				}
 			}
 
-
 			.size {
 				flex: 1 1 100%;
 				display: inline-block;
 				color: var(--tertiary-grey);
-				font-size: .625rem;
+				font-size: 0.625rem;
 				font-weight: 600;
 				line-height: 2.4;
 				padding: 0;
