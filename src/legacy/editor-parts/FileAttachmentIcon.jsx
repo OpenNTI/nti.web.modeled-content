@@ -62,9 +62,9 @@ export default class FileAttachment extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		if (nextProps.data !== this.props.data) {
-			this.setupIconImage(nextProps);
+	componentDidUpdate (prevProps) {
+		if (prevProps.data !== this.props.data) {
+			this.setupIconImage();
 		}
 	}
 
@@ -86,7 +86,7 @@ export default class FileAttachment extends React.Component {
 	}
 
 
-	setupIconImage (props) {
+	setupIconImage (props = this.props) {
 		const {file, url} = props.data;
 		let backgroundImage = url;
 

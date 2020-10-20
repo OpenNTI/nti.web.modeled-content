@@ -26,9 +26,10 @@ export default class WhiteboardThumbnail extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		if (nextProps.data !== this.props.data) {
-			this.renderIcon(nextProps.data);
+	componentDidUpdate (prevProps) {
+		const {data} = this.props;
+		if (prevProps.data !== data) {
+			this.renderIcon(data);
 		}
 	}
 

@@ -92,15 +92,15 @@ export default class TextEditor extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		const diff = (...x) => x.some(key => nextProps[key] !== this.props[key]);
+	componentDidUpdate (prevProps) {
+		const diff = (...x) => x.some(key => prevProps[key] !== this.props[key]);
 
 		if (diff('charLimit', 'singleLine', 'plainText')) {
-			this.setupPlugins(nextProps);
+			this.setupPlugins();
 		}
 
-		if (this.props.initialValue !== nextProps.initialValue) {
-			this.setupValue(nextProps);
+		if (this.props.initialValue !== prevProps.initialValue) {
+			this.setupValue();
 		}
 
 	}
@@ -121,7 +121,7 @@ export default class TextEditor extends React.Component {
 		}
 	}
 
-	setupValue (props) {
+	setupValue (props = this.props) {
 		const {initialValue: value} = props;
 		//eslint-disable-next-line react/no-direct-mutation-state
 		const setState = s => this.state ? this.setState(s) : (this.state = s);

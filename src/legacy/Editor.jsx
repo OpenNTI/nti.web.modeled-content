@@ -121,9 +121,9 @@ export default class Editor extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		if (this.props.initialValue !== nextProps.initialValue) {
-			this.setupValue(nextProps);
+	componentDidUpdate (prevProps) {
+		if (this.props.initialValue !== prevProps.initialValue) {
+			this.setupValue();
 		}
 	}
 

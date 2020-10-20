@@ -54,10 +54,10 @@ export default class ModeledBodyContent extends React.Component {
 		this.unmounted = true;
 	}
 
-	componentWillReceiveProps (props) {
+	componentDidUpdate (prevProps) {
 		const list = Object.keys(ModeledBodyContent.propTypes);
-		if (list.some(x => props[x] !== this.props[x])) {
-			this.buildContent(props);
+		if (list.some(x => prevProps[x] !== this.props[x])) {
+			this.buildContent();
 		}
 	}
 

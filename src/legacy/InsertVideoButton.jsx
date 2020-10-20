@@ -3,14 +3,12 @@ import React from 'react';
 import cx from 'classnames';
 import {Events} from '@nti/lib-commons';
 import {getEventTarget} from '@nti/lib-dom';
-import Logger from '@nti/util-logger';
 import {Prompt} from '@nti/web-commons';
-import {getHandler, EmbedInput} from '@nti/web-video';
+import {EmbedInput} from '@nti/web-video';
 
 import Tool from './Tool';
 
 
-const logger = Logger.get('modeled-content:components:InsertVideoButton');
 
 const {isActionable} = Events;
 

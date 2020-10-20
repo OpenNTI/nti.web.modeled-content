@@ -215,15 +215,14 @@ export default class Core extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		const {plugins, value} = nextProps;
-		const {props} = this;
-		if (value !== props.value) {
-			this.setupValue(nextProps);
-		} else if (plugins !== props.plugins) {
+	componentDidUpdate (prevProps) {
+		const {plugins, value} = this.props;
+		if (value !== prevProps.value) {
+			this.setupValue();
+		} else if (plugins !== prevProps.plugins) {
 			this.onChange(applyDecorators(
 				this.state.editorState,
-				this.initializePlugins(nextProps)
+				this.initializePlugins()
 			));
 		}
 	}
