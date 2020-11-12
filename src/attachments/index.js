@@ -21,6 +21,7 @@ export const WhiteboardButton = Whiteboard.Button;
 export const EditorCustomRenderers = Types.reduce((acc, type) => {
 	if (type.Editor) {
 		acc.push({
+			editable: false,
 			handlesBlock: getHandlesBlock(type.Handles),
 			component: type.Editor
 		});
