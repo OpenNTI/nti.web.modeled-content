@@ -61,7 +61,7 @@ export default class ModeledBodyContent extends React.Component {
 		}
 	}
 
-	buildContent = async (props) => {
+	buildContent = async (props = this.props) => {
 		const {body: input, strategies: propStrategies, previewLength, previewMode, afterRender} = props;
 		const strategies = { ...SYSTEM_WIDGET_STRATEGIES, ...propStrategies};
 		const widgets = {};
