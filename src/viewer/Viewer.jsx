@@ -14,6 +14,13 @@ const cx = classnames.bind(Styles);
 const {useResolver} = Hooks;
 const {isPending, isResolved, isErrored} = useResolver;
 
+const filterObject = (src, keySource) =>
+	Object.keys(src)
+		.reduce((out, key) => (
+			(key in keySource) && (out[key] = src[key]),
+			out
+		), {});
+
 function createRenderWidget (bodyWidgets, widgets, renderCustomWidget, renderAnchor) {
 	return (tagName, props = {}, children) => {
 		const widget = (bodyWidgets || {})[props.id] || {};
@@ -44,7 +51,7 @@ ModeledContent.propTypes = {
 function ModeledContent ({className, parsed, widgets, renderCustomWidget, renderAnchor, previewMode, bodyRef, ...otherProps}) {
 	const {body, widgets:bodyWidgets} = parsed;
 	const props = {
-		...otherProps,
+		...filterObject(otherProps, HTMLDivElement.prototype),
 		ref: bodyRef,
 		className: cx('modeled-content', 'nt-modeled-content', className, {preview: previewMode})
 	};
@@ -82,15 +89,15 @@ ModeledContentViewer.propTypes = {
 };
 export default function ModeledContentViewer ({
 	content,
-	
+
 	previewMode,
 	previewLength,
-	
+
 	strategies,
 	widgets,
 	renderCustomWidget,
 	renderAnchor,
-	
+
 	afterRender,
 
 	...otherProps
