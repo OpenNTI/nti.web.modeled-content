@@ -92,7 +92,7 @@ export default class ModeledBodyContent extends React.Component {
 
 			const processed = packet.body.map(
 				part => (typeof part !== 'string') ?
-					`<widget id="${part.guid}" data-type="${part.type}"></widget>` : part);
+					`<widget is="div" id="${part.guid}" data-type="${part.type}"></widget>` : part);
 
 			try {
 				return htmlToReactRenderer(
