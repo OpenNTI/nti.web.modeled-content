@@ -47,7 +47,7 @@
     "@nti/web-whiteboard": "NextThought/nti.web.whiteboard",
     "fbjs": "^3.0.0",
     "filesize": "^6.1.0",
-    "html-entities": "^2.0.2",
+    "html-entities": "^1.2.0",
     "html-reactifier": "^2.0.0",
     "invariant": "^2.1.1",
     "linkify-it": "^3.0.2",

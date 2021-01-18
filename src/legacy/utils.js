@@ -1,6 +1,8 @@
 import Logger from '@nti/util-logger';
 import {AtomicBlockUtils, ContentBlock,	ContentState, EditorState, convertFromHTML, DefaultDraftBlockRenderMap} from 'draft-js';//eslint-disable-line
-import {decode} from 'html-entities';
+import {AllHtmlEntities} from 'html-entities';
+
+const Entities = new AllHtmlEntities();
 
 const OPEN_TAG = x => `<${x}>`;
 const CLOSE_TAG = x => `</${x}>`;
@@ -343,5 +345,5 @@ export function stripTags (value) {
 	// }
 	// //else ... we're running on node.
 
-	return decode(value.replace(TAGS_REGEX, ''));
+	return Entities.decode(value.replace(TAGS_REGEX, ''));
 }
