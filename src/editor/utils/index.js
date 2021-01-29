@@ -1,1 +1,1 @@
-export getContentForImage from './get-content-for-image';
+export { default as getContentForImage } from './get-content-for-image';
