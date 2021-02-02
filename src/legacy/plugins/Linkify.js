@@ -63,7 +63,7 @@ export default class Linkify extends Plugin {
 	 * we'll have problems.
 	 *
 	 * @param  {Array} blocks the editor state
-	 * @return {Array}        the blocks with their links wrapped
+	 * @returns {Array}        the blocks with their links wrapped
 	 */
 	mapValue (blocks) {
 		return blocks.map(wrapLinks);

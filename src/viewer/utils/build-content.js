@@ -82,7 +82,7 @@ export default async function buildContent (input, extraStrats, previewMode, pre
 				(n, a) => isWidget(n, a, packet.widgets)
 			);
 		} catch (e) {
-			return () => React.createElement('div', {'data-error': e.message || e});//eslint-disable-line
+			return () => React.createElement('div', {'data-error': e.message || e});
 		}
 	}
 

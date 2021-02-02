@@ -329,8 +329,8 @@ export function isEmpty (value) {
 /**
  * Strip all html tags and decode entities.
  *
- * @param  {String} value HTML formatted text
- * @return {String} Plain text
+ * @param  {string} value HTML formatted text
+ * @returns {string} Plain text
  */
 export function stripTags (value) {
 

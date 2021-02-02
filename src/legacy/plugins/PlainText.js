@@ -16,7 +16,7 @@ export default class PlainText extends Plugin {
 	 * filter the new state object and strip all styles from each block.
 	 *
 	 * @param  {EditorState} newState a new EditorState from a change event.
-	 * @return {EditorState}          a new EditorState with filtered ContentState. (inline styles and block styles removed)
+	 * @returns {EditorState}          a new EditorState with filtered ContentState. (inline styles and block styles removed)
 	 */
 	onChange (newState) {
 		let content = newState.getCurrentContent();
@@ -64,8 +64,8 @@ export default class PlainText extends Plugin {
 
 	/**
 	 * Unwrap any html tags around the text
-	 * @param  {[String]} blocks the value from the editor
-	 * @return {[String]}        [description]
+	 * @param  {[string]} blocks the value from the editor
+	 * @returns {[string]}        [description]
 	 */
 	mapValue (blocks) {
 		return blocks.map(stripTags);
