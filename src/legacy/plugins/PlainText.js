@@ -1,4 +1,4 @@
-import {EditorState, Modifier, SelectionState} from 'draft-js';//eslint-disable-line
+import {EditorState, Modifier, SelectionState} from 'draft-js';
 
 import {stripTags} from '../utils';
 

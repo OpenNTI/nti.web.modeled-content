@@ -5,7 +5,7 @@ import cx from 'classnames';
 import invariant from 'invariant';
 import {Events} from '@nti/lib-commons';
 import Logger from '@nti/util-logger';
-import {AtomicBlockUtils, CompositeDecorator, Editor, EditorState, Modifier, RichUtils, SelectionState, convertToRaw, getDefaultKeyBinding} from 'draft-js';//eslint-disable-line
+import {AtomicBlockUtils, CompositeDecorator, Editor, EditorState, Modifier, RichUtils, SelectionState, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import UserAgent from 'fbjs/lib/UserAgent';
 
 import Block from './Block';

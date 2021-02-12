@@ -1,5 +1,5 @@
 import Logger from '@nti/util-logger';
-import {AtomicBlockUtils, ContentBlock,	ContentState, EditorState, convertFromHTML, DefaultDraftBlockRenderMap} from 'draft-js';//eslint-disable-line
+import {AtomicBlockUtils, ContentBlock,	ContentState, EditorState, convertFromHTML, DefaultDraftBlockRenderMap} from 'draft-js';
 import {AllHtmlEntities} from 'html-entities';
 
 const Entities = new AllHtmlEntities();

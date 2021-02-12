@@ -45,6 +45,7 @@
     "@nti/web-editor": "NextThought/nti.web.editor",
     "@nti/web-video": "NextThought/nti.web.video",
     "@nti/web-whiteboard": "NextThought/nti.web.whiteboard",
+    "draft-js": "^0.11.0",
     "fbjs": "^3.0.0",
     "filesize": "^6.1.0",
     "html-entities": "^1.2.0",
