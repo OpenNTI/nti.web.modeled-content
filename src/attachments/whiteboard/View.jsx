@@ -52,9 +52,9 @@ export default function WhiteboardView ({attachment, version = 1, onClick, edit}
 		<object contentEditable={false} unselectable="on" className={cx('whiteboard')}>
 			{edit && card}
 			{!edit && (
-				<Image.Lightbox trigger={card}>
+				<Image.LightBox trigger={card}>
 					{<img src={thumbnail} />}
-				</Image.Lightbox>
+				</Image.LightBox>
 			)}
 		</object>
 	);
