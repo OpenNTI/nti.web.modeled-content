@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import Logger from '@nti/util-logger';
-import { convertToRaw, convertFromRaw, EditorState } from 'draft-js'; //eslint-disable-line
+import { convertToRaw, convertFromRaw, EditorState } from 'draft-js';
 
 import {
 	getEditorStateFromValue,
