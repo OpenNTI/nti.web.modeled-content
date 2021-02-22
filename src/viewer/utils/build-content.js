@@ -1,21 +1,26 @@
 import React from 'react';
 import htmlToReactRenderer from 'html-reactifier';
-import {v4 as uuid} from 'uuid';
-import {getHTMLSnippet, filterContent, processContent} from '@nti/lib-content-processing';
+import { v4 as uuid } from 'uuid';
+import {
+	getHTMLSnippet,
+	filterContent,
+	processContent,
+} from '@nti/lib-content-processing';
 
 const SystemWidgetStrategies = {};
 
 const nullRender = () => {};
 
-const getBodySize = (body) => {
+const getBodySize = body => {
 	return body
-		.map((part) => {
-			if (typeof part !== 'string') { return 0; }
+		.map(part => {
+			if (typeof part !== 'string') {
+				return 0;
+			}
 
 			return part
-				.replace(/<[^>]*>/g, ' ')//replace all markup with spaces.
-				.replace(/\s+/g, ' ') //replace all spanning whitespaces with a single space.
-				.length;
+				.replace(/<[^>]*>/g, ' ') //replace all markup with spaces.
+				.replace(/\s+/g, ' ').length; //replace all spanning whitespaces with a single space.
 		})
 		.reduce((sum, x) => sum + x, 0);
 };
@@ -23,45 +28,61 @@ const getBodySize = (body) => {
 const isWidget = (tagName, props, widgets) => {
 	const widget = widgets && widgets[props && props.id];
 
-	if (tagName === 'a') { return true; }
+	if (tagName === 'a') {
+		return true;
+	}
 
-	return (tagName === 'widget' && widget) ? tagName : null;
+	return tagName === 'widget' && widget ? tagName : null;
 };
 
-async function getPacket (content, strategies, previewMode, maxPreviewLength) {
+async function getPacket(content, strategies, previewMode, maxPreviewLength) {
 	if (typeof content === 'string') {
 		const data = {
-			content: previewMode ? getHTMLSnippet(filterContent(content), maxPreviewLength) : content
+			content: previewMode
+				? getHTMLSnippet(filterContent(content), maxPreviewLength)
+				: content,
 		};
 
 		return await processContent(data, strategies);
 	}
 
 	const key = uuid();
-	const o = {[key]: {...content, id: key}};
+	const o = { [key]: { ...content, id: key } };
 
 	return {
 		widgets: o,
-		body: [{
-			guid: key,
-			type: o[key].MimeType
-		}]
+		body: [
+			{
+				guid: key,
+				type: o[key].MimeType,
+			},
+		],
 	};
 }
 
-export default async function buildContent (input, extraStrats, previewMode, previewLength) {
-	const strategies = {...SystemWidgetStrategies, ...extraStrats};
+export default async function buildContent(
+	input,
+	extraStrats,
+	previewMode,
+	previewLength
+) {
+	const strategies = { ...SystemWidgetStrategies, ...extraStrats };
 	const widgets = {};
 
 	let letterCount = 0;
-	const updateLetterCount = x => letterCount += 1;
+	const updateLetterCount = x => (letterCount += 1);
 
-	async function process (content) {
+	async function process(content) {
 		if (previewMode && previewLength <= letterCount) {
 			return nullRender;
 		}
 
-		const packet = await getPacket(content, strategies, previewMode, previewLength - letterCount);
+		const packet = await getPacket(
+			content,
+			strategies,
+			previewMode,
+			previewLength - letterCount
+		);
 
 		if (previewMode) {
 			updateLetterCount(getBodySize(packet.body));
@@ -69,29 +90,30 @@ export default async function buildContent (input, extraStrats, previewMode, pre
 
 		Object.assign(widgets, packet.widgets);
 
-		const processed = packet.body
-			.map((part) => {
-				if (typeof part === 'string') { return part; }
+		const processed = packet.body.map(part => {
+			if (typeof part === 'string') {
+				return part;
+			}
 
-				return `<widget id="${part.guid}" data-type="${part.type}"></widget>`;
-			});
+			return `<widget id="${part.guid}" data-type="${part.type}"></widget>`;
+		});
 
 		try {
-			return htmlToReactRenderer(
-				processed.join(''),
-				(n, a) => isWidget(n, a, packet.widgets)
+			return htmlToReactRenderer(processed.join(''), (n, a) =>
+				isWidget(n, a, packet.widgets)
 			);
 		} catch (e) {
-			return () => React.createElement('div', {'data-error': e.message || e});
+			return () =>
+				React.createElement('div', { 'data-error': e.message || e });
 		}
 	}
 
-	async function build () {
+	async function build() {
 		const body = input || [];
-		const {length} = body;
+		const { length } = body;
 		const processed = new Array(length);
 
-		async function loop (x) {
+		async function loop(x) {
 			if (x >= length) {
 				return processed;
 			}
@@ -105,5 +127,5 @@ export default async function buildContent (input, extraStrats, previewMode, pre
 
 	const body = await build();
 
-	return {body, widgets};
+	return { body, widgets };
 }

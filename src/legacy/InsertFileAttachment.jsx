@@ -5,12 +5,12 @@ import iOSversion from '@nti/util-ios-version';
 
 import Tool from './Tool';
 
-
-const logger = Logger.get('modeled-content:components:InsertFileAttachmentButton');
+const logger = Logger.get(
+	'modeled-content:components:InsertFileAttachmentButton'
+);
 
 export default class InsertFileAttachmentButton extends Tool {
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		const iOSV = iOSversion();
 
@@ -23,71 +23,73 @@ export default class InsertFileAttachmentButton extends Tool {
 		this.onSelect = this.onSelect.bind(this);
 	}
 
-
-	render () {
+	render() {
 		if (this.state.disabled) {
-			return null;//don't render the button.
+			return null; //don't render the button.
 		}
 
 		return (
 			<div className="button insert-file-attachment">
-				<input type="file" accept="*/*" multiple onChange={this.onSelect}/>
+				<input
+					type="file"
+					accept="*/*"
+					multiple
+					onChange={this.onSelect}
+				/>
 				<div className="button">Insert File Attachment</div>
 			</div>
 		);
 	}
 
-
-	insertFile (filePart) {
+	insertFile(filePart) {
 		const editor = this.getEditor();
 
 		editor().insertBlock(filePart, editor.blurredSelection);
 	}
 
-
-	readFile (file, last) {
+	readFile(file, last) {
 		return new Promise((finish, error) => {
 			try {
 				const filePart = {
-					MimeType : 'application/vnd.nextthought.contentfile',
-					FileMimeType : file.type,
-					contentType : file.type,
-					filename : file.name,
+					MimeType: 'application/vnd.nextthought.contentfile',
+					FileMimeType: file.type,
+					contentType: file.type,
+					filename: file.name,
 					size: file.size,
-					file
+					file,
 				};
 
 				this.insertFile(filePart, last);
 				finish();
-			} catch(e) {
+			} catch (e) {
 				error(e);
 			}
 		});
 	}
 
-
-	onSelect (e) {
+	onSelect(e) {
 		const editor = this.getEditor();
-		const {target: {files}} = e;
+		const {
+			target: { files },
+		} = e;
 
 		const logError = er => logger.log(er.stack || er.message || er);
 
-		if (!files || files.length === 0) { return; }
+		if (!files || files.length === 0) {
+			return;
+		}
 
-		let getNext = (file, last) => ()=>this.readFile(file, last);
+		let getNext = (file, last) => () => this.readFile(file, last);
 
 		editor.markBusy();
 
 		let run = Promise.resolve();
 		const fileList = Array.from(files);
-		for(let i = 0, len = fileList.length; i < len; i++) {
-			run = run
-				.catch(logError)
-				.then(getNext(fileList[i], (len - 1) === i));
+		for (let i = 0, len = fileList.length; i < len; i++) {
+			run = run.catch(logError).then(getNext(fileList[i], len - 1 === i));
 		}
 
-		run.catch(logError)
-			.then(()=>editor.clearBusy());
+		run.catch(logError).then(() => editor.clearBusy());
 
 		//These three lines allow the same file to be selected over and over again.
 		e.target.value = null;

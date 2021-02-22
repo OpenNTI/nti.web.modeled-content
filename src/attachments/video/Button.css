@@ -6,7 +6,7 @@
 	}
 }
 
-:global(html.window-open body>.modal .modal-mask) {
+:global(html.window-open body > .modal .modal-mask) {
 	&.insert-video-dialog {
 		z-index: 1003;
 	}

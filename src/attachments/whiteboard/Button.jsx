@@ -1,17 +1,18 @@
 import React from 'react';
-import {scoped} from '@nti/lib-locale';
-import {Icons} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Icons } from '@nti/web-commons';
 
 import Button from '../common/Button';
 
 import View from './View';
 
 const t = scoped('modeled-content.attachments.whiteboard.Button', {
-	label: 'Attach a Drawing'
+	label: 'Attach a Drawing',
 });
 
-WhiteboardButton.setWhiteboardEditor = (editor) => View.setWhiteboardEditor(editor);
-export default function WhiteboardButton (props) {
+WhiteboardButton.setWhiteboardEditor = editor =>
+	View.setWhiteboardEditor(editor);
+export default function WhiteboardButton(props) {
 	const insertAtomicBlock = Button.useInsertAtomicBlock();
 
 	const [prompt, setPrompt] = React.useState(false);
@@ -20,9 +21,11 @@ export default function WhiteboardButton (props) {
 
 	const WhiteboardEditor = View.getWhiteboardEditor();
 
-	if (!WhiteboardEditor) { return null; }
+	if (!WhiteboardEditor) {
+		return null;
+	}
 
-	const onWhiteboardInserted = (whiteboard) => {
+	const onWhiteboardInserted = whiteboard => {
 		insertAtomicBlock(whiteboard);
 		closePrompt();
 	};
@@ -31,7 +34,10 @@ export default function WhiteboardButton (props) {
 		<Button label={t('label')} {...props} onClick={openPrompt}>
 			<Icons.Drawing />
 			{prompt && (
-				<WhiteboardEditor close={closePrompt} setData={onWhiteboardInserted} />
+				<WhiteboardEditor
+					close={closePrompt}
+					setData={onWhiteboardInserted}
+				/>
 			)}
 		</Button>
 	);

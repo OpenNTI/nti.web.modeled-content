@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Errors} from '@nti/web-commons';
+import { Errors } from '@nti/web-commons';
 import cx from 'classnames';
 
 import Core from './Core';
@@ -9,12 +9,13 @@ import Value from './plugins/ValueIsString';
 import PlainText from './plugins/PlainText';
 import SingleLine from './plugins/SingleLine';
 import Linkify from './plugins/Linkify';
-import {isEmpty} from './utils';
+import { isEmpty } from './utils';
 
-const {Field:{Component:ErrorCmp}} = Errors;
+const {
+	Field: { Component: ErrorCmp },
+} = Errors;
 
 export default class TextEditor extends React.Component {
-
 	static propTypes = {
 		className: PropTypes.string,
 		customBindings: PropTypes.object,
@@ -30,7 +31,7 @@ export default class TextEditor extends React.Component {
 		 */
 		initialValue: PropTypes.oneOfType([
 			PropTypes.string,
-			PropTypes.arrayOf(PropTypes.string)
+			PropTypes.arrayOf(PropTypes.string),
 		]),
 
 		placeholder: PropTypes.string,
@@ -43,57 +44,48 @@ export default class TextEditor extends React.Component {
 		singleLine: PropTypes.bool,
 		linkify: PropTypes.bool,
 		error: PropTypes.object,
-		warning: PropTypes.object
-	}
-
+		warning: PropTypes.object,
+	};
 
 	static defaultProps = {
-		onBlur () {},
-		onFocus () {},
-		linkify: true
-	}
+		onBlur() {},
+		onFocus() {},
+		linkify: true,
+	};
 
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.setupValue(props);
 		this.setupPlugins(props);
 	}
 
+	attachEditorRef = ref => (this.editor = ref);
 
-	attachEditorRef = ref => this.editor = ref
-
-
-	focus () {
+	focus() {
 		this.editor.focus();
 	}
 
-
 	focusToEnd = () => {
 		this.editor.focusToEnd();
-	}
+	};
 
-
-	logState = () => this.editor.logState()
-
+	logState = () => this.editor.logState();
 
 	onBlur = () => {
 		this.props.onBlur(this);
-	}
-
+	};
 
 	onFocus = () => {
 		this.props.onFocus(this);
-	}
-
+	};
 
 	onErrorFocused = () => {
 		this.focus();
-	}
+	};
 
-
-	componentDidUpdate (prevProps) {
-		const diff = (...x) => x.some(key => prevProps[key] !== this.props[key]);
+	componentDidUpdate(prevProps) {
+		const diff = (...x) =>
+			x.some(key => prevProps[key] !== this.props[key]);
 
 		if (diff('charLimit', 'singleLine', 'plainText')) {
 			this.setupPlugins();
@@ -102,16 +94,14 @@ export default class TextEditor extends React.Component {
 		if (this.props.initialValue !== prevProps.initialValue) {
 			this.setupValue();
 		}
-
 	}
 
-
-	setupPlugins (props = this.props) {
+	setupPlugins(props = this.props) {
 		this.plugins = [
 			new Value(),
 			props.plainText && new PlainText(),
 			props.singleLine && new SingleLine(),
-			props.linkify && !props.plainText && new Linkify()
+			props.linkify && !props.plainText && new Linkify(),
 		].filter(x => x);
 
 		if (props.charLimit) {
@@ -121,43 +111,37 @@ export default class TextEditor extends React.Component {
 		}
 	}
 
-	setupValue (props = this.props) {
-		const {initialValue: value} = props;
+	setupValue(props = this.props) {
+		const { initialValue: value } = props;
 		//eslint-disable-next-line react/no-direct-mutation-state
-		const setState = s => this.state ? this.setState(s) : (this.state = s);
+		const setState = s =>
+			this.state ? this.setState(s) : (this.state = s);
 
-		setState({value});
+		setState({ value });
 	}
 
 	/**
 	 * @returns {string} html snippet
 	 */
-	getValue () {
-		const {editor} = this;
+	getValue() {
+		const { editor } = this;
 		const value = editor && editor.getValue();
 
 		return isEmpty(value) ? '' : value;
 	}
 
-
-	render () {
+	render() {
 		const {
-			props: {
-				className,
-				customBindings,
-				placeholder,
-				error,
-				warning
-			},
-			state: {
-				value
-			},
-			counterComponent: Counter
+			props: { className, customBindings, placeholder, error, warning },
+			state: { value },
+			counterComponent: Counter,
 		} = this;
 
 		return (
 			<div className="text-editor">
-				<Core className={cx('text-editor', className)} value={value}
+				<Core
+					className={cx('text-editor', className)}
+					value={value}
 					customBindings={customBindings}
 					onChange={this.props.onChange}
 					onFocus={this.onFocus}
@@ -167,9 +151,17 @@ export default class TextEditor extends React.Component {
 					plugins={this.plugins}
 					toolbars={false}
 				/>
-				{Counter && <Counter/>}
-				{error && <ErrorCmp error={error} onFocus={this.onErrorFocused} />}
-				{warning && <ErrorCmp error={warning} onFocus={this.onErrorFocused} isWarning/>}
+				{Counter && <Counter />}
+				{error && (
+					<ErrorCmp error={error} onFocus={this.onErrorFocused} />
+				)}
+				{warning && (
+					<ErrorCmp
+						error={warning}
+						onFocus={this.onErrorFocused}
+						isWarning
+					/>
+				)}
 			</div>
 		);
 	}

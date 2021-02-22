@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .format-button {
 	color: var(--tertiary-grey);
@@ -19,7 +19,9 @@
 		position: center center;
 	}
 
-	&:hover { color: var(--tertiary-grey); }
+	&:hover {
+		color: var(--tertiary-grey);
+	}
 
 	&:focus,
 	&:active,
@@ -34,7 +36,8 @@
 		pointer-events: none;
 	}
 
-	i[class^="icon-"], i[class*=" icon-"] {
+	i[class^='icon-'],
+	i[class*=' icon-'] {
 		font-size: 1rem;
 	}
 }

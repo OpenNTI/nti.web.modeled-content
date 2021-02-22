@@ -3,28 +3,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import invariant from 'invariant';
-import {Events} from '@nti/lib-commons';
+import { Events } from '@nti/lib-commons';
 import Logger from '@nti/util-logger';
-import {AtomicBlockUtils, CompositeDecorator, Editor, EditorState, Modifier, RichUtils, SelectionState, convertToRaw, getDefaultKeyBinding} from 'draft-js';
+import {
+	AtomicBlockUtils,
+	CompositeDecorator,
+	Editor,
+	EditorState,
+	Modifier,
+	RichUtils,
+	SelectionState,
+	convertToRaw,
+	getDefaultKeyBinding,
+} from 'draft-js';
 import UserAgent from 'fbjs/lib/UserAgent';
 
 import Block from './Block';
 import CoreContextProvider from './CoreContextProvider';
-import Toolbar, {REGIONS} from './Toolbar';
-import {Formats} from './FormatButton';
-import {
-	getEditorStateFromValue,
-	getValueFromEditorState
-} from './utils';
+import Toolbar, { REGIONS } from './Toolbar';
+import { Formats } from './FormatButton';
+import { getEditorStateFromValue, getValueFromEditorState } from './utils';
 
-
-const {getKeyCode} = Events;
+const { getKeyCode } = Events;
 
 const logger = Logger.get('modeled-content:editor:core');
 
-const getEditorState = x => x ? x.editorState : EditorState.createEmpty();
-const applyDecorators = (state, config) => config ? EditorState.set(state, config) : state;
-
+const getEditorState = x => (x ? x.editorState : EditorState.createEmpty());
+const applyDecorators = (state, config) =>
+	config ? EditorState.set(state, config) : state;
 
 // Custom overrides for "code" style.
 const styleMap = {
@@ -32,13 +38,11 @@ const styleMap = {
 		backgroundColor: 'rgba(0, 0, 0, 0.05)',
 		fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
 		fontSize: 16,
-		padding: 2
-	}
+		padding: 2,
+	},
 };
 
-
 export default class Core extends React.Component {
-
 	static propTypes = {
 		children: PropTypes.any,
 		className: PropTypes.string,
@@ -53,7 +57,7 @@ export default class Core extends React.Component {
 		toolbars: PropTypes.oneOfType([
 			PropTypes.bool,
 			PropTypes.node,
-			PropTypes.arrayOf(PropTypes.node)
+			PropTypes.arrayOf(PropTypes.node),
 		]),
 		plugins: PropTypes.arrayOf(PropTypes.object),
 		value: PropTypes.oneOfType([
@@ -62,13 +66,12 @@ export default class Core extends React.Component {
 				PropTypes.oneOfType([
 					PropTypes.string,
 					PropTypes.shape({
-						MimeType: PropTypes.string
-					})
+						MimeType: PropTypes.string,
+					}),
 				])
-			)
-		])
-	}
-
+			),
+		]),
+	};
 
 	static defaultProps = {
 		placeholder: 'Type a message...',
@@ -76,32 +79,32 @@ export default class Core extends React.Component {
 		plugins: [],
 		onBlur: () => {},
 		onFocus: () => {},
-		onChange: () => {}
-	}
+		onChange: () => {},
+	};
 
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		this.allowedFormats = new Set(Object.keys(Formats));
 		this.setupValue(props);
 	}
 
-	attachContextRef = (r) => this.editorContext = r
-	attachEditorRef = (r) => this.draftEditor = r
+	attachContextRef = r => (this.editorContext = r);
+	attachEditorRef = r => (this.draftEditor = r);
 
-	getAllowedFormats = () => this.allowedFormats
+	getAllowedFormats = () => this.allowedFormats;
 
 	focus = () => {
-		const {editorState} = this.state;
-		const hasFocus = editorState && editorState.getSelection().getHasFocus();
+		const { editorState } = this.state;
+		const hasFocus =
+			editorState && editorState.getSelection().getHasFocus();
 		if (!hasFocus) {
 			this.draftEditor.focus();
 		}
-	}
+	};
 
 	focusToEnd = () => {
-		const {editorState} = this.state;
+		const { editorState } = this.state;
 		const currentSelection = editorState.getSelection();
 		const currentContent = editorState.getCurrentContent();
 		const lastBlock = currentContent.getLastBlock();
@@ -115,14 +118,16 @@ export default class Core extends React.Component {
 				focusOffset: length,
 				anchorKey: key,
 				anchorOffset: length,
-				hasFocus: true
+				hasFocus: true,
 			});
-			this.onChange(EditorState.forceSelection(editorState, updatedSelection));
+			this.onChange(
+				EditorState.forceSelection(editorState, updatedSelection)
+			);
 		}
-	}
+	};
 
-	getSelection () {
-		const {editorState} = this.state;
+	getSelection() {
+		const { editorState } = this.state;
 
 		return editorState?.getSelection();
 	}
@@ -130,15 +135,14 @@ export default class Core extends React.Component {
 	logState = () => {
 		const content = this.state.editorState.getCurrentContent();
 		logger.log(convertToRaw(content));
-	}
+	};
 
-	plugins (props = this.props) {
+	plugins(props = this.props) {
 		return props.plugins || Core.defaultProps.plugins;
 	}
 
-
-	pluginHandler (name, ...args) {
-		for(let plugin of this.plugins()) {
+	pluginHandler(name, ...args) {
+		for (let plugin of this.plugins()) {
 			if (plugin[name]) {
 				let result = plugin[name](...args);
 				if (result) {
@@ -148,13 +152,12 @@ export default class Core extends React.Component {
 		}
 	}
 
-
-	initializePlugins (props = this.props) {
+	initializePlugins(props = this.props) {
 		const plugins = this.plugins(props);
 		const api = {
 			getAllowedFormats: () => this.getAllowedFormats(),
 			getEditorState: () => getEditorState(this.state),
-			setEditorState: (e) => this.onChange(e)
+			setEditorState: e => this.onChange(e),
 		};
 
 		for (let plugin of plugins) {
@@ -169,30 +172,28 @@ export default class Core extends React.Component {
 			.filter(x => x);
 
 		return !withDecorators.length
-			? void 0 : {decorator: new CompositeDecorator(withDecorators)};
+			? void 0
+			: { decorator: new CompositeDecorator(withDecorators) };
 	}
 
-
 	onBlur = () => {
-		const {onBlur} = this.props;
+		const { onBlur } = this.props;
 
 		this.blurredSelection = this.getSelection();
 
 		onBlur(this);
-	}
-
+	};
 
 	onFocus = () => {
-		const {onFocus} = this.props;
+		const { onFocus } = this.props;
 
 		onFocus(this);
-	}
-
+	};
 
 	onChange = (editorState, cb) => {
 		const finish = () => typeof cb === 'function' && cb();
 		const {
-			props: {onChange}
+			props: { onChange },
 		} = this;
 
 		for (let plugin of this.plugins()) {
@@ -207,39 +208,39 @@ export default class Core extends React.Component {
 			}
 		}
 
-		this.setState({editorState}, () => {
+		this.setState({ editorState }, () => {
 			finish();
 
 			onChange();
 		});
-	}
+	};
 
-
-	componentDidUpdate (prevProps) {
-		const {plugins, value} = this.props;
+	componentDidUpdate(prevProps) {
+		const { plugins, value } = this.props;
 		if (value !== prevProps.value) {
 			this.setupValue();
 		} else if (plugins !== prevProps.plugins) {
-			this.onChange(applyDecorators(
-				this.state.editorState,
-				this.initializePlugins()
-			));
+			this.onChange(
+				applyDecorators(
+					this.state.editorState,
+					this.initializePlugins()
+				)
+			);
 		}
 	}
 
-
-	setupValue (props = this.props) {
+	setupValue(props = this.props) {
 		//eslint-disable-next-line react/no-direct-mutation-state
-		const setState = s => this.state ? this.setState(s) : (this.state = s);
+		const setState = s =>
+			this.state ? this.setState(s) : (this.state = s);
 
 		setState({
 			editorState: applyDecorators(
 				getEditorStateFromValue(props.value),
 				this.initializePlugins(props)
-			)
+			),
 		});
 	}
-
 
 	getValue = () => {
 		const mapPlugins = this.plugins().filter(x => x.mapValue);
@@ -253,17 +254,22 @@ export default class Core extends React.Component {
 
 		const shouldHaveSensibleAmountOfValueFilters = getPlugins.length <= 1;
 
-		invariant(shouldHaveSensibleAmountOfValueFilters, 'More than one plugin defines getValue! '
-			+ 'If this is intended, make a high-order plugin that composes these to ensure value filter order.');
+		invariant(
+			shouldHaveSensibleAmountOfValueFilters,
+			'More than one plugin defines getValue! ' +
+				'If this is intended, make a high-order plugin that composes these to ensure value filter order.'
+		);
 
 		const [plugin] = getPlugins;
 		return plugin ? plugin.getValue(value) : value;
-	}
+	};
 
-
-	handleReturn = (e) => {
+	handleReturn = e => {
 		const keyCode = getKeyCode(e);
-		const {state: {editorState}, props:{customBindings}} = this;
+		const {
+			state: { editorState },
+			props: { customBindings },
+		} = this;
 
 		if (customBindings && customBindings[keyCode]) {
 			if (customBindings[keyCode](editorState)) {
@@ -275,19 +281,13 @@ export default class Core extends React.Component {
 		if (this.pluginHandler('handleReturn', e)) {
 			return true;
 		}
-	}
+	};
 
-
-	handleKeyCommand = (command) => {
+	handleKeyCommand = command => {
 		const {
-			state: {
-				editorState
-			},
-			props: {
-				handleKeyCommand,
-				customBindings
-			},
-			commandOverride: {[command]: override} = {}
+			state: { editorState },
+			props: { handleKeyCommand, customBindings },
+			commandOverride: { [command]: override } = {},
 		} = this;
 
 		delete this.commandOverride;
@@ -298,11 +298,17 @@ export default class Core extends React.Component {
 		}
 
 		//customBindings override.
-		const fn = customBindings && (customBindings[override] || customBindings[command]);
+		const fn =
+			customBindings &&
+			(customBindings[override] || customBindings[command]);
 		if (fn) {
 			if (typeof fn !== 'function') {
-				logger.warn('Binding for %s is not a function!', command, override);
-			} else if(fn(editorState)) {
+				logger.warn(
+					'Binding for %s is not a function!',
+					command,
+					override
+				);
+			} else if (fn(editorState)) {
 				return true;
 			}
 		}
@@ -319,21 +325,20 @@ export default class Core extends React.Component {
 			return true;
 		}
 		return false;
-	}
-
+	};
 
 	handlePastedText = (...args) => {
 		if (this.pluginHandler('handlePastedText', ...args)) {
 			return true;
 		}
-	}
+	};
 
-
-	keyBinding = (e) => {
+	keyBinding = e => {
 		const keyCode = getKeyCode(e);
-		const {keyBinding, customBindings} = this.props;
+		const { keyBinding, customBindings } = this.props;
 
-		const defaults = (() => this.pluginHandler('keyBinding', e) || getDefaultKeyBinding(e))();
+		const defaults = (() =>
+			this.pluginHandler('keyBinding', e) || getDefaultKeyBinding(e))();
 
 		if (keyBinding) {
 			let result = keyBinding(e);
@@ -342,18 +347,19 @@ export default class Core extends React.Component {
 			}
 		}
 
-
 		if (customBindings && customBindings[keyCode]) {
-			this.commandOverride = {[defaults]: keyCode};
+			this.commandOverride = { [defaults]: keyCode };
 		}
 
 		return defaults;
-	}
+	};
 
-
-	onTab = (e) => {
+	onTab = e => {
 		const keyCode = getKeyCode(e);
-		const {state: {editorState}, props:{customBindings}} = this;
+		const {
+			state: { editorState },
+			props: { customBindings },
+		} = this;
 
 		if (customBindings && customBindings[keyCode]) {
 			if (customBindings[keyCode](editorState)) {
@@ -373,24 +379,29 @@ export default class Core extends React.Component {
 		}
 
 		return false;
-	}
+	};
 
-
-	insertBlock (data, selection) {
+	insertBlock(data, selection) {
 		if (!data || !data.MimeType) {
-			throw new Error('Data must be an object and have a MimeType property');
+			throw new Error(
+				'Data must be an object and have a MimeType property'
+			);
 		}
-		const {editorState} = this.state;
+		const { editorState } = this.state;
 		const content = editorState.getCurrentContent();
 
-		const contentState = content.createEntity(data.MimeType, 'IMMUTABLE', data);
+		const contentState = content.createEntity(
+			data.MimeType,
+			'IMMUTABLE',
+			data
+		);
 		const entityKey = contentState.getLastCreatedEntityKey();
 
 		return this.onChange(
 			AtomicBlockUtils.insertAtomicBlock(
 				EditorState.set(editorState, {
 					currentContent: contentState,
-					selection: selection || editorState.getSelection()
+					selection: selection || editorState.getSelection(),
 				}),
 				entityKey,
 				' '
@@ -398,26 +409,31 @@ export default class Core extends React.Component {
 		);
 	}
 
+	removeBlock(dataOrKey) {
+		const { editorState } = this.state;
 
-	removeBlock (dataOrKey) {
-		const {editorState} = this.state;
-
-		function isBlockWithData (content, contentBlock) {
+		function isBlockWithData(content, contentBlock) {
 			const key = contentBlock.getEntityAt(0);
 			const entity = key && content.getEntity(key);
 			return entity && dataOrKey === entity.getData();
 		}
 
-		function remove (content, range) {
+		function remove(content, range) {
 			let result = Modifier.removeRange(content, range, 'backward');
-			result = Modifier.setBlockType(result, result.getSelectionAfter(), 'unstyled');
+			result = Modifier.setBlockType(
+				result,
+				result.getSelectionAfter(),
+				'unstyled'
+			);
 			return result;
 		}
 
-		const getBlock = (content) =>
+		const getBlock = content =>
 			typeof dataOrKey === 'string'
 				? content.getBlockForKey(dataOrKey)
-				: content.getBlocksAsArray().find(x => isBlockWithData(content, x));
+				: content
+						.getBlocksAsArray()
+						.find(x => isBlockWithData(content, x));
 
 		const content = editorState.getCurrentContent();
 		const block = getBlock(content);
@@ -436,119 +452,115 @@ export default class Core extends React.Component {
 			anchorKey: blockKey,
 			anchorOffset: 0,
 			focusKey,
-			focusOffset
+			focusOffset,
 		});
 
 		const newContent = remove(content, range);
-		logger.debug(newContent.getBlocksAsArray().map(x => (x.getKey() + ' ' + x.getType())));
+		logger.debug(
+			newContent
+				.getBlocksAsArray()
+				.map(x => x.getKey() + ' ' + x.getType())
+		);
 
-		const newState = EditorState.push(editorState, newContent, 'remove-range');
+		const newState = EditorState.push(
+			editorState,
+			newContent,
+			'remove-range'
+		);
 		this.onChange(
-			EditorState.forceSelection(
-				newState,
-				newContent.getSelectionAfter()
-			)
+			EditorState.forceSelection(newState, newContent.getSelectionAfter())
 		);
 	}
 
-
-	toggleBlockType = (blockType) => {
+	toggleBlockType = blockType => {
 		this.onChange(
-			RichUtils.toggleBlockType(
-				this.state.editorState,
-				blockType
-			)
+			RichUtils.toggleBlockType(this.state.editorState, blockType)
 		);
-	}
-
+	};
 
 	toggleInlineStyle = (format, reclaimFocus) => {
 		logger.log(format);
-		const afterApply = reclaimFocus ? ()=> this.focus() : void 0;
+		const afterApply = reclaimFocus ? () => this.focus() : void 0;
 		this.onChange(
-			RichUtils.toggleInlineStyle(
-				this.state.editorState,
-				format
-			),
+			RichUtils.toggleInlineStyle(this.state.editorState, format),
 			afterApply
 		);
-	}
+	};
 
-
-	getBlockStyle (block) {
+	getBlockStyle(block) {
 		const blocks = {
-			blockquote: 'DraftEditor-blockquote'
+			blockquote: 'DraftEditor-blockquote',
 		};
 		return blocks[block.getType()] || null;
 	}
 
-
-	markBusy () {
+	markBusy() {
 		if (this.state.busy) {
 			throw new Error('Already Busy');
 		}
-		this.setState({busy: true});
+		this.setState({ busy: true });
 	}
 
-
-	clearBusy () {
-		this.setState({busy: false});
+	clearBusy() {
+		this.setState({ busy: false });
 	}
 
-
-	renderBlock = (block) => {
-		const {getCustomBlockType} = this.props;
+	renderBlock = block => {
+		const { getCustomBlockType } = this.props;
 		if (getCustomBlockType && block.getType() === 'atomic') {
 			return {
 				component: Block,
 				editable: false,
 				props: {
-					getCustomBlockType
-				}
+					getCustomBlockType,
+				},
 			};
 		}
 
 		return null;
-	}
+	};
 
-
-	render () {
+	render() {
 		const {
-			props: {
-				children,
-				className,
-				placeholder,
-				toolbars
-			},
-			state: {
-				editorState,
-				busy
-			}
+			props: { children, className, placeholder, toolbars },
+			state: { editorState, busy },
 		} = this;
 
 		const basicView = React.Children.count(children) === 0; // if no custom children, show default toolbars
 
 		// Hide the placeholder if the user changes block type before entering any text
 		const contentState = editorState.getCurrentContent();
-		const hidePlaceholder = !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
+		const hidePlaceholder =
+			!contentState.hasText() &&
+			contentState.getBlockMap().first().getType() !== 'unstyled';
 
 		const builtInToolbars = toolbars === true;
-		const customToolbars = toolbars !== true && toolbars !== false && toolbars;
+		const customToolbars =
+			toolbars !== true && toolbars !== false && toolbars;
 
 		return (
-			<CoreContextProvider editor={this} ref={this.attachContextRef} internal>
-				<div onClick={this.focus} className={cx(
-					'nti-rich-text',
-					className,
-					{
+			<CoreContextProvider
+				editor={this}
+				ref={this.attachContextRef}
+				internal
+			>
+				<div
+					onClick={this.focus}
+					className={cx('nti-rich-text', className, {
 						busy,
-						'auto-hyphenate': UserAgent.isBrowser('Firefox'),// || UserAgent.isBrowser('IE')
-						'hide-placeholder': hidePlaceholder
-					}
-				)}>
-					{builtInToolbars && ( <Toolbar region={REGIONS.NORTH}>{children}</Toolbar> )}
-					{builtInToolbars && ( <Toolbar region={REGIONS.EAST}>{children}</Toolbar> )}
-					{builtInToolbars && ( <Toolbar region={REGIONS.WEST}>{children}</Toolbar> )}
+						'auto-hyphenate': UserAgent.isBrowser('Firefox'), // || UserAgent.isBrowser('IE')
+						'hide-placeholder': hidePlaceholder,
+					})}
+				>
+					{builtInToolbars && (
+						<Toolbar region={REGIONS.NORTH}>{children}</Toolbar>
+					)}
+					{builtInToolbars && (
+						<Toolbar region={REGIONS.EAST}>{children}</Toolbar>
+					)}
+					{builtInToolbars && (
+						<Toolbar region={REGIONS.WEST}>{children}</Toolbar>
+					)}
 					{customToolbars}
 					<Editor
 						blockStyleFn={this.getBlockStyle}
@@ -567,7 +579,11 @@ export default class Core extends React.Component {
 						ref={this.attachEditorRef}
 						spellCheck
 					/>
-					{builtInToolbars && ( <Toolbar region={REGIONS.SOUTH} defaultSet={basicView}>{children}</Toolbar> )}
+					{builtInToolbars && (
+						<Toolbar region={REGIONS.SOUTH} defaultSet={basicView}>
+							{children}
+						</Toolbar>
+					)}
 				</div>
 			</CoreContextProvider>
 		);

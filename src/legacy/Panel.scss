@@ -1,9 +1,10 @@
-
 .modeled-content {
-	&, div, * {
+	&,
+	div,
+	* {
 		white-space: pre-wrap;
-		word-wrap: break-word;      // IE
-		word-break: break-word;     // WEBKIT
+		word-wrap: break-word; // IE
+		word-break: break-word; // WEBKIT
 	}
 
 	cursor: text;
@@ -16,11 +17,13 @@
 		}
 	}
 
-	em, em strong {
+	em,
+	em strong {
 		font-style: italic;
 	}
 
-	strong, strong em {
+	strong,
+	strong em {
 		font-weight: bold;
 	}
 
@@ -49,7 +52,9 @@
 					width: 100%;
 					height: 100%;
 					margin: 0;
-					label { font-size: 0.5rem; }
+					label {
+						font-size: 0.5rem;
+					}
 				}
 			}
 

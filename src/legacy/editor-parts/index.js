@@ -3,19 +3,11 @@ import FileAttachmentIcon from './FileAttachmentIcon';
 import VideoIcon from './VideoIcon';
 import WhiteboardIcon from './WhiteboardIcon';
 
-const Icons = [
-	FileAttachmentIcon,
-	VideoIcon,
-	WhiteboardIcon
-];
+const Icons = [FileAttachmentIcon, VideoIcon, WhiteboardIcon];
 
-export {
-	FileAttachmentIcon,
-	VideoIcon,
-	WhiteboardIcon
-};
+export { FileAttachmentIcon, VideoIcon, WhiteboardIcon };
 
-export default function selectIcon (data) {
+export default function selectIcon(data) {
 	let result = Unknown;
 
 	for (let Type of Icons) {

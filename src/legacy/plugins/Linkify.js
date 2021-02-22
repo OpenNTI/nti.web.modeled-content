@@ -7,27 +7,32 @@ import Plugin from './Plugin';
 
 const linkify = linkifyIt();
 
-export function isExternalLink (link) {
+export function isExternalLink(link) {
 	return link.schema === 'https:' || link.schema === 'http:';
 }
 
-export function makeAnchorForLink (link) {
-	const {url} = link;
+export function makeAnchorForLink(link) {
+	const { url } = link;
 
 	return `<a href="${url}">${url}</a>`;
 }
 
-export function wrapLinks (block) {
+export function wrapLinks(block) {
 	const links = linkify.match(block) || [];
 
-	if (!links || !links.length) { return block; }
+	if (!links || !links.length) {
+		return block;
+	}
 
 	let lastIndex = 0;
 	let newBlock = '';
 
 	for (let link of links) {
 		if (isExternalLink(link)) {
-			newBlock = newBlock + block.substring(lastIndex, link.index) + makeAnchorForLink(link);
+			newBlock =
+				newBlock +
+				block.substring(lastIndex, link.index) +
+				makeAnchorForLink(link);
 			lastIndex = link.lastIndex;
 		}
 	}
@@ -38,9 +43,9 @@ export function wrapLinks (block) {
 }
 
 export default class Linkify extends Plugin {
-	getDecorator () {
+	getDecorator() {
 		return {
-			strategy (contentBlock, callback) {
+			strategy(contentBlock, callback) {
 				//TODO: check that the link isn't already wrapped in an anchor tag
 				const links = linkify.match(contentBlock.get('text')) || [];
 
@@ -50,7 +55,7 @@ export default class Linkify extends Plugin {
 					}
 				}
 			},
-			component: Anchor
+			component: Anchor,
 		};
 	}
 
@@ -65,25 +70,19 @@ export default class Linkify extends Plugin {
 	 * @param  {Array} blocks the editor state
 	 * @returns {Array}        the blocks with their links wrapped
 	 */
-	mapValue (blocks) {
+	mapValue(blocks) {
 		return blocks.map(wrapLinks);
 	}
 }
 
-
 Anchor.propTypes = {
 	decoratedText: PropTypes.string,
 	className: PropTypes.string,
-	children: PropTypes.any
+	children: PropTypes.any,
 };
 
-function Anchor (props) {
-	const {
-		decoratedText = '',
-		className,
-		children,
-		...otherProps
-	} = props;
+function Anchor(props) {
+	const { decoratedText = '', className, children, ...otherProps } = props;
 
 	const links = linkify.match(decoratedText);
 	const href = links && links[0] ? links[0].url : '';

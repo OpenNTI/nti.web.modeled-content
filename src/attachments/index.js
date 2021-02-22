@@ -5,7 +5,7 @@ import * as File from './file';
 import * as LinkPreview from './link-preview';
 import * as Video from './video';
 import * as Whiteboard from './whiteboard';
-import {getHandlesBlock} from './utils';
+import { getHandlesBlock } from './utils';
 import EditorBlock from './common/EditorBlock';
 
 const Types = [File, Video, Whiteboard, LinkPreview];
@@ -23,7 +23,7 @@ export const EditorCustomRenderers = Types.reduce((acc, type) => {
 		acc.push({
 			editable: false,
 			handlesBlock: getHandlesBlock(type.Handles),
-			component: type.Editor
+			component: type.Editor,
 		});
 	}
 
@@ -33,17 +33,17 @@ export const EditorCustomRenderers = Types.reduce((acc, type) => {
 export const EditorCustomStyles = Types.reduce((acc, type) => {
 	acc.push({
 		handlesBlock: getHandlesBlock(type.Handles),
-		className: cx(EditorBlock.renderStyleClass, type.className)
+		className: cx(EditorBlock.renderStyleClass, type.className),
 	});
 
 	return acc;
 }, []);
 
 export const WidgetStrategies = Types.reduce((acc, type) => {
-	function WidgetStrategy (_, properties) {
-		const {widget, ...props} = properties;
+	function WidgetStrategy(_, properties) {
+		const { widget, ...props } = properties;
 
-		return React.createElement(type.View, {attachment: widget, ...props});
+		return React.createElement(type.View, { attachment: widget, ...props });
 	}
 
 	acc[type.Handles] = WidgetStrategy;

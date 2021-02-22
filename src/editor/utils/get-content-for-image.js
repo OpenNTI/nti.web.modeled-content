@@ -1,6 +1,6 @@
-import {Utils} from '@nti/lib-whiteboard';
+import { Utils } from '@nti/lib-whiteboard';
 
-export default async function getContentForImage (img) {
+export default async function getContentForImage(img) {
 	try {
 		const data = await Utils.createFromImage(img);
 

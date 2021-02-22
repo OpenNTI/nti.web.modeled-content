@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ContextProvider} from '@nti/web-editor';
+import { ContextProvider } from '@nti/web-editor';
 
 const Context = React.createContext();
 
 EditorProvider.propTypes = {
-	children: PropTypes.any
+	children: PropTypes.any,
 };
-function EditorProvider ({children}) {
+function EditorProvider({ children }) {
 	const editorContext = React.useContext(Context);
 
 	return (
@@ -21,13 +21,13 @@ EditorContextProvider.EditorProvider = EditorProvider;
 EditorContextProvider.useEditorContext = () => ContextProvider.useContext();
 EditorContextProvider.useContext = () => React.useContext(Context);
 EditorContextProvider.propTypes = {
-	children: PropTypes.any
+	children: PropTypes.any,
 };
-export default function EditorContextProvider ({children}) {
+export default function EditorContextProvider({ children }) {
 	const [editor, setEditorInstance] = React.useState(null);
 
 	return (
-		<Context.Provider value={{setEditorInstance, editor}}>
+		<Context.Provider value={{ setEditorInstance, editor }}>
 			{children}
 		</Context.Provider>
 	);

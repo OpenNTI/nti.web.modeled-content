@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function useAttachmentURL (attachment) {
+export function useAttachmentURL(attachment) {
 	const [url, setURL] = React.useState(null);
 
 	React.useEffect(() => {

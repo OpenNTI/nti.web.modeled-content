@@ -1,7 +1,7 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .modeled-content-editor .button.insert-file-attachment {
-	input[type=file] {
+	input[type='file'] {
 		position: absolute;
 		cursor: pointer;
 		right: 0;
@@ -21,7 +21,8 @@
 			display: block;
 		}
 
-		&:active, &:focus {
+		&:active,
+		&:focus {
 			& + .button {
 				background-color: var(--panel-background-alt);
 				background-image: url(./assets/file_active.png);

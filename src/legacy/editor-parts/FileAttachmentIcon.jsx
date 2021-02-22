@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import filesize from 'filesize';
-import {URL} from '@nti/lib-dom';
-import {AssetIcon} from '@nti/web-commons';
+import { URL } from '@nti/lib-dom';
+import { AssetIcon } from '@nti/web-commons';
 
 const consume = e => e.stopPropagation();
-
 
 /*
  * File Ref from Server:
@@ -39,45 +38,43 @@ const consume = e => e.stopPropagation();
  */
 
 export default class FileAttachment extends React.Component {
-
 	static propTypes = {
 		data: PropTypes.object.isRequired,
-		blockKey: PropTypes.string
-	}
+		blockKey: PropTypes.string,
+	};
 
 	static contextTypes = {
 		editor: PropTypes.object,
-		viewFileAttachment: PropTypes.func
+		viewFileAttachment: PropTypes.func,
+	};
+
+	static handles(data) {
+		return (
+			data && data.MimeType === 'application/vnd.nextthought.contentfile'
+		);
 	}
 
-	static handles (data) {
-		return data && data.MimeType === 'application/vnd.nextthought.contentfile';
-	}
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.setupIconImage(props);
 		this.onView = this.onView.bind(this);
 		this.onRemove = this.onRemove.bind(this);
 	}
 
-
-	componentDidUpdate (prevProps) {
+	componentDidUpdate(prevProps) {
 		if (prevProps.data !== this.props.data) {
 			this.setupIconImage();
 		}
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.freeIcon();
 	}
 
-
-	freeIcon () {
+	freeIcon() {
 		const {
-			props: {data: {url} = {}},
-			state: {backgroundImage: allocated} = {}
+			props: { data: { url } = {} },
+			state: { backgroundImage: allocated } = {},
 		} = this;
 
 		if (allocated && allocated !== url) {
@@ -85,9 +82,8 @@ export default class FileAttachment extends React.Component {
 		}
 	}
 
-
-	setupIconImage (props = this.props) {
-		const {file, url} = props.data;
+	setupIconImage(props = this.props) {
+		const { file, url } = props.data;
 		let backgroundImage = url;
 
 		this.freeIcon();
@@ -98,87 +94,111 @@ export default class FileAttachment extends React.Component {
 
 		if (!this.state) {
 			//eslint-disable-next-line react/no-direct-mutation-state
-			this.state = {backgroundImage};
+			this.state = { backgroundImage };
 		} else {
-			this.setState({backgroundImage});
+			this.setState({ backgroundImage });
 		}
 	}
 
-
-	getValue () {
+	getValue() {
 		return this.props.data;
 	}
 
-
-	isImage (props = this.props) {
-		return (/image/.test(props.data.FileMimeType));
+	isImage(props = this.props) {
+		return /image/.test(props.data.FileMimeType);
 	}
 
-
-	getBackgroundImage () {
+	getBackgroundImage() {
 		const {
-			props: {data: {url} = {}},
-			state: {backgroundImage}
+			props: { data: { url } = {} },
+			state: { backgroundImage },
 		} = this;
 
 		const value = backgroundImage || url;
 
-		return (this.isImage() && value) ? {backgroundImage: `url(${value})`} : void 0;
+		return this.isImage() && value
+			? { backgroundImage: `url(${value})` }
+			: void 0;
 	}
 
-
-
-	onView (e) {
+	onView(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		const {viewFileAttachment} = this.context;
+		const { viewFileAttachment } = this.context;
 		if (viewFileAttachment) {
 			viewFileAttachment(this.getValue());
 		}
 	}
 
-
-	onRemove (e) {
+	onRemove(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		const {context: {editor}, props: {blockKey, data}} = this;
+		const {
+			context: { editor },
+			props: { blockKey, data },
+		} = this;
 		editor.removeBlock(blockKey || data);
 	}
 
-
-	render () {
+	render() {
 		const {
-			context: {
-				editor
-			},
+			context: { editor },
 			props: {
 				data: {
 					FileMimeType,
 					filename,
 					size,
 					download_url: download,
-					url
-				} = {}
-			}
+					url,
+				} = {},
+			},
 		} = this;
 
 		const inEditor = !!editor;
 		const image = this.isImage();
 
 		return (
-			<object contentEditable={false} className="body-divider file" unselectable="on">
-				<div className="file-icon" unselectable="on" onClick={this.onView}>
-					<div className={cx('icon-container', {image})} style={this.getBackgroundImage()}>
+			<object
+				contentEditable={false}
+				className="body-divider file"
+				unselectable="on"
+			>
+				<div
+					className="file-icon"
+					unselectable="on"
+					onClick={this.onView}
+				>
+					<div
+						className={cx('icon-container', { image })}
+						style={this.getBackgroundImage()}
+					>
 						{!image && (
-							<AssetIcon mimeType={FileMimeType} href={url || filename}/>
+							<AssetIcon
+								mimeType={FileMimeType}
+								href={url || filename}
+							/>
 						)}
 					</div>
 					<div className="meta">
 						<h4 className="filename">{filename}</h4>
 						<div className="details">
 							<span className="size">{filesize(size || 0)}</span>
-							{!inEditor && download && ( <a href={download} onClick={consume} download target="_blank" rel="noopener noreferrer">Download</a> )}
-							{inEditor && ( <a href="#" onClick={this.onRemove}>Remove</a> )}
+							{!inEditor && download && (
+								<a
+									href={download}
+									onClick={consume}
+									download
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Download
+								</a>
+							)}
+							{inEditor && (
+								<a href="#" onClick={this.onRemove}>
+									Remove
+								</a>
+							)}
 						</div>
 					</div>
 				</div>

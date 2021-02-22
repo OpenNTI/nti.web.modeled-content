@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import htmlToReactRenderer from 'html-reactifier';
-import {scoped} from '@nti/lib-locale';
-import {Text, Hooks} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Text, Hooks } from '@nti/web-commons';
 
 import Styles from './TextPreview.css';
-import {getTextOnlyContent, getAttachmentCounts} from './utils';
+import { getTextOnlyContent, getAttachmentCounts } from './utils';
 
-const {useResolver} = Hooks;
-const {isErrored, isResolved} = useResolver;
+const { useResolver } = Hooks;
+const { isErrored, isResolved } = useResolver;
 
 const cx = classnames.bind(Styles);
 const t = scoped('modeled-content.viewer.TextPreview', {
@@ -17,28 +17,28 @@ const t = scoped('modeled-content.viewer.TextPreview', {
 	attachmentLabels: {
 		'application/vnd.nextthought.canvas': {
 			one: '%(count)s Image',
-			other: '%(counts) Images'
+			other: '%(counts) Images',
 		},
 		'application/vnd.nextthought.embeddedvideo': {
 			one: '%(count)s Video',
-			other: '%(count)s Videos'
+			other: '%(count)s Videos',
 		},
 		'application/vnd.nextthought.contentfile': {
 			one: '%(count)s File',
-			other: '%(count)s Files'
+			other: '%(count)s Files',
 		},
-		'mixed': {
+		mixed: {
 			one: '%(count)s Attachment',
-			other: '%(count)s Attachments'
-		}
-	}
+			other: '%(count)s Attachments',
+		},
+	},
 });
 
-function getTextPreview (text) {
+function getTextPreview(text) {
 	return htmlToReactRenderer(text);
 }
 
-function getAttachmentPreview (attachmentCounts) {
+function getAttachmentPreview(attachmentCounts) {
 	const keys = Object.keys(attachmentCounts);
 
 	if (keys.length === 1) {
@@ -46,33 +46,41 @@ function getAttachmentPreview (attachmentCounts) {
 		const localeKey = `attachmentLabels.${type}`;
 
 		if (!t.isMissing(localeKey)) {
-			return t(localeKey, {count: attachmentCounts[type]});
+			return t(localeKey, { count: attachmentCounts[type] });
 		}
 	}
 
 	const count = keys.reduce((acc, key) => acc + attachmentCounts[key], 0);
 
-	return t('attachmentLabels.mixed', {count});
+	return t('attachmentLabels.mixed', { count });
 }
-
 
 ModeledContentTextPreview.propTypes = {
 	className: PropTypes.string,
 	content: PropTypes.array,
-	strategies: PropTypes.object
+	strategies: PropTypes.object,
 };
-export default function ModeledContentTextPreview ({className, content, strategies, ...otherProps}) {
+export default function ModeledContentTextPreview({
+	className,
+	content,
+	strategies,
+	...otherProps
+}) {
 	const parsedResolver = useResolver(async () => {
-		if (!content.length) { throw new Error('No Body Content'); }
+		if (!content.length) {
+			throw new Error('No Body Content');
+		}
 
 		const text = await getTextOnlyContent(content, strategies);
 		const attachmentCounts = getAttachmentCounts(content, strategies);
 
-		const preview = text ? getTextPreview(text) : getAttachmentPreview(attachmentCounts);
+		const preview = text
+			? getTextPreview(text)
+			: getAttachmentPreview(attachmentCounts);
 
 		return {
 			hasText: Boolean(text),
-			preview
+			preview,
 		};
 	}, [content, strategies]);
 
@@ -92,7 +100,10 @@ export default function ModeledContentTextPreview ({className, content, strategi
 
 	return (
 		<Text.Base
-			className={cx('modeled-content-text-preview', className, {error, attachments})}
+			className={cx('modeled-content-text-preview', className, {
+				error,
+				attachments,
+			})}
 			{...otherProps}
 		>
 			{preview}

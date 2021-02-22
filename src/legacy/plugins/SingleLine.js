@@ -1,11 +1,9 @@
-import {ContentState, EditorState, Modifier, convertFromHTML} from 'draft-js';
+import { ContentState, EditorState, Modifier, convertFromHTML } from 'draft-js';
 
 import Plugin from './Plugin';
 
-
 export default class SingleLine extends Plugin {
-
-	handlePastedText (text, html) {
+	handlePastedText(text, html) {
 		//TODO: We need to handle the paste. Returning true tells the editor we handled the event.
 		// We need to take the (html || text) value and parse it into ContentBlocks and then merge
 		// them into one block (inserting spaces between)... then finally calling
@@ -14,7 +12,8 @@ export default class SingleLine extends Plugin {
 		const editorState = this.getEditorState();
 		const blocks = convertFromHTML(html || text);
 
-		if (blocks.length <= 1) { //let draft do its thing.
+		if (blocks.length <= 1) {
+			//let draft do its thing.
 			return;
 		}
 
@@ -29,19 +28,15 @@ export default class SingleLine extends Plugin {
 			ContentState.createFromBlockArray([blocks[0]]).getBlockMap()
 		);
 
-		this.setEditorState(EditorState.push(
-			editorState,
-			newContent,
-			'insert-fragment'
-		));
+		this.setEditorState(
+			EditorState.push(editorState, newContent, 'insert-fragment')
+		);
 
 		return true;
 	}
 
-
-	handleReturn () {
+	handleReturn() {
 		//Block enters from being typed.
 		return true;
 	}
-
 }

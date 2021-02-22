@@ -1,13 +1,11 @@
-import {EditorState, Modifier, SelectionState} from 'draft-js';
+import { EditorState, Modifier, SelectionState } from 'draft-js';
 
-import {stripTags} from '../utils';
+import { stripTags } from '../utils';
 
 import Plugin from './Plugin';
 
-
 export default class PlainText extends Plugin {
-
-	initialize (...args) {
+	initialize(...args) {
 		super.initialize(...args);
 		this.getAllowedFormats().clear();
 	}
@@ -18,7 +16,7 @@ export default class PlainText extends Plugin {
 	 * @param  {EditorState} newState a new EditorState from a change event.
 	 * @returns {EditorState}          a new EditorState with filtered ContentState. (inline styles and block styles removed)
 	 */
-	onChange (newState) {
+	onChange(newState) {
 		let content = newState.getCurrentContent();
 		const originalContent = content;
 
@@ -28,12 +26,15 @@ export default class PlainText extends Plugin {
 				anchorKey: blockKey,
 				anchorOffset: 0,
 				focusKey: blockKey,
-				focusOffset: block.getLength()
+				focusOffset: block.getLength(),
 			});
 
 			//Find and gather all the active inline styles...
 			let styles = new Set();
-			block.findStyleRanges(x => styles = new Set([...styles, ...x.getStyle()]), () => {});
+			block.findStyleRanges(
+				x => (styles = new Set([...styles, ...x.getStyle()])),
+				() => {}
+			);
 			for (let style of styles) {
 				//now remove all the inline styles...
 				content = Modifier.removeInlineStyle(content, range, style);
@@ -58,7 +59,7 @@ export default class PlainText extends Plugin {
 			currentContent: content,
 			allowUndo: newState.getAllowUndo(),
 			decorator: newState.getDecorator(),
-			selection: newState.getSelection()
+			selection: newState.getSelection(),
 		});
 	}
 
@@ -67,8 +68,7 @@ export default class PlainText extends Plugin {
 	 * @param  {[string]} blocks the value from the editor
 	 * @returns {[string]}        [description]
 	 */
-	mapValue (blocks) {
+	mapValue(blocks) {
 		return blocks.map(stripTags);
 	}
-
 }

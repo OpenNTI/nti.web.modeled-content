@@ -1,33 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Loading} from '@nti/web-commons';
-import {Editor, Plugins, BLOCK_SET, STYLES} from '@nti/web-editor';
+import { Loading } from '@nti/web-commons';
+import { Editor, Plugins, BLOCK_SET, STYLES } from '@nti/web-editor';
 
-import {EditorCustomRenderers, EditorCustomStyles, getDataForFiles, getDataForLink} from '../attachments';
+import {
+	EditorCustomRenderers,
+	EditorCustomStyles,
+	getDataForFiles,
+	getDataForLink,
+} from '../attachments';
 
 import * as Buttons from './buttons';
 import ContextProvider from './ContextProvider';
-import {getContentForImage} from './utils';
-import {toDraftState, fromDraftState} from './Parser';
+import { getContentForImage } from './utils';
+import { toDraftState, fromDraftState } from './Parser';
 
-const getEditorPlugins = () => ([
-	Plugins.LimitBlockTypes.create({allow: BLOCK_SET}),
-	Plugins.LimitStyles.create({allow: new Set([STYLES.BOLD, STYLES.ITALIC, STYLES.UNDERLINE])}),
+const getEditorPlugins = () => [
+	Plugins.LimitBlockTypes.create({ allow: BLOCK_SET }),
+	Plugins.LimitStyles.create({
+		allow: new Set([STYLES.BOLD, STYLES.ITALIC, STYLES.UNDERLINE]),
+	}),
 
 	Plugins.Links.AutoLink.create(),
 	Plugins.Links.CustomLinks.create(),
-	Plugins.Links.InsertPreview.create({getDataForLink}),
+	Plugins.Links.InsertPreview.create({ getDataForLink }),
 
 	Plugins.FormatPasted.create({}),
-	Plugins.HandleFiles.create({getAtomicBlockData: getDataForFiles}),
+	Plugins.HandleFiles.create({ getAtomicBlockData: getDataForFiles }),
 
 	Plugins.InsertBlock.create(),
-	Plugins.CustomBlocks.create({customRenderers: EditorCustomRenderers, customStyles: EditorCustomStyles}),
+	Plugins.CustomBlocks.create({
+		customRenderers: EditorCustomRenderers,
+		customStyles: EditorCustomStyles,
+	}),
 
 	Plugins.KeepFocusInView.create(),
-	Plugins.ContiguousEntities.create()
-]);
+	Plugins.ContiguousEntities.create(),
+];
 
 ModeledContentEditor.getContentForImage = getContentForImage;
 ModeledContentEditor.toDraftState = toDraftState;
@@ -38,20 +48,20 @@ ModeledContentEditor.ContextProvider = ContextProvider;
 ModeledContentEditor.propTypes = {
 	className: PropTypes.string,
 	content: PropTypes.arrayOf(
-		PropTypes.oneOfType([
-			PropTypes.string,
-			PropTypes.object
-		])
+		PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 	),
 
 	onContentChange: PropTypes.func,
 
-	taggingStrategies: PropTypes.oneOfType([
-		PropTypes.object,
-		PropTypes.array
-	])
+	taggingStrategies: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
-export default function ModeledContentEditor ({className, content, onContentChange:onContentChangeProp, taggingStrategies, ...otherProps}) {
+export default function ModeledContentEditor({
+	className,
+	content,
+	onContentChange: onContentChangeProp,
+	taggingStrategies,
+	...otherProps
+}) {
 	const editorContext = ContextProvider.useContext();
 
 	const contentRef = React.useRef(null);
@@ -59,7 +69,7 @@ export default function ModeledContentEditor ({className, content, onContentChan
 	const [plugins, setPlugins] = React.useState(null);
 	const settingUp = !editorState || !plugins;
 
-	const addEditorRef = (editor) => {
+	const addEditorRef = editor => {
 		editorContext?.setEditorInstance(editor);
 	};
 
@@ -73,27 +83,29 @@ export default function ModeledContentEditor ({className, content, onContentChan
 		if (taggingStrategies) {
 			setPlugins([
 				Plugins.Tagging.create(taggingStrategies),
-				...getEditorPlugins()
+				...getEditorPlugins(),
 			]);
 		} else {
 			setPlugins(getEditorPlugins);
 		}
 	}, [taggingStrategies]);
 
-	const onContentChange = (newEditorState) => {
+	const onContentChange = newEditorState => {
 		const newContent = fromDraftState(newEditorState);
 
 		contentRef.current = newContent;
 		onContentChangeProp?.(
 			newContent,
-			taggingStrategies ? Plugins.Tagging.getAllTags(taggingStrategies, newEditorState) : null,
+			taggingStrategies
+				? Plugins.Tagging.getAllTags(taggingStrategies, newEditorState)
+				: null,
 			newEditorState
 		);
 	};
 
 	return (
 		<div className={cx('mc-editor-wrapper', className)}>
-			{settingUp && (<Loading.Spinner />)}
+			{settingUp && <Loading.Spinner />}
 			{!settingUp && (
 				<Editor
 					ref={addEditorRef}

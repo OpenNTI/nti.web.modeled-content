@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getAtomicBlockData} from '@nti/web-editor';
+import { getAtomicBlockData } from '@nti/web-editor';
 
 import EditorBlock from '../common/EditorBlock';
 
@@ -10,11 +10,11 @@ FileAttachmentEditor.propTypes = {
 	block: PropTypes.object,
 	blockProps: PropTypes.shape({
 		editorState: PropTypes.object,
-		removeBlock: PropTypes.func
-	})
+		removeBlock: PropTypes.func,
+	}),
 };
-export default function FileAttachmentEditor ({block, blockProps}) {
-	const {editorState, removeBlock} = blockProps;
+export default function FileAttachmentEditor({ block, blockProps }) {
+	const { editorState, removeBlock } = blockProps;
 	const data = getAtomicBlockData(block, editorState);
 
 	return (

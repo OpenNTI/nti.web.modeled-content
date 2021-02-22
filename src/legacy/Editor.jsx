@@ -5,18 +5,17 @@ import cx from 'classnames';
 
 import getPartType from './editor-parts';
 import Core from './Core';
-import {REGIONS} from './Toolbar';
+import { REGIONS } from './Toolbar';
 import ToolbarSection from './ToolbarSection';
-import FormatButton, {Formats} from './FormatButton';
+import FormatButton, { Formats } from './FormatButton';
 import InsertImageButton from './InsertImageButton';
 import InsertVideoButton from './InsertVideoButton';
 import InsertFileAttachment from './InsertFileAttachment';
-import {isEmpty} from './utils';
+import { isEmpty } from './utils';
 
-const {SOUTH} = REGIONS;
+const { SOUTH } = REGIONS;
 
 export default class Editor extends React.Component {
-
 	static propTypes = {
 		children: PropTypes.any,
 		className: PropTypes.string,
@@ -36,34 +35,36 @@ export default class Editor extends React.Component {
 		 * @type {String|Array[String|Object]}
 		 */
 		initialValue: PropTypes.oneOfType([
-
 			PropTypes.string,
 
 			PropTypes.arrayOf(
 				PropTypes.oneOfType([
 					PropTypes.string,
 					PropTypes.shape({
-						MimeType: PropTypes.string
-					})
-				]))
+						MimeType: PropTypes.string,
+					}),
+				])
+			),
 		]),
 
 		placeholder: PropTypes.string,
 
-		value: function deprecated (o, k) { if (o[k]) { return new Error('Deprecated/Ignored, use "initialValue"'); } }
-	}
-
+		value: function deprecated(o, k) {
+			if (o[k]) {
+				return new Error('Deprecated/Ignored, use "initialValue"');
+			}
+		},
+	};
 
 	static defaultProps = {
 		allowInsertFile: false,
 		allowInsertImage: true,
 		allowInsertVideo: false,
-		onBlur () {},
-		onFocus () {}
-	}
+		onBlur() {},
+		onFocus() {},
+	};
 
-
-	static isEmpty (html) {
+	static isEmpty(html) {
 		return isEmpty(html);
 	}
 
@@ -77,72 +78,67 @@ export default class Editor extends React.Component {
 	 * @note: We can typically ignore the superfluous wrapper tags, but
 	 * this will do its best to handle them.
 	 */
-	getValue () {
-		const {editor} = this;
+	getValue() {
+		const { editor } = this;
 		return editor && editor.getValue();
 	}
 
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.setupValue(props);
 	}
 
+	attachEditorRef = ref => (this.editor = ref);
 
-	attachEditorRef = ref => this.editor = ref
-
-
-	logState = () => this.editor.logState()
-
+	logState = () => this.editor.logState();
 
 	onBlur = () => {
 		this.props.onBlur(this);
-	}
-
+	};
 
 	onFocus = () => {
 		this.props.onFocus(this);
-	}
+	};
 
-	focus () {
+	focus() {
 		this.editor.focus();
 	}
 
-
 	focusToEnd = () => {
 		this.editor.focusToEnd();
-	}
+	};
 
-
-	componentDidMount () {
+	componentDidMount() {
 		if (this.markFirstRender) {
 			this.markFirstRender();
 		}
 	}
 
-
-	componentDidUpdate (prevProps) {
+	componentDidUpdate(prevProps) {
 		if (this.props.initialValue !== prevProps.initialValue) {
 			this.setupValue();
 		}
 	}
 
-
-	setupValue (props = this.props) {
-		const {initialValue: value} = props;
+	setupValue(props = this.props) {
+		const { initialValue: value } = props;
 
 		this.pendingSetup = new Promise(done => {
-			const setState = o => this.state
-				? this.setState(o, done)
-				//eslint-disable-next-line react/no-direct-mutation-state
-				: (this.state = o);
+			const setState = o =>
+				this.state
+					? this.setState(o, done)
+					: //eslint-disable-next-line react/no-direct-mutation-state
+					  (this.state = o);
 
 			if (!this.state) {
-				this.markFirstRender = () => {delete this.markFirstRender; done(); };
+				this.markFirstRender = () => {
+					delete this.markFirstRender;
+					done();
+				};
 			}
 
 			if (!value) {
-				return setState({value: void 0});
+				return setState({ value: void 0 });
 			}
 
 			let out = value;
@@ -151,13 +147,12 @@ export default class Editor extends React.Component {
 			}
 
 			setState({
-				value: out
+				value: out,
 			});
 		});
 	}
 
-
-	render () {
+	render() {
 		const {
 			props: {
 				allowInsertFile,
@@ -167,15 +162,15 @@ export default class Editor extends React.Component {
 				children,
 				customBindings,
 				plugins,
-				placeholder
+				placeholder,
 			},
-			state: {
-				value
-			}
+			state: { value },
 		} = this;
 
 		return (
-			<Core className={cx('modeled-content-editor', className)} value={value}
+			<Core
+				className={cx('modeled-content-editor', className)}
+				value={value}
 				customBindings={customBindings}
 				getCustomBlockType={getPartType}
 				onChange={this.props.onChange}
@@ -185,20 +180,20 @@ export default class Editor extends React.Component {
 				placeholder={placeholder}
 				plugins={plugins}
 			>
-				<FormatButton format={Formats.BOLD} region={SOUTH}/>
-				<FormatButton format={Formats.ITALIC} region={SOUTH}/>
-				<FormatButton format={Formats.UNDERLINE} region={SOUTH}/>
+				<FormatButton format={Formats.BOLD} region={SOUTH} />
+				<FormatButton format={Formats.ITALIC} region={SOUTH} />
+				<FormatButton format={Formats.UNDERLINE} region={SOUTH} />
 
 				{!allowInsertImage ? null : (
-					<InsertImageButton region={SOUTH}/>
+					<InsertImageButton region={SOUTH} />
 				)}
 
 				{!allowInsertVideo ? null : (
-					<InsertVideoButton region={SOUTH}/>
+					<InsertVideoButton region={SOUTH} />
 				)}
 
 				{!allowInsertFile ? null : (
-					<InsertFileAttachment region={SOUTH}/>
+					<InsertFileAttachment region={SOUTH} />
 				)}
 
 				<ToolbarSection className="right-south" region={SOUTH}>

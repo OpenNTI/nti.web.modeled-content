@@ -1,18 +1,19 @@
-@import "~@nti/style-common";
-@import "~draft-js/dist/Draft.css";
+@import '~@nti/style-common';
+@import '~draft-js/dist/Draft.css';
 
 .nti-rich-text {
 	border: 1px solid var(--border-grey);
 	background: #fff;
 	position: relative;
-	z-index: 0;//counteract draft's styles having a z-index on them
+	z-index: 0; //counteract draft's styles having a z-index on them
 	-webkit-overflow-scrolling: touch;
 	overflow: {
 		x: hidden;
 		y: auto;
 	}
 
-	.button, button {
+	.button,
+	button {
 		display: inline-block;
 		border: 0;
 		margin: 0;
@@ -74,7 +75,7 @@
 		color: var(--primary-grey);
 		min-height: 3rem;
 		padding: 0.6rem;
-		padding-bottom: 2.5rem;//on android, the selection handlebars get in the way of the bottom toolbar.
+		padding-bottom: 2.5rem; //on android, the selection handlebars get in the way of the bottom toolbar.
 		line-height: normal;
 		white-space: pre-wrap;
 		word-wrap: break-word;
@@ -107,7 +108,7 @@
 			padding: 20px;
 		}
 
-		figure[data-block="true"] {
+		figure[data-block='true'] {
 			margin: 0;
 		}
 

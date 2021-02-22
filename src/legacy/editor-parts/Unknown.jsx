@@ -3,20 +3,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class UnknownThumbnail extends React.Component {
-
 	static propTypes = {
-		data: PropTypes.object.isRequired
-	}
+		data: PropTypes.object.isRequired,
+	};
 
-	getValue () {
+	getValue() {
 		return this.props.data;
 	}
 
-	render () {
+	render() {
 		return (
-			<object contentEditable={false} className="body-divider unknown" unselectable="on">
+			<object
+				contentEditable={false}
+				className="body-divider unknown"
+				unselectable="on"
+			>
 				<div className="unknown-icon" unselectable="on">
-					<div className="fill" unselectable="on"/>
+					<div className="fill" unselectable="on" />
 				</div>
 			</object>
 		);

@@ -8,13 +8,19 @@ import Styles from './Button.css';
 
 const cx = classnames.bind(Styles);
 
-ModeledContentAttachmentButton.useInsertAtomicBlock = () => ContextProvider.useEditorContext()?.plugins?.insertAtomicBlock;
+ModeledContentAttachmentButton.useInsertAtomicBlock = () =>
+	ContextProvider.useEditorContext()?.plugins?.insertAtomicBlock;
 ModeledContentAttachmentButton.propTypes = {
 	className: PropTypes.string,
 	label: PropTypes.string,
-	children: PropTypes.any
+	children: PropTypes.any,
 };
-export default function ModeledContentAttachmentButton ({className, label, children, ...otherProps}) {
+export default function ModeledContentAttachmentButton({
+	className,
+	label,
+	children,
+	...otherProps
+}) {
 	return (
 		<a
 			{...otherProps}
@@ -27,4 +33,3 @@ export default function ModeledContentAttachmentButton ({className, label, child
 		</a>
 	);
 }
-

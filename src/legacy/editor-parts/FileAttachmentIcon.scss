@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .body-divider.file {
 	display: block;
@@ -15,7 +15,7 @@
 		background-color: #ececec;
 		border: 1px solid var(--tertiary-grey);
 		// box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.13);
-		border-radius: 1px;//iOS fix for box-shadow
+		border-radius: 1px; //iOS fix for box-shadow
 
 		.icon-container {
 			display: block;
@@ -41,7 +41,8 @@
 			padding: 0.625rem 0.75rem;
 			margin: 0;
 
-			.filename, .size {
+			.filename,
+			.size {
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
@@ -69,7 +70,10 @@
 					cursor: pointer;
 					font-size: 0.625rem;
 
-					&, &:active, &:visited, &:hover {
+					&,
+					&:active,
+					&:visited,
+					&:hover {
 						color: var(--primary-blue);
 					}
 				}

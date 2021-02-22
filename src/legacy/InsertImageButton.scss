@@ -1,7 +1,7 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .modeled-content-editor .button.insert-whiteboard {
-	input[type=file] {
+	input[type='file'] {
 		position: absolute;
 		cursor: pointer;
 		right: 0;
@@ -22,7 +22,8 @@
 			position: static;
 		}
 
-		&:active, &:focus {
+		&:active,
+		&:focus {
 			& + .button {
 				background-color: var(--panel-background-alt);
 				background-image: url(./assets/image_active.png);
