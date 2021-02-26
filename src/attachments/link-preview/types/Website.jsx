@@ -84,11 +84,7 @@ export default function WebsiteLinkPreview({ attachment = {} }) {
 					</div>
 				)}
 				<div className={cx('meta')}>
-					<Text.Base
-						className={cx('title')}
-						limitLines={2}
-						overflow={Text.Overflow.Ellipsis}
-					>
+					<Text.Base className={cx('title')} limitLines={2}>
 						{title || hrefInfo.label}
 					</Text.Base>
 					{creator && (
@@ -96,11 +92,7 @@ export default function WebsiteLinkPreview({ attachment = {} }) {
 							{t('creator', { creator })}
 						</Text.Base>
 					)}
-					<Text.Base
-						className={cx('description')}
-						limitLines={2}
-						overflow={Text.Overflow.Ellipsis}
-					>
+					<Text.Base className={cx('description')} limitLines={2}>
 						{description || embedURL}
 					</Text.Base>
 				</div>
