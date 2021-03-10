@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames/bind';
+
 import { scoped } from '@nti/lib-locale';
 import { Prompt, Icons } from '@nti/web-commons';
 import { EmbedInput } from '@nti/web-video';

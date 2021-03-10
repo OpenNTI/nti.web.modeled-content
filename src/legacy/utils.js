@@ -1,4 +1,3 @@
-import Logger from '@nti/util-logger';
 import {
 	AtomicBlockUtils,
 	ContentBlock,
@@ -8,6 +7,8 @@ import {
 	DefaultDraftBlockRenderMap,
 } from 'draft-js';
 import { AllHtmlEntities } from 'html-entities';
+
+import Logger from '@nti/util-logger';
 
 const Entities = new AllHtmlEntities();
 

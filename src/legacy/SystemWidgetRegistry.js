@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Video from '@nti/web-video';
 import { Panel as Whiteboard } from '@nti/web-whiteboard';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import htmlToReactRenderer from 'html-reactifier';
 import { v4 as uuid } from 'uuid';
+
 import {
 	getHTMLSnippet,
 	filterContent,

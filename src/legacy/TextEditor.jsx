@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Errors } from '@nti/web-commons';
 import cx from 'classnames';
+
+import { Errors } from '@nti/web-commons';
 
 import Core from './Core';
 import CharCounter from './plugins/CharacterCounter';

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { getAtomicBlockData } from '@nti/web-editor';
 
 import EditorBlock from '../common/EditorBlock';

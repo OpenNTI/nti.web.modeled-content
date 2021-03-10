@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { getHandler } from '@nti/web-video';
 
 import VideoAttachment from '../../video/View';

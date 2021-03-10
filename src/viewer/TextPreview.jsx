@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import htmlToReactRenderer from 'html-reactifier';
+
 import { scoped } from '@nti/lib-locale';
 import { Text, Hooks } from '@nti/web-commons';
 

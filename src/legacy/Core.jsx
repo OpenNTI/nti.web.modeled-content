@@ -3,8 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import invariant from 'invariant';
-import { Events } from '@nti/lib-commons';
-import Logger from '@nti/util-logger';
 import {
 	AtomicBlockUtils,
 	CompositeDecorator,
@@ -17,6 +15,9 @@ import {
 	getDefaultKeyBinding,
 } from 'draft-js';
 import UserAgent from 'fbjs/lib/UserAgent';
+
+import { Events } from '@nti/lib-commons';
+import Logger from '@nti/util-logger';
 
 import Block from './Block';
 import CoreContextProvider from './CoreContextProvider';

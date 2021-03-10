@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { ContextProvider } from '@nti/web-editor';
 
 const Context = React.createContext();

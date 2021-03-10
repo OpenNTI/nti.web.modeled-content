@@ -1,5 +1,6 @@
 import './InsertImageButton.scss';
 import React from 'react';
+
 import Logger from '@nti/util-logger';
 import { Utils } from '@nti/lib-whiteboard';
 import iOSversion from '@nti/util-ios-version';

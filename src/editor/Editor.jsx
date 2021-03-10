@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { Loading } from '@nti/web-commons';
 import { Editor, Plugins, BLOCK_SET, STYLES } from '@nti/web-editor';
 

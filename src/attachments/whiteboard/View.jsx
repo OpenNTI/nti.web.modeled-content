@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+
 import { scoped } from '@nti/lib-locale';
 import { Canvas as WhiteboardRenderer } from '@nti/lib-whiteboard';
 import { Hooks, StandardUI, Text, Image } from '@nti/web-commons';
