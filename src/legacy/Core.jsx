@@ -338,6 +338,11 @@ export default class Core extends React.Component {
 		const keyCode = getKeyCode(e);
 		const { keyBinding, customBindings } = this.props;
 
+		if (keyCode === getKeyCode.TAB) {
+			this.onTab(e);
+			return getDefaultKeyBinding(e);
+		}
+
 		const defaults = (() =>
 			this.pluginHandler('keyBinding', e) || getDefaultKeyBinding(e))();
 
@@ -348,7 +353,7 @@ export default class Core extends React.Component {
 			}
 		}
 
-		if (customBindings && customBindings[keyCode]) {
+		if (customBindings?.[keyCode]) {
 			this.commandOverride = { [defaults]: keyCode };
 		}
 
@@ -362,7 +367,7 @@ export default class Core extends React.Component {
 			props: { customBindings },
 		} = this;
 
-		if (customBindings && customBindings[keyCode]) {
+		if (customBindings?.[keyCode]) {
 			if (customBindings[keyCode](editorState)) {
 				e.preventDefault();
 				return true;
@@ -575,7 +580,6 @@ export default class Core extends React.Component {
 						onBlur={this.onBlur}
 						onChange={this.onChange}
 						onFocus={this.onFocus}
-						onTab={this.onTab}
 						placeholder={placeholder}
 						ref={this.attachEditorRef}
 						spellCheck
