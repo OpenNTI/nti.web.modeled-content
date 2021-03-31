@@ -4,12 +4,8 @@
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for modeled body content",
   "license": "UNLICENSED",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "module": "src/index.js",
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "test": "cmp-scripts test",
     "start": "cmp-scripts start",
