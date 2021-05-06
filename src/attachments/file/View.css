@@ -80,12 +80,14 @@
 
 	& .file-info {
 		flex: 1 1 auto;
+		overflow: hidden; /* needed for ellipsis truncation */
 	}
 
 	& .filename {
 		font-size: 1rem;
 		font-weight: 400;
 		color: var(--secondary-grey);
+		max-width: 100%; /* needed for ellipsis truncation */
 	}
 
 	& .file-meta {
