@@ -65,6 +65,7 @@ export default class PlainText extends Plugin {
 
 	/**
 	 * Unwrap any html tags around the text
+	 *
 	 * @param  {[string]} blocks the value from the editor
 	 * @returns {[string]}        [description]
 	 */

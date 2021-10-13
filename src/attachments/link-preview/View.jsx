@@ -1,4 +1,3 @@
-import React from 'react';
 
 import Image from './types/Image';
 import Video from './types/Video';

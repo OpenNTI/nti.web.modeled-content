@@ -1,4 +1,3 @@
-import React from 'react';
 
 export default function ToolbarSection(props) {
 	const { ...others } = props;

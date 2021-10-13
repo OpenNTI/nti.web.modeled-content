@@ -74,7 +74,6 @@ export default class Editor extends React.Component {
 	 * Video, etc) or an html fragment. (The server 'tidies' the fragment
 	 * into a complete document, complete with <html><body> tags... be
 	 * aware that those come back..)
-	 *
 	 * @note: We can typically ignore the superfluous wrapper tags, but
 	 * this will do its best to handle them.
 	 */

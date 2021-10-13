@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import linkifyIt from 'linkify-it';
 import cx from 'classnames';

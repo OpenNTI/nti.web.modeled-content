@@ -16,6 +16,7 @@ export default class CoreContextProvider extends React.Component {
 
 		/**
 		 * Flag this instance as internal to Core. External ContextProviders add references to this one.
+		 *
 		 * @type {boolean}
 		 */
 		internal: PropTypes.bool,

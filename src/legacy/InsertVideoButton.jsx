@@ -1,5 +1,4 @@
 import './InsertVideoButton.scss';
-import React from 'react';
 import cx from 'classnames';
 
 import { Events } from '@nti/lib-commons';
