@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getService } from '@nti/web-client';
@@ -53,7 +53,7 @@ export default function LinkPreviewAttachment({ block, blockProps }) {
 	const data = getAtomicBlockData(block, editorState);
 	const { embedURL } = data;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		let unmounted = false;
 		let buffer = setTimeout(async () => {
 			const meta = await resolveMetadata(embedURL);

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -65,22 +65,22 @@ export default function ModeledContentEditor({
 }) {
 	const editorContext = ContextProvider.useContext();
 
-	const contentRef = React.useRef(null);
-	const [editorState, setEditorState] = React.useState(null);
-	const [plugins, setPlugins] = React.useState(null);
+	const contentRef = useRef(null);
+	const [editorState, setEditorState] = useState(null);
+	const [plugins, setPlugins] = useState(null);
 	const settingUp = !editorState || !plugins;
 
 	const addEditorRef = editor => {
 		editorContext?.setEditorInstance(editor);
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!contentRef.current || content !== contentRef.current) {
 			setEditorState(toDraftState(content));
 		}
 	}, [content]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (taggingStrategies) {
 			setPlugins([
 				Plugins.Tagging.create(taggingStrategies),

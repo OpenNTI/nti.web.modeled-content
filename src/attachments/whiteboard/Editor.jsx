@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { getAtomicBlockData } from '@nti/web-editor';
@@ -20,8 +20,8 @@ export default function WhiteboardEditor({ block, blockProps }) {
 	const data = getAtomicBlockData(block, editorState);
 
 	const WhiteboardEditorCmp = View.getWhiteboardEditor();
-	const [editing, setEditing] = React.useState();
-	const [version, setVersion] = React.useState();
+	const [editing, setEditing] = useState();
+	const [version, setVersion] = useState();
 	const onClick = WhiteboardEditorCmp ? () => setEditing(true) : () => {};
 
 	const setData = newData => {

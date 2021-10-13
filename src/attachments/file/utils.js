@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
 export function useAttachmentURL(attachment) {
-	const [url, setURL] = React.useState(null);
+	const [url, setURL] = useState(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		let allocated = null;
 
 		if (attachment.file) {

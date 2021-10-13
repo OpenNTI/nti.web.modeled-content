@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
@@ -17,7 +17,7 @@ const t = scoped('modeled-content.attachments.video.Button', {
 export default function VideoButton(props) {
 	const insertAtomicBlock = Button.useInsertAtomicBlock();
 
-	const [prompt, setPrompt] = React.useState(false);
+	const [prompt, setPrompt] = useState(false);
 	const openPrompt = () => setPrompt(true);
 	const closePrompt = () => setPrompt(false);
 

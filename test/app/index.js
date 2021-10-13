@@ -1,31 +1,37 @@
-import React from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames/bind';
 
-import {Viewer, Editor} from '../../src';
+import { Viewer, Editor } from '../../src';
 
 import Styles from './index.css';
 
-window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+window.$AppConfig = window.$AppConfig || { server: '/dataserver2/' };
 
 const cx = classnames.bind(Styles);
 
-const InitialContent = ['<p><a data-nti-entity-type="LINK" data-nti-entity-…nti-entity-autoLink="true">www.google.com</a></p>', '<object type="application/vnd.nextthought.app.l´ink…="href" value="http://www.google.com" /></object>'];
+const InitialContent = [
+	'<p><a data-nti-entity-type="LINK" data-nti-entity-…nti-entity-autoLink="true">www.google.com</a></p>',
+	'<object type="application/vnd.nextthought.app.l´ink…="href" value="http://www.google.com" /></object>',
+];
 
-function Test () {
-	const [content, setContent] = React.useState(InitialContent);
+function Test() {
+	const [content, setContent] = useState(InitialContent);
 
-	const onContentChange = (newContent) => {
+	const onContentChange = newContent => {
 		setContent(newContent);
 	};
 
-	const logContent = () => console.log(content);//eslint-disable-line
+	const logContent = () => console.log(content); //eslint-disable-line
 
 	return (
 		<div className={cx('split-screen')}>
 			<Editor.ContextProvider>
 				<div className={cx('screen')}>
-					<Editor content={content} onContentChange={onContentChange} />
+					<Editor
+						content={content}
+						onContentChange={onContentChange}
+					/>
 					<Editor.Buttons.Bold />
 					<Editor.Buttons.Italic />
 					<Editor.Buttons.Underline />
@@ -49,7 +55,4 @@ function Test () {
 	);
 }
 
-ReactDOM.render(
-	<Test />,
-	document.getElementById('content')
-);
+ReactDOM.render(<Test />, document.getElementById('content'));

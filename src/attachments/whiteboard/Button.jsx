@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 import { scoped } from '@nti/lib-locale';
 import { Icons } from '@nti/web-commons';
@@ -16,7 +16,7 @@ WhiteboardButton.setWhiteboardEditor = editor =>
 export default function WhiteboardButton(props) {
 	const insertAtomicBlock = Button.useInsertAtomicBlock();
 
-	const [prompt, setPrompt] = React.useState(false);
+	const [prompt, setPrompt] = useState(false);
 	const openPrompt = () => setPrompt(true);
 	const closePrompt = () => setPrompt(false);
 

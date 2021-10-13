@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -35,7 +35,7 @@ export default function WhiteboardView({
 	onClick,
 	edit,
 }) {
-	const prevThumbnail = React.useRef(null);
+	const prevThumbnail = useRef(null);
 	const resolver = useResolver(
 		() => WhiteboardRenderer.getThumbnail(attachment, false, 750),
 		[version]

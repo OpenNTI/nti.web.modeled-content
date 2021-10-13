@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -132,8 +132,8 @@ export default function ModeledContentViewer({
 	const error = isErrored(contentResolver) ? contentResolver : null;
 	const parsed = isResolved(contentResolver) ? contentResolver : null;
 
-	const bodyRef = React.useRef();
-	const bodyCallbackRef = React.useRef();
+	const bodyRef = useRef();
+	const bodyCallbackRef = useRef();
 
 	const setBodyRef = body => {
 		if (body === bodyRef.current) {
@@ -143,7 +143,7 @@ export default function ModeledContentViewer({
 		bodyCallbackRef.current?.(body);
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		bodyCallbackRef.current = body => {
 			afterRender?.(body);
 			bodyCallbackRef.current = null;
