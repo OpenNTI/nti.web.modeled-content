@@ -2,7 +2,8 @@ import { useState } from 'react';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
-import { Prompt, Icons } from '@nti/web-commons';
+import { Prompt } from '@nti/web-commons';
+import { Icons } from '@nti/web-core';
 import { EmbedInput } from '@nti/web-video';
 
 import Button from '../common/Button';

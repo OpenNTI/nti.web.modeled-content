@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { scoped } from '@nti/lib-locale';
-import { Icons } from '@nti/web-commons';
+import { Icons } from '@nti/web-core';
 
 import Button from '../common/Button';
 

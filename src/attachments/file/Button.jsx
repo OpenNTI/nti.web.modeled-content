@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
-import { Input, HOC, Icons } from '@nti/web-commons';
+import { Input, HOC } from '@nti/web-commons';
+import { Icons } from '@nti/web-core';
 
 import Button from '../common/Button';
 
