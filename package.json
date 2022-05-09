@@ -47,7 +47,7 @@
     "html-entities": "^1.2.0",
     "html-reactifier": "^2.0.0",
     "invariant": "^2.1.1",
-    "linkify-it": "^3.0.2",
+    "linkify-it": "^4.0.1",
     "punycode": "^2.1.0",
     "uuid": "^8.3.0"
   },
