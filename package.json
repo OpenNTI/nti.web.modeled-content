@@ -43,7 +43,7 @@
     "@nti/web-whiteboard": "NextThought/nti.web.whiteboard",
     "draft-js": "^0.11.0",
     "fbjs": "^3.0.0",
-    "filesize": "^8.0.0",
+    "filesize": "^9.0.9",
     "html-entities": "^1.2.0",
     "html-reactifier": "^2.0.0",
     "invariant": "^2.1.1",
